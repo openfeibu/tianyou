@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<script type="text/javascript" src="{$ec_themes}/js/webuploader.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{$ec_themes}/css/webuploader.css">
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <div class="user clearfix">
+                {include file='library/user_left.lbi '}
+                <!-- user-left end-->
+                <!--{if $action eq 'address_list'} -->
+                <div class="user-right fb-float-left">
+                   <div class="padd60">
+                       <div class="address-list fb-color-ccc fb-font14">
+                           <div class="address-item address-title clearfix fb-color-666">
+                               <div class="address-cell address-cell01 fb-float-left">收货人</div>
+                               <div class="address-cell address-cell02 fb-float-left">收货地址</div>
+                               <div class="address-cell address-cell03 fb-float-left">联系电话</div>
+                               <div class="address-cell address-cell04 fb-float-left">操作</div>
+                               <div class="address-cell address-cell05 fb-float-left"></div>
+                           </div>
+                           <!-- {foreach from=$consignee_list item=consignee key=sn} -->
+                           <div class="address-item clearfix {if $consignee.is_default == 1}default{/if} address-item_{$consignee.address_id}">
+                               <div class="address-cell address-cell01 fb-float-left consignee">{$consignee.consignee|escape}</div>
+                               <div class="address-cell address-cell02 fb-float-left "><span class="region">{$consignee.region|escape}</span><span class="address">{$consignee.address|escape}</span></div>
+                               <div class="address-cell address-cell03 fb-float-left mobile">{$consignee.mobile|escape}</div>
+                               <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon({$consignee.address_id})">修改</a> / <a  class="fb-color-ccc" onclick="deleteAddress({$consignee.address_id})">删除</a></div>
+                               <div class="address-cell address-cell05 fb-float-left"><span data-id="{$consignee.address_id}">默认地址</span></div>
+                           </div>
+                           <!-- {/foreach} -->
+                       </div><!-- address-list end-->
+                        <div class="add-address">
+                            <div class="add-address-title fb-color-333 fb-font16">
+                                新增地址+
+                            </div>
+                            <form id="addAddress" action="user.php" onsubmit="return addAddress()">
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14">详细收货地址</label>
+                                     <div class="input-b fb-inlineBlock">
+                                         <select name="" id="" class="fb-inlineBlock">
+                                             <option value="">中国大陆</option>
+                                         </select>
+                                         <input type="text" id="city" name="" class="fb-inlineBlock city" style="width:300px;margin-left:18px;"/>
+                                     </div>
+                                 </div>
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14"></label>
+                                     <div class="input-b fb-inlineBlock">
+                                        <textarea name="address" id="" class="dec address"></textarea>
+                                     </div>
+                                 </div>
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14">收货人</label>
+                                     <div class="input-b fb-inlineBlock">
+                                        <input type="text" name="consignee" class="fb-inlineBlock name consignee" style="width:300px;"/>
+                                     </div>
+                                 </div>
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14">手机号码</label>
+                                     <div class="input-b fb-inlineBlock">
+                                        <input type="text" name="mobile" class="fb-inlineBlock tell mobile" style="width:300px;"/>
+                                     </div>
+                                 </div>
+                                 <div class="input-check">
+                                    <input type="checkbox" name='is_default' class="is_default" id="checkbox" value="1"/>
+                                    <label class="fb-color-aaa fb-font14" for="checkbox">设置为默认收货地址</label>
+                                 </div>
+                                 <input type="hidden" name="act" value="act_edit_address" />
+                                <input name="address_id" type="hidden" value="" />
+                                 <button class="opa_active" >保存</button>
+                            </form>
+                        </div>
+                   </div>
+                </div><!-- user-right end-->
+                <script src="{$ec_themes}/js/Popt.js"></script>
+                <script src="{$ec_themes}/js/cityJson.js"></script>
+                <script src="{$ec_themes}/js/citySet.js"></script>
+
+                <script>
+                function update_icon(id){
+                    var consignee = $(".address-item_"+id);
+                    var top = $(window).scrollTop();
+                    $("body").css({"overflow":"hidden"})
+                    $(".update-address .address_id").val(id);
+                    $(".update-address .consignee").val(consignee.find(".consignee").text());
+                    $(".update-address .mobile").val(consignee.find(".mobile").text());
+                    $(".update-address .dec").val(consignee.find(".address").text());
+                    $(".update-address .region").val(consignee.find(".region").text());
+                    $(".update-address").fadeIn(200).css({"top":top});
+                }
+                $("body").on("click",".update-address .close",function(){
+                    $(".update-address").fadeOut(200);
+                    $("body").css({"overflow":"auto"})
+                })
+                function addAddress(){
+                    var city = $("#city").val(),
+                    address=$("#addAddress").find(".address").val(),
+                    consignee=$("#addAddress").find(".consignee").val(),
+                    mobile=$("#addAddress").find(".mobile").val();
+                    if(city.split("-").length < 3){
+                        $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
+                    }else if(address.length <= 0){
+                        $fb.fbNews({"content":"请完善你的详情地址","type":"warning"});
+                    }else if(consignee.length <= 0){
+                        $fb.fbNews({"content":"收货人不可为空","type":"warning"});
+                    }else if(!$fb.expPhone(mobile)){
+                        $fb.fbNews({"content":"手机号码格式错误","type":"warning"});
+                    }else{
+                        var country = $("#addAddress").find(".country").attr('data-id');
+                        var province = $("#hcity").attr('data-id');
+                        var city = $("#hproper").attr('data-id');
+                        var district = $("#harea").attr('data-id');
+                        var is_default = 0;
+                        if($("#addAddress").find('.is_default').attr('checked')){
+                            var is_default = 1;
+                        }
+                        $.ajax({
+                             type: "POST",
+                             url: "user.php?act=act_edit_address",
+                             data: {consignee:consignee, mobile:mobile,address:address,country:country,province:province,city:city,district:district,is_default:is_default},
+                             dataType: "json",
+                             success: function(data){
+                                 $fb.fbNews({"content":"增加地址成功","type":"success"});
+                                 window.location.href=data.url;
+                              }
+                         });
+                    }
+                    return false;
+                }
+                function upAddress(address_id){
+                    var city = $("#city2").val(),
+                    address_id = $("#upAddress").find(".address_id").val(),
+                    address=$("#upAddress").find(".address").val(),
+                    consignee=$("#upAddress").find(".consignee").val(),
+                    mobile=$("#upAddress").find(".mobile").val();
+                    var country = $("#addAddress").find(".country").attr('data-id');
+                    var province = $("#hcity").attr('data-id');
+                    var city = $("#hproper").attr('data-id');
+                    var district = $("#harea").attr('data-id');
+                    if(typeof(province) != "undefined"){
+                        if(!province || !city || !district)
+                        {
+                            $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
+                            return false;
+                        }
+                    }
+                    if(address.length <= 0){
+                        $fb.fbNews({"content":"请完善你的详情地址","type":"warning"});
+                    }else if(consignee.length <= 0){
+                        $fb.fbNews({"content":"收货人不可为空","type":"warning"});
+                    }else if(!$fb.expPhone(mobile)){
+                        $fb.fbNews({"content":"手机号码格式错误","type":"warning"});
+                    }
+                    else{
+                        $.ajax({
+                             type: "POST",
+                             url: "user.php?act=act_edit_address",
+                             data: {address_id:address_id,consignee:consignee, mobile:mobile,address:address,country:country,province:province,city:city,district:district},
+                             dataType: "json",
+                             success: function(data){
+                                 $fb.fbNews({"content":"修改地址成功","type":"success"});
+                                 window.location.href=data.url;
+                                 $(".update-address").fadeOut(200);
+                                 $("body").css({"overflow":"auto"});
+                              }
+                         });
+                    }
+                    return false;
+                }
+                $("#city").click(function (e) {
+                    $(this).blur();
+                    SelCity(this,e);
+                });
+                $("body").on("click","#city2",function(e){
+                    $(this).blur();
+                    SelCity(this,e);
+                })
+                $(".address-cell05 span").on("click",function(){
+                    var address_id = $(this).attr('data-id');
+                    $this = $(this);
+                    $.ajax({
+                         type: "POST",
+                         url: "user.php?act=act_edit_address_default",
+                         data: {address_id:address_id},
+                         dataType: "json",
+                         success: function(data){
+                             $fb.fbNews({"content":"设置默认地址成功","type":"success"});
+                             $this.parents(".address-item ").addClass("default").siblings(".address-item ").removeClass("default")
+                          }
+                     });
+
+                })
+                $("#checkbox").change(function(){
+                    if($(this).is(":checked")){
+                        $(this).parents(".input-check").addClass("checked")
+                    }else{
+                        $(this).parents(".input-check").removeClass("checked")
+
+                    }
+                })
+                function deleteAddress (id) {
+                    $fb.showModal({
+                        title:"提示",
+                        content:"是否删除该地址？"
+                    },function(){
+                        $.ajax({
+                             type: "POST",
+                             url: "user.php?act=ajax_drop_consignee",
+                             data: {id:id},
+                             dataType: "json",
+                             success: function(data){
+                                 console.log(data.message);
+                                 if(data.error ==1)
+                                 {
+                                     window.location.href="user.php";
+                                 }
+                                 else if(data.error == 0)
+                                 {
+                                     $(".address-item_"+id).remove();
+                                     $fb.fbNews({"content":"删除成功","type":"success"})
+                                 }else{
+                                     $fb.fbNews({"content":data.message,"type":"success"})
+                                 }
+                              }
+                         });
+
+                    })
+
+                }
+
+                </script>
+                <!-- {/if} -->
+                <!--{if $action eq 'default' || $action eq 'profile'} -->
+                <div class="user-right fb-float-left">
+                   <div class="padd60">
+                      <div class="personal">
+                        <form name="formEdit" action="user.php" method="post" onSubmit="return edit_user()">
+                          <div class="personal_image">
+                              <label class="fb-inlineBlock fb-font14 fb-color-666">当前头像</label>
+                              <!-- 有头像则背景填充 -->
+                              <div class="personal_img fb-inlineBlock" style='background: url("{if $profile.avatar}{$profile.avatar}{else}{$ec_themes}/images/upimg.jpg{/if}") no-repeat center;'>
+                                  <div id="uploader-demo">
+                                        <!--用来存放item-->
+                                        <div id="fileList" class="uploader-list"></div>
+                                        <div id="filePicker">选择图片</div>
+                                    </div>
+                              </div>
+                          </div>
+                          <div class="personal-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">昵称</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input type="text" name="user_name" class="user_name" value="{$profile.user_name}" style="width:380px" >
+                              </div>
+                          </div>
+                          <div class="personal-check">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">性别</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input type="radio" id="man" name="sex" value="1" {if $profile.sex==1}checked="checked"{/if}>
+                                  <label for="man" class="fb-font14 fb-color-666 {if $profile.sex==1}checked{/if}">男</label>
+                                  <input type="radio" id="women" name="sex"  value="2" {if $profile.sex==2}checked="checked"{/if}>
+                                  <label for="women" class="fb-font14 fb-color-666 {if $profile.sex==2}checked{/if}">女</label>
+                              </div>
+                          </div>
+                          <div class="personal-select">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">生日</label>
+                              <div class="input-b  fb-inlineBlock">
+                                {html_select_date field_order=YMD prefix=birthday start_year=-60 end_year=+1 display_days=true month_format=%m day_value_format=%02d time=$profile.birthday}
+
+                              </div>
+                          </div>
+                         <div class="personal-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">居住地</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input type="text" id="city" name="" class=" city" style="width:360px;" value="{$profile.region|escape}"/>
+                              </div>
+                          </div>
+                          <input name="act" type="hidden" value="act_edit_profile" />
+                          <button class="opa_active" >保存</button>
+                        </form>
+                      </div>
+                   </div>
+                </div><!-- user-right end-->
+                <script src="{$ec_themes}/js/Popt.js"></script>
+                <script src="{$ec_themes}/js/cityJson.js"></script>
+                <script src="{$ec_themes}/js/citySet.js"></script>
+                <script>
+                $("#city").click(function (e) {
+                    $(this).blur();
+                    SelCity(this,e);
+                });
+                $("#man,#women").change(function(){
+                    if($(this).is(":checked")){
+                        $("#man,#women").removeAttr("checked").next().removeClass("checked");
+                        $(this).attr("checked","checked")
+                        $(this).next("label").addClass("checked");
+                    }else{
+                        $(this).next("label").removeClass("checked")
+                    }
+                })
+                //上传头像
+                // 初始化Web Uploader
+                var $list=$("#fileList");
+                var thumbwidth =160;
+                var uploader = WebUploader.create({
+                    // 选完文件后，是否自动上传。
+                    auto: true,
+
+                    // swf文件路径
+                    swf: 'js/Uploader.swf',
+                    fileVal:"avatar",
+
+                    // 文件接收服务端。
+                    server: 'user.php?act=act_upload_avatar',
+
+                    // 选择文件的按钮。可选。
+                    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                    pick: '#filePicker',
+
+                    // 只允许选择图片文件。
+                    accept: {
+                        title: '{$ec_themes}/images',
+                        extensions: 'gif,jpg,jpeg,bmp,png',
+                        mimeTypes: 'image/*'
+                    }
+                });
+                // 当有文件添加进来的时候
+                uploader.on( 'fileQueued', function( file ) {
+                    $(".uploader-list").html("")
+                    var $li = $(
+                            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                                '<img>' +
+                                '<div class="info">' + file.name + '</div>' +
+                            '</div>'
+                            ),
+                        $img = $li.find('img');
+
+
+                    // $list为容器jQuery实例
+                    $list.append( $li );
+
+                    // 创建缩略图
+                    // 如果为非图片文件，可以不用调用此方法。
+                    // thumbnailWidth x thumbnailHeight 为 100 x 100
+                    uploader.makeThumb( file, function( error, src ) {
+                        if ( error ) {
+                            $img.replaceWith('<span>不能预览</span>');
+                            return;
+                        }
+
+                        $img.attr( 'src', src );
+                    }, thumbwidth, thumbwidth );
+                });
+                // 文件上传过程中创建进度条实时显示。
+                uploader.on( 'uploadProgress', function( file, percentage ) {
+                    var $li = $( '#'+file.id ),
+                        $percent = $li.find('.progress span');
+
+                    // 避免重复创建
+                    if ( !$percent.length ) {
+                        $percent = $('<p class="progress"><span></span></p>')
+                                .appendTo( $li )
+                                .find('span');
+                    }
+
+                    $percent.css( 'width', percentage * 100 + '%' );
+                });
+
+                // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+                uploader.on( 'uploadSuccess', function( file ) {
+                    $( '#'+file.id ).addClass('upload-state-done');
+                });
+
+                // 文件上传失败，显示上传出错。
+                uploader.on( 'uploadError', function( file ) {
+                    var $li = $( '#'+file.id ),
+                        $error = $li.find('div.error');
+
+                    // 避免重复创建
+                    if ( !$error.length ) {
+                        $error = $('<div class="error"></div>').appendTo( $li );
+                    }
+
+                    $error.text('上传失败');
+                });
+
+                // 完成上传完了，成功或者失败，先删除进度条。
+                uploader.on( 'uploadComplete', function( file ) {
+                    $( '#'+file.id ).find('.progress').remove();
+
+                });
+                function edit_user(){
+
+                    var city = $("#city").val(),
+                    user_name=$(".personal").find(".user_name").val(),
+                    sex=$(".personal").find('input[name="sex"]:checked').val();
+                    if(city.split("-").length < 3){
+                        $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
+                    }else if(user_name.length <= 0){
+                        $fb.fbNews({"content":"昵称不能为空","type":"warning"});
+                    }else if(!sex){
+                        $fb.fbNews({"content":"请选择性别","type":"warning"});
+                    }else{
+                        var country = $(".personal").find(".country").attr('data-id');
+                        var province = $(".personal").find("#hcity").attr('data-id');
+                        var city = $(".personal").find("#hproper").attr('data-id');
+                        var district = $(".personal").find("#harea").attr('data-id');
+                        var birthdayYear = $(".personal").find('select[name="birthdayYear"]').val();
+                        var birthdayMonth = $(".personal").find('select[name="birthdayMonth"]').val();
+                        var birthdayDay = $(".personal").find('select[name="birthdayDay"]').val();
+                        $.ajax({
+                             type: "POST",
+                             url: "user.php?act=act_edit_profile",
+                             data: {user_name:user_name,sex:sex,country:country,province:province,city:city,district:district,birthdayYear:birthdayYear,birthdayMonth:birthdayMonth,birthdayDay:birthdayDay},
+                             dataType: "json",
+                             success: function(data){
+                                 if(data.error == 403)
+                                 {
+                                     window.location.href='user.php';
+                                 }else if(data.error == 0){
+                                     $fb.fbNews({"content":data.message,"type":"success"});
+                                 }else{
+                                     $fb.fbNews({"content":data.message,"type":"warning"});
+                                 }
+
+                              }
+                         });
+                    }
+                    return false;
+                }
+                </script>
+                <!-- {/if} -->
+                <!--{if $action eq 'password'} -->
+                <div class="user-right fb-float-left">
+                   <div class="padd60">
+                      <div class="security">
+                        <form name="formPassword" action="user.php" method="post" onSubmit="return edit_password()">
+
+                          <div class="security-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">当前使用密码</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input type="password" name="old_password" style="width:380px">
+                              </div>
+                          </div>
+                          <div class="security-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">账号手机号码</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input class="tell" type="text" style="width:236px">
+                              </div>
+                               <div class="getCode fb-float-right fb-font14">发送验证码</div>
+                          </div>
+                          <div class="security-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">输入验证码</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input type="text" style="width:380px">
+                              </div>
+                          </div>
+                          <div class="security-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">输入新密码</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input type="password" name="new_password" style="width:380px">
+                              </div>
+                          </div>
+                         <div class="security-item">
+                              <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">确认新密码</label>
+                              <div class="input-b  fb-inlineBlock">
+                                  <input name="act" type="hidden" value="act_edit_password" />
+                                  <input type="password" name="comfirm_password" style="width:380px">
+                              </div>
+                          </div>
+
+                          <button class="opa_active" >保存</button>
+                        </form>
+                      </div>
+                   </div>
+                </div><!-- user-right end-->
+                <script>
+                /* 会员修改密码 */
+                function edit_password()
+                {
+                  var frm              = document.forms['formPassword'];
+                  var old_password     = frm.elements['old_password'].value;
+                  var new_password     = frm.elements['new_password'].value;
+                  var confirm_password = frm.elements['comfirm_password'].value;
+
+                  var msg = '';
+                  var reg = null;
+
+                  if (old_password.length == 0)
+                  {
+                    msg += '旧密码不能为空' + '\n';
+                  }
+
+                  if (new_password.length == 0)
+                  {
+                    msg += '新密码不能为空' + '\n';
+                  }
+
+                  if (confirm_password.length == 0)
+                  {
+                    msg += '确认新密码不能为空' + '\n';
+                  }
+
+                  if (new_password.length > 0 && confirm_password.length > 0)
+                  {
+                    if (new_password != confirm_password)
+                    {
+                      msg += '新密码不一致' + '\n';
+                    }
+                  }
+
+                  if (msg.length > 0)
+                  {
+                      $fb.fbNews({"content":msg,"type":"warning"});
+                      return false;
+                  }
+                  else
+                  {
+                      $.ajax({
+                           type: "POST",
+                           url: "user.php?act=act_edit_password",
+                           data: {old_password:old_password,new_password:new_password,confirm_password:confirm_password},
+                           dataType: "json",
+                           success: function(data){
+                               if(data.error == 403)
+                               {
+                                   window.location.href='user.php';
+                               }else if(data.error == 0){
+                                    $fb.fbNews({"content":data.message,"type":"success"});
+                               }else{
+                                   $fb.fbNews({"content":data.message,"type":"warning"});
+                               }
+
+                            }
+                       });
+                  }
+                  return false;
+                }
+                </script>
+                <!-- {/if} -->
+                <!--{if $action eq 'collection_list'} -->
+                <div class="user-right fb-float-left">
+                      <div class="collection-title">
+                        <div class="con-search fb-float-right">
+                          <input type="text" placeholder="请输入要搜索的关键字">
+                          <input type="submit" value="">
+                        </div>
+                      </div>
+                      <div class="paddtb60 collection fb-waterfall-con fb-position-relative">
+
+                      </div>
+                </div><!-- user-right end-->
+                <script>
+                var goods_list = {$goods_list_json};
+
+                $fb.waterfall({
+                          "el":".fb-waterfall-con",
+                          "margin":20,
+                          "column" : 5,//unit:列数
+                          'data':goods_list
+                      });
+                </script>
+                <!-- {/if} -->
+                <!--#退换货列表界面 start-->
+       <!-- {if $action eq 'order_back'} -->
+       <h5><span>退换货列表（退换货申请请点击”我的订单“已确认收货订单后操作中的“申请退换货”链接）</span></h5>
+        <div class="form-div">
+          <form action="user.php" name="searchForm" method="get">
+            <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+            退换货单号<input name="back_sn" type="text" id="back_sn" size="15">
+            快递单号<input name="invoice_no" type="text" id="invoice_no" size="15">
+            订单号<input name="order_sn" type="text" id="order_sn" size="15">
+            <input name="act" type="hidden" value="order_back_search">
+            <input type="submit" value="{$lang.button_search}" class="button" />
+          </form>
+        </div>
+       <div class="blank"></div>
+       <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#DDDDDD">
+          <tr align="center">
+            <td bgcolor="#FFFFFF">退换货单号</td>
+            <td bgcolor="#FFFFFF">类别</td>
+            <td bgcolor="#FFFFFF">快递名称</td>
+            <td bgcolor="#FFFFFF">快递单号</td>
+            <td bgcolor="#FFFFFF">订单号</td>
+            <td bgcolor="#FFFFFF">日期</td>
+            <td bgcolor="#FFFFFF">审核状态</td>
+            <td bgcolor="#FFFFFF">操作</td>
+          </tr>
+          <!--{foreach from=$backs item=item}-->
+          <tr>
+            <td align="center" bgcolor="#FFFFFF">{$item.back_sn}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.case}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.shipping_name}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.invoice_no}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.order_sn}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.add_time}</td>
+            <td align="center" bgcolor="#FFFFFF">
+            <font class="f6" style="color:#FF0000;">
+            <!--{if $item.status == 1}-->
+            	待审核&nbsp;<a href="javascript:if(confirm('真的确定取消本次申请吗？')){window.location.href='user.php?act=back_del&back_sn={$item.back_sn}'}" style="text-decoration:none;color:#0000FF;">撤销</a>
+            <!--{elseif $item.status == 2}-->
+            <!--{if $item.case == '退款'}-->
+            	已通过审核&nbsp;退款中
+            <!--{else}-->
+            	已通过审核&nbsp;<a href="user.php?act=tuihuo&back_sn={$item.back_sn}" style="text-decoration:none;color:#0000FF;">寄回商品</a>
+            <!--{/if}-->
+            <!--{elseif $item.status == 3}-->
+                已寄送&nbsp;待收货
+            <!--{elseif $item.status == 4}-->
+            	已收货&nbsp;待处理
+            <!--{elseif $item.status == 5}-->
+            	已处理&nbsp;已退款
+            <!--{elseif $item.status == 6}-->
+            	已处理&nbsp;退货失败
+            <!--{else}-->
+            	已拒绝申请
+            <!--{/if}-->
+            </font>
+            </td>
+            <td bgcolor="#FFFFFF" align="center"><a href="user.php?act=back_detail&back_sn={$item.back_sn}" style="text-decoration:none;color:#FF0000;">查看详情</a></td>
+          </tr>
+          <!--{/foreach}-->
+          </table>
+        <div class="blank5"></div>
+       <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+       <!--{/if}-->
+      <!--#退换货列表界面 end-->
+      <!--#退换货搜索界面 start-->
+       <!-- {if $action eq 'order_back_search'} -->
+       <h5><span>退换货列表（退换货申请请点击”我的订单“已确认收货订单后操作中的“申请退换货 ”链接）</span></h5>
+        <div class="form-div">
+          <form action="user.php" name="searchForm" method="get">
+            <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+            退换货单号<input name="back_sn" type="text" id="back_sn" value="{$back_sn}" size="15">
+            快递单号<input name="invoice_no" type="text" id="invoice_no" value="{$invoice_no}" size="15">
+            订单号<input name="order_sn" type="text" id="order_id" value="{$order_sn}" size="15">
+            <input name="act" type="hidden" value="order_back_search">
+            <input type="submit" value="{$lang.button_search}" class="button" />
+          </form>
+        </div>
+       <div class="blank"></div>
+       <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#DDDDDD">
+          <tr align="center">
+            <td bgcolor="#FFFFFF">退换货单号</td>
+            <td bgcolor="#FFFFFF">类别</td>
+            <td bgcolor="#FFFFFF">快递名称</td>
+            <td bgcolor="#FFFFFF">快递单号</td>
+            <td bgcolor="#FFFFFF">订单号</td>
+            <td bgcolor="#FFFFFF">日期</td>
+            <td bgcolor="#FFFFFF">审核状态</td>
+          </tr>
+          <!--{foreach from=$backs item=item}-->
+          <tr>
+            <td align="center" bgcolor="#FFFFFF">{$item.back_sn}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.case}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.shipping_name}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.invoice_no}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.order_sn}</td>
+            <td align="center" bgcolor="#FFFFFF">{$item.add_time}</td>
+            <td align="center" bgcolor="#FFFFFF">
+            <font class="f6" style="color:#FF0000;">
+            <!--{if $item.status == 1}-->
+            	待审核&nbsp;<a href="javascript:if(confirm('真的确定取消本次申请吗？')){window.location.href='user.php?act=back_del&back_sn={$item.back_sn}'}" style="text-decoration:none;color:#0000FF;">撤销</a>
+            <!--{elseif $item.status == 2}-->
+            <!--{if $item.case == '退款'}-->
+            	已通过审核&nbsp;退款中
+            <!--{else}-->
+            	已通过审核&nbsp;<a href="user.php?act=tuihuo&back_sn={$item.back_sn}" style="text-decoration:none;color:#0000FF;">寄回商品</a>
+            <!--{/if}-->
+            <!--{elseif $item.status == 3}-->
+                已寄送&nbsp;待收货
+            <!--{elseif $item.status == 4}-->
+            	已收货&nbsp;待处理
+            <!--{elseif $item.status == 5}-->
+            	已处理&nbsp;已退款
+            <!--{elseif $item.status == 6}-->
+            	已处理&nbsp;退货失败
+            <!--{else}-->
+            	已拒绝申请
+            <!--{/if}-->
+            </font>
+            </td>
+          </tr>
+          <!--{/foreach}-->
+          </table>
+        <div class="blank5"></div>
+       <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+       <!--{/if}-->
+      <!--#退换货搜索界面 end-->
+      <!--{if $action eq shenqing} -->
+      <h5><span>退换货申请</span></h5>
+      <div class="blank"></div>
+      <form name="back_order" action="user.php" method="post" onsubmit="return checkBack()" enctype="multipart/form-data">
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#DDDDDD">
+        <tr align="center">
+          <td bgcolor="#FFFFFF">商品名称</td>
+          <td bgcolor="#FFFFFF">编号</td>
+          <td bgcolor="#FFFFFF">规格</td>
+          <td bgcolor="#FFFFFF">商品单价</td>
+          <td bgcolor="#FFFFFF">购买数量</td>
+          <td bgcolor="#FFFFFF">退货数量</td>
+        </tr>
+        <script language="javascript">var total = 0;</script>
+        <!--{foreach from=$goods_list item=goods_list key=key}-->
+        <tr>
+          <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="goods[]" value="{$goods_list.goods_sn}-{$goods_list.goods_name}-{$goods_list.goods_attr}-{$goods_list.goods_price}" id="cbox{$key}" />{$goods_list.goods_name}</td>
+          <td align="center" bgcolor="#FFFFFF">{$goods_list.goods_sn}</td>
+          <td align="right" bgcolor="#FFFFFF">{$goods_list.goods_attr}</td>
+          <td align="center" bgcolor="#FFFFFF"><font style="font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif">&yen;</font> {$goods_list.goods_price}</td>
+          <td align="center" bgcolor="#ffffff" id="number{$key}">{$goods_list.goods_number}</td>
+          <td align="center" bgcolor="#ffffff"><input type="hidden" name="subtotal[]" value="{$goods_list.goods_price}" /><input type="text" name="number[]" style="width:50px" id="putnum{$key}" onchange="checkNum({$key},this.value)" /><input type="hidden" name="act" value="shenqing_submit" /><input type="hidden" name="order_id" value="{$order_id}" /></td>
+        </tr>
+        <script language="javascript">total++;</script>
+        <!--{/foreach}-->
+        <tr>
+          <td align="center" bgcolor="#FFFFFF">选择类型</td>
+          <td colspan="5" bgcolor="#FFFFFF"><input type="radio" name="case" value="退货" checked="checked" onclick="chooseLiyou(1)" />退货&nbsp;<input type="radio" name="case" value="换货" onclick="chooseLiyou(2)" />换货&nbsp;<input type="radio" name="case" value="退款" onclick="chooseLiyou(3)" />退款</td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="#FFFFFF" id="tuihuokuan">退货理由</td>
+          <td colspan="5" bgcolor="#FFFFFF"><input type="text" size="25" name="liyou" />&nbsp;<font color="#FF0000">*</font></td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="#FFFFFF" id="shuoming">退货说明</td>
+          <td colspan="5" bgcolor="#FFFFFF">
+            <textarea name="beizhu" rows="5" cols="50"></textarea><font color="#FF0000">*</font><br/>请您如实填写商品情况，字数在196字内
+          </td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="#FFFFFF">上传凭证</td>
+          <td colspan="5" bgcolor="#FFFFFF">
+            1.<input type="file" name="back_pic1" size="25" /><br />
+            2.<input type="file" name="back_pic2" size="25" /><br />
+            3.<input type="file" name="back_pic3" size="25" /><br />为了帮助我们更好的解决问题，请您上传图片。每张图片大小不超过2M，支持GIF,JPG,JPEG,PNG,BMP格式文件。
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6" bgcolor="#FFFFFF">
+            <font color="#FF0000">提示：</font><br />
+            1、请认真填写退货的快递公司名称和单号，方便我们实时查询。<br />
+            2、非官方因素造成的退换货，只退还商品总金额的98%。<br />
+            3、经过核实的退款申请，相关资金会退还至账户余额，请进入会员中心的资金管理下查看。
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF" colspan="6" align="center"><input type="submit" name="sub" value="提交申请" />&nbsp;&nbsp;<input type="reset" name="res" value="重置" /></td>
+        </tr>
+      </table>
+      </form>
+      <script language="javascript">
+        var txt = "退货";
+        function chooseLiyou(num)
+        {
+          if(num == 1)
+          {
+            document.getElementById("shuoming").innerHTML = '退货说明';
+            document.getElementById("tuihuokuan").innerHTML = '退货理由';
+            txt = "退货";
+          }
+          if(num == 2)
+          {
+            document.getElementById("shuoming").innerHTML = '换货说明';
+            document.getElementById("tuihuokuan").innerHTML = '换货理由';
+            txt = "换货";
+          }
+          else
+          {
+            document.getElementById("shuoming").innerHTML = '退款说明';
+            document.getElementById("tuihuokuan").innerHTML  = '退款理由';
+            txt = "退款";
+          }
+        }
+        var pase = false;
+        function checkBack()
+        {
+          var liyou = document.back_order.liyou.value;
+          var beizhu = document.back_order.beizhu.value;
+          if(liyou == "")
+          {
+            alert("请填写"+txt+"理由！");
+            document.back_order.liyou.focus();
+            return false;
+          }
+          if(beizhu == "")
+          {
+            alert("请填写"+txt+"说明！");
+            document.back_order.beizhu.focus();
+            return false;
+          }
+          else
+          {
+            if(beizhu.length > 196)
+            {
+              alert(txt+"说明文字不能多于196个！");
+              document.back_order.beizhu.focus();
+              return false;
+            }
+          }
+          var j = true;
+          var k = 0;
+          var l = true;
+          for(i=0;i<total;i++)
+          {
+            if(document.getElementById("cbox"+i).checked)
+            {
+              k = k + 1;
+            }
+            if(document.getElementById("cbox"+i).checked && (document.getElementById("putnum"+i).value == "" || parseInt(document.getElementById("putnum"+i).value) == 0))
+            {
+              j = false;
+            }
+            if(!document.getElementById("cbox"+i).checked && parseInt(document.getElementById("putnum"+i).value) > 0)
+            {
+              l = false;
+            }
+          }
+          if(k == 0)
+          {
+            alert("请至少选择一个要"+txt+"的商品");
+            return false;
+          }
+          if(!j)
+          {
+            alert("请填写"+txt+"商品的数量！");
+            return false;
+          }
+          if(!l)
+          {
+            alert("您选择了"+txt+"商品的数量，请选择对应的商品！");
+            return false;
+          }
+          if(!pase)
+          {
+            alert(txt+"数量不能超过购买数量！");
+            return false;
+          }
+        }
+        function checkNum(key,num)
+        {
+          if(parseInt(document.getElementById("number"+key).innerHTML) < num)
+          {
+            alert(txt+"数量不能超过购买数量！");
+            pase = false;
+            return false;
+          }
+          else
+          {
+            pase = true;
+          }
+        }
+      </script>
+      <!--{/if}-->
+      <!--{if $action eq 'return_edit'} -->
+      <h5><span>寄回商品（请填写您寄回商品时的快递名称和快递单号，方便网站查询物流信息）</span></h5>
+      <div class="blank"></div>
+      <form name="back_kuaidi" action="user.php" method="post" onsubmit="return checkkuaidi()">
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#DDDDDD">
+        <tr>
+          <td bgcolor="#FFFFFF">退换货单号</td>
+          <td bgcolor="#FFFFFF"><a href="user.php?act=back_detail&back_sn={$back_sn}">{$back_sn}</a><input type="hidden" name="act" value="back_submit" /><input type="hidden" name="back_sn" value="{$back_sn}" /></td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF">快递公司</td>
+          <td bgcolor="#FFFFFF"><input type="text" name="shipping_name" />&nbsp;<font color="#FF0000">（请输入寄回的快递公司）</font></td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF">快递单号</td>
+          <td bgcolor="#FFFFFF"><input type="text" name="invoice_no" />&nbsp;<font color="#FF0000">（请输入寄回的快递单号）</font></td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="#FFFFFF">
+            <font color="#FF0000">提示：</font><br />
+            1、请认真填写退换货的快递公司名称和单号，方便我们实时查询。<br />
+            2、非官方因素造成的退换货，只退还商品总金额的98%。<br />
+            3、经过核实的退款申请，相关资金会退还至账户余额，请进入会员中心的资金管理下查看。
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF" colspan="2" align="center"><input type="submit" name="sub" value="提交信息" />&nbsp;&nbsp;<input type="reset" name="res" value="重置" /></td>
+        </tr>
+      </table>
+      </form>
+      <script language="javascript">
+        function checkkuaidi()
+        {
+          var shipping_name = document.back_kuaidi.shipping_name.value;
+          var invoice_no = document.back_kuaidi.invoice_no.value;
+          if(shipping_name == "")
+          {
+            alert("请填写快递公司！");
+            document.back_kuaidi.shipping_name.focus();
+            return false;
+          }
+          if(invoice_no == "")
+          {
+            alert("请填写快递单号！");
+            document.back_kuaidi.invoice_no.focus();
+            return false;
+          }
+        }
+      </script>
+      <!--{/if}-->
+      <!--{if $action eq back_detail} -->
+      <h5><span>退换货信息详情</span></h5>
+      <div class="blank"></div>
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#DDDDDD">
+        <tr>
+          <td bgcolor="#FFFFFF">商品详情</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.goods}</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF">售后类型</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.case}</td>
+        </tr>
+	<!--{if $back.shipping_name}-->
+        <tr>
+          <td bgcolor="#FFFFFF">快递公司</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.shipping_name}</td>
+        </tr>
+	<!--{else}-->
+	<!--{/if}-->
+	<!--{if $back.invoice_no}-->
+        <tr>
+          <td bgcolor="#FFFFFF">快递单号</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.invoice_no}</td>
+        </tr>
+	<!--{else}-->
+	<!--{/if}-->
+        <tr>
+          <td bgcolor="#FFFFFF">退换货理由</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.liyou}</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF">备注</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.beizhu}</td>
+        </tr>
+        <tr>
+          <td bgcolor="#FFFFFF">管理员回复</td>
+          <td colspan="5" bgcolor="#FFFFFF">{$back.receve}</td>
+        </tr>
+      </table>
+      <div class="blank"></div>
+      <h3 style="font-family:'微软雅黑','黑体';font-size:15px;text-align:left;padding-left:10px;">留言/回复</h3>
+      <div class="blank"></div>
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#FAFAFA">
+        <!--{foreach from=$back_msg_list item=msg_list}-->
+        <!--{if $msg_list.is_admin eq 0}-->
+        <tr>
+          <td style="color:#666666;">我说：{$msg_list.message}</td>
+          <td style="color:#666666;">{$msg_list.add_time}</td>
+        </tr>
+        <!--{else}-->
+        <tr>
+      	  <td style="color:#FF0000;" bgcolor="#FFFFFF">客服：{$msg_list.message}</td>
+          <td style="color:#FF0000;" bgcolor="#FFFFFF">{$msg_list.add_time}</td>
+        </tr>
+        <!--{/if}-->
+        <tr><td colspan="2" height="10" bgcolor="#FFFFFF"></td></tr>
+        <!--{/foreach}-->
+      </table>
+      <div class="blank"></div>
+      <form name="review" method="post" action="user.php" onsubmit="return checkMessage()">
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#DDDDDD">
+        <tr>
+          <td bgcolor="#FFFFFF">我要留言：</td>
+          <td colspan="5" bgcolor="#FFFFFF"><textarea name="message" rows="6" cols="60"></textarea></td>
+        </tr>
+        <tr>
+          <td colspan="6" bgcolor="#FFFFFF" style="padding-left:200px;"><input type="submit" name="sub" value="提交留言" />&nbsp;&nbsp;<input type="reset" name="res" value="重新填写" /><input type="hidden" name="act" value="back_message" /><input type="hidden" name="back_sn" value="{$back.back_sn}" /></td>
+        </tr>
+      </table>
+      </form>
+      <script language="javascript">
+        function checkMessage()
+        {
+          var msg = document.review.message.value;
+          if(msg == "")
+          {
+            alert("请填留言内容！");
+            document.review.message.focus();
+            return false;
+          }
+        }
+      </script>
+      <!--{/if}-->
+
+            </div>
+        </div>
+    </div>
+
+    <div class="update-address">
+        <form id="upAddress" action="" onsubmit="return upAddress()">
+            <input type="hidden" value="" name="address_id" class="address_id"/>
+            <div class="add-address-title fb-color-333 fb-font16">
+                修改地址
+            </div>
+             <div class="input-item">
+                 <label class="fb-inlineBlock fb-color-666 fb-font14">详细收货地址</label>
+                 <div class="input-b fb-inlineBlock">
+                     <select name="" id="" class="fb-inlineBlock">
+                         <option value="">中国大陆</option>
+                     </select>
+                     <input type="text" id="city2" name="" class="fb-inlineBlock city region" style="width:300px;margin-left:18px;"/>
+                 </div>
+             </div>
+             <div class="input-item">
+                 <label class="fb-inlineBlock fb-color-666 fb-font14"></label>
+                 <div class="input-b fb-inlineBlock">
+                    <textarea name="" id="" class="dec address"></textarea>
+                 </div>
+             </div>
+             <div class="input-item">
+                 <label class="fb-inlineBlock fb-color-666 fb-font14">收货人</label>
+                 <div class="input-b fb-inlineBlock">
+                    <input type="text" class="fb-inlineBlock name consignee" style="width:300px;"/>
+                 </div>
+             </div>
+             <div class="input-item">
+                 <label class="fb-inlineBlock fb-color-666 fb-font14">手机号码</label>
+                 <div class="input-b fb-inlineBlock">
+                    <input type="text"  class="fb-inlineBlock tell mobile" style="width:300px;"/>
+                 </div>
+             </div>
+             <button class="opa_active" >保存</button>
+             <div class="close" >关闭</div>
+        </form>
+
+    </div>
+    <!-- 主体内容 E -->
+   <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!-- $Id: back_pase.htm 通过审核页 $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="tab-div">
+<form name="admin_back" action="order.php" method="post" onsubmit="return checkForm()">
+  <table width="100%" align="center" cellpadding="3" cellspacing="5">
+    <tr>
+      <th colspan="2" align="center" height="24" style="background:url(images/th_bg.gif) repeat-x">通过审核</th>
+    </tr>
+    <tr>
+      <td> 售后原因 </td>
+      <td> {$back.liyou} </td>
+    </tr>
+    <tr>
+      <td> 售后备注 </td>
+      <td> {$back.beizhu} </td>
+    </tr>
+    <tr>
+      <td> 管理员回复 </td>
+      <td> <textarea name="receve" rows="5" cols="50"></textarea> <input type="hidden" name="act" value="pase_back_submit" /><input type="hidden" name="back_sn" value="{$back.back_sn}" /></td>
+    </tr>
+    <tr>
+    	<td colspan="2" style="padding-left:200px"><input type="submit" name="sub" value="同意申请" />&nbsp;&nbsp;<input type="reset" name="res" value="重新填写" /></td>
+    </tr>
+  </table>
+  </form>
+</div>
+<script language="javascript">
+	function checkForm(){
+		var receve = document.admin_back.receve.value;
+		
+		if(receve == ''){
+			alert('请填写回复内容！');
+			document.admin_back.receve.focus();
+			return false;
+		}
+	}
+</script>
+{include file="pagefooter.htm"}

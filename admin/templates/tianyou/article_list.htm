@@ -1,0 +1,88 @@
+{if $full_page}
+{include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+  <!--内容-->
+  <div class='outArea addAuthor martop-62'>
+    <div class="inArea">
+      <!--标题 left-->
+      <div class='fb-float-left leftDiv publishAct_lefthead '>
+          {include file="tianyou/article_nav.htm"}
+      </div>
+      <!--标题 left end-->
+
+      <!--内容 right-->
+        <div class=' rightDiv fb-position-relative publishAct_right martop-62'>
+            <div class="publishAct_choseEditCon">
+                <div style="margin-left:23px;min-width:1043px">
+                   <form class="fb-clearfix" action="javascript:searchArticle()" name="searchForm">
+                        <div  class="fb-float-left" >
+                            <input type="hidden" name="cat_id" value="{$cat_id}" />
+                            <input class="sear fb-float-left" type="text" name="keyword" placeholder="请输入要搜索的关键字">
+                            <input type="submit" value="" class="fb-float-left submit-btn">
+                        </div>
+                    </form>
+                </div>
+                <div class="list-div" id="listDiv">
+{/if}
+                    <div class="itemDiv">
+                        {foreach from=$article_list item=list}
+                        <div class="item fb-inlineBlock">
+                            <div class="item_title fb-clearfix">
+                                <h2 class="fb-float-left">{$list.title|escape:html}</h2>
+                                <span class="fb-float-right">{$list.date|date_to_dob}</span>
+                            </div>
+                            <div class="item_img" style="background:url(/{$list.file_url}) no-repeat center;background-size:cover;">
+                            </div>
+                            <div class="item_txt">
+                                <p>{$list.content|mb_substr:200}</p>
+                            </div>
+                            <div class="item_hand">
+                                <a href="article.php?act=edit&id={$list.article_id}" class="fb-inlineBlock pen"></a>
+                                 <a class="fb-inlineBlock transh" onclick="itemDelete({$list.article_id})"></a>
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+{if $full_page}
+                </div>
+            </div>
+            <div class="pageDiv" style="text-align:center;">
+                {include file="tianyou/page.htm"}
+            </div>
+        </div>
+      <!--内容 right end-->
+    </div>
+  </div>
+  <!--内容 end-->
+
+</body>
+<script>
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+function itemDelete(id){
+    $fb.showModal({
+      title:"天佑艺术馆",
+      content:"是否确定删除该资讯"
+    },function(){
+        listTable.delete(id);
+        $fb.fbNews({type:"success",content:"删除成功"})
+    })
+}
+/* 搜索文章 */
+function searchArticle()
+{
+listTable.filter.keyword = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+listTable.filter.cat_id = parseInt(document.forms['searchForm'].elements['cat_id'].value);
+listTable.filter.page = 1;
+listTable.loadList();
+}
+
+
+
+</script>
+</html>
+{/if}

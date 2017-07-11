@@ -1,0 +1,77 @@
+<!-- $Id: back_detail.htm 退货信息详情页 $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="tab-div">
+  <table width="100%" align="center" cellpadding="3" cellspacing="5" bgcolor="#FFFFFF">
+    <tr>
+      <th colspan="2" align="center" height="24" style="background:url(images/th_bg.gif) repeat-x">退货信息详情</th>
+    </tr>
+    <tr>
+      <td width="16%"> 商品信息</td>
+      <td width="84%"> {$back.goods} </td>
+    </tr>
+    <tr>
+      <td> 售后类型</td>
+      <td> {$back.case} </td>
+    </tr>
+    <tr>
+      <td> 返还金额 </td>
+      <td> ￥{$back.subtotal} </td>
+    </tr>
+    <tr>
+      <td> 售后原因 </td>
+      <td> {$back.liyou} </td>
+    </tr>
+    <tr>
+      <td> 售后备注 </td>
+      <td> {$back.beizhu} </td>
+    </tr>
+    <tr>
+      <td> 管理回复</td>
+      <td> {$back.receve}</td>
+    </tr>
+	<tr>
+      <th colspan="2" align="center" height="24" style="background:url(images/th_bg.gif) repeat-x">留言/回复</th>
+    </tr>
+  </table>
+  <div class="blank"></div>
+  <table width="100%" align="center" cellpadding="3" cellspacing="5" bgcolor="#FFFFFF">
+  <!--{foreach from=$back_msg_list item=msg_list}-->
+    <!--{if $msg_list.is_admin eq 0}-->
+    <tr>
+    <td style="width:60%">提问：{$msg_list.message}</td>
+    <td>{$msg_list.add_time}</td>
+    </tr>
+    <!--{else}-->
+    <tr>
+    <td style="width:60%;color:#f00">回复：{$msg_list.message}</td>
+    <td style="color:#f00">{$msg_list.add_time}</td>
+    </tr>
+    <!--{/if}-->
+    <tr><td colspan="2" height="10" bgcolor="#FFFFFF"></td></tr>
+  <!--{/foreach}-->  
+  </table>
+  <div class="blank"></div>
+  <form name="review" method="post" action="order.php" onsubmit="return checkMessage()">
+  <table width="100%" align="center" cellpadding="3" cellspacing="5" bgcolor="#FFFFFF">  
+    <tr>
+        <td bgcolor="#ffffff" width="10%">添加回复：</td>
+        <td colspan="5" bgcolor="#ffffff"><textarea name="message" rows="6" cols="60"></textarea></td>
+    </tr>
+    <tr>
+        <td colspan="6" bgcolor="#ffffff" style="padding-left:200px"><input type="submit" name="sub" value="马上回复" />&nbsp;&nbsp;<input type="reset" name="res" value="重新填写" /><input type="hidden" name="act" value="back_message" /><input type="hidden" name="back_sn" value="{$back.back_sn}" /></td>
+    </tr>
+  </table>
+  </form>
+  <script language="javascript">
+    function checkMessage(){
+        var msg = document.review.message.value;
+        if(msg == ""){
+            alert("请填回复内容！");	
+            document.review.message.focus();
+            return false;
+        }
+    }
+  </script>
+</div>
+{include file="pagefooter.htm"}

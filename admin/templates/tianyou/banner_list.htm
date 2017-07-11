@@ -1,0 +1,92 @@
+{if $full_page}
+{include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+  <!--内容-->
+  <div class='outArea addAuthor martop-62'>
+    <div class="inArea">
+      <!--发布 left-->
+            <div class='fb-float-left leftDiv'>
+                {include file="tianyou/banner_nav.htm"}
+            </div>
+      <!--发布 left end-->
+
+      <!--内容 right-->
+        <div class=' rightDiv fb-position-relative publishAct_right'>
+
+            <!-- <div class="publishAct_choseEditCon">
+                <div class="">
+                    <form class="fb-clearfix" action="">
+                        <div  class="fb-float-left" >
+                            <input class="sear fb-float-left" type="text" placeholder="请输入要搜索的关键字">
+                            <input type="submit" value="" class="fb-float-left submit-btn">
+                        </div>
+                    </form>
+                </div>
+            </div> -->
+            <div id="listDiv">
+{/if}
+            <table class="art-table">
+                <colgroup>
+                    <col style="width:5%">
+                    <col style="width:40%">
+                    <col style="width:40%">
+                    <col style="width:25%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <td>id</td>
+                    <td>封面</td>
+                    <td>URL链接</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 循环体 -->
+                {foreach from=$banner_list item=banner}
+                <tr>
+                    <td>{$banner.article_id}</td>
+                    <td><img src="/{$banner.file_url}" alt=""></td>
+                    <td>
+                        {$banner.link}
+                    </td>
+                    <td>
+                        <a style="color:#007560;" href="banner.php?act=edit">详情</a>
+                        <span class="delete-danger opa_active" onclick="artDelete({$banner.article_id})">删除</span>
+                    </td>
+                </tr>
+                <tr></tr>
+                {/foreach}
+                <!-- 循环体 -->
+                </tbody>
+
+            </table>
+
+            <!-- <div class="pageDiv">
+                <a class="fb-inlineBlock page_btn1" href=""></a>
+                <a class="fb-inlineBlock page_btn2"  href=""></a>
+                <span>1/10</span>
+                <a class="fb-inlineBlock page_btn3"  href=""></a>
+                <a class="fb-inlineBlock page_btn4"  href=""></a>
+            </div> -->
+{if $full_page}
+            </div>
+        </div>
+      <!--内容 right end-->
+    </div>
+  </div>
+  <!--内容 end-->
+
+</body>
+<script>
+    function artDelete(id){
+        $fb.showModal({
+          title:"天佑艺术馆",
+          content:"是否确定删除该banner"
+        },function(){
+            listTable.delete(id);
+            $fb.fbNews({type:"success",content:"点击了删除"+id})
+        })
+    }
+</script>
+</html>
+{/if}

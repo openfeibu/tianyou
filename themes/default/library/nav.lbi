@@ -1,0 +1,43 @@
+<div class="w1320">
+    <div class="nav fb-float-left">
+        <ul>
+            <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
+            <li>
+                <a href="{$nav.url}">{$nav.name}</a>
+            </li>
+            <!-- {/foreach} -->
+            <li>
+                <a href="index.php#author">艺术家排名</a>
+            </li>
+        </ul>
+    </div>
+    <!-- 导航 E-->
+    <div class="mine fb-float-right">
+        <div class="search fb-float-left">
+               <a href=""></a>
+        </div>
+        <div class="cart fb-float-left" id="ECS_CARTINFO">
+            {insert name='cart_info'}
+        </div>
+
+        <div class="user fb-float-left fb-position-relative">
+           <a href="user.php">
+
+           </a>
+           <div class="user-box fb-position-absolute">
+               <div class="tagT fb-position-absolute"></div>
+               <ul >
+                  <li><a href="user.php">管理账户</a></li>
+                  <li><a href="user.php?act=order_list">已购艺术品</a></li>
+                  <li><a href="user.php?act=logout">退出</a></li>
+               </ul>
+            </div>
+        </div>
+    </div>
+    <div class="logo">
+        <a href="index.php">
+            <img src="{$ec_themes}/images/logo.png" alt="">
+        </a>
+    </div>
+</div>
+</div>

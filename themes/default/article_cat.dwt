@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <div class="padd80">
+                <div class="con-list-tab">
+                    <ul class="fb-float-left">
+                        <a href="{$cat.url}">{$cat.name|escape:html}</a><br />
+                        <!--{foreach from=$article_categories item=cat}-->
+                        <li class="fb-inlineBlock fb-position-relative {if $cat.id == $cat_id}active{/if} ">
+                            <a href="{$cat.url}">
+                                <p class="fb-font16">{$cat.name|escape:html} <span class="fb-font14" >(25)</span></p>
+                                <b class="fb-font16">{$cat.en_name|escape:html}</b>
+                            </a>
+                        </li>
+                        <!--{/foreach}-->
+                    </ul>
+                    <div class="con-search fb-float-right">
+                        <form action="{$search_url}" name="search_form" method="post" class="article_search">
+                            <input type="text" name="keywords" placeholder="请输入要搜索的关键字" value="{$search_value}">
+                            <input name="id" type="hidden" value="{$cat_id}" />
+                            <input name="cur_url" id="cur_url" type="hidden" value="" />
+                            <input type="submit" value="">
+                         </form>
+                    </div>
+                </div>
+                <div class="con-list-group">
+                    <!-- {foreach from=$artciles_list item=article} -->
+                    <!--{if $cat_id == 15}-->
+                    <div class="list-item-first">
+                            <div class="img fb-float-left">
+                                <img src="{$article.file_url}" alt="">
+                            </div>
+                            <div class="test">
+                                <h3 class="fb-font18 fb-transition">{$article.title|escape:html}</h3>
+                                <p class="fb-font16">{$article.description}</p>
+                                <div class="test-bottom fb-font14">
+                                    <div class="fb-float-left">场地大小：{$article.area_size}m²</div>
+                                    <div class="fb-float-right">发布时间：{$article.add_time}</div>
+                                </div>
+                            </div>
+                    </div>
+                    <!--{else}-->
+                    <div class="list-item-second">
+                        <div class="img fb-float-left">
+                            <img src="{$article.file_url}" alt="">
+                        </div>
+                        <div class="test">
+                            <h3 class="fb-font18 fb-transition">{$article.title|escape:html}<a href="{$article.url}" class=" fb-font14">详情</a></h3>
+                            <p class="fb-font16">{$article.description}</p>
+                            <div class="test-bottom fb-font14">
+                                <div class="fb-float-left">活动类型：{$article.activity_type}</div>
+                                <div class="fb-float-right">发布时间：{$article.add_time}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--{/if}-->
+
+                    <!--list-item-first-->
+                    <!-- {/foreach} -->
+
+                </div>
+                <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+            </div>
+        </div>
+    </div>
+    <!-- 主体内容 E -->
+    <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+</html>

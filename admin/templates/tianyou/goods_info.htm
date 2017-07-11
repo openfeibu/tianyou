@@ -1,0 +1,404 @@
+{include file="tianyou/head.htm"}
+<link rel="stylesheet" type="text/css" href="{$admin_themes}/css/webuploader.css">
+<script type="text/javascript" src="{$admin_themes}/js/webuploader.js"></script>
+<script charset="utf-8" src="../includes/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="../includes/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+     var editor;
+        KindEditor.ready(function(K) {
+                editor = K.create('#editor_id');
+        });
+</script>
+	<!--内容-->
+	<div class='outArea addAuthor martop-62'>
+		<div class="inArea">
+			<!--发布艺术品 left-->
+			<div class='fb-float-left leftDiv'>
+                <div><a href="goods.php?act=add" {if $is_add}class="aTitle-hover"{/if}>发布艺术品</a></div>
+                <div><a href="goods.php?act=list" {if !$is_add}class="aTitle-hover"{/if}>编辑艺术品</a></div>
+			</div>
+			<!--发布艺术品 left end-->
+
+			<!--内容 right-->
+			<div class='rightDiv martop-62'>
+	             <div class='return-page  mar-10'>
+	               <a class="marL-30 " href="javascript:window.history.go(-1);"> 返回上一页</a>
+	            </div>
+				<form action="" method="post" enctype="multipart/form-data">
+					<div class='input_all'>
+						<label for="">艺术品名称</label>
+						<input type="text" name="goods_name" value="{$goods.goods_name|escape}">
+					</div>
+					<div class='input_all fb-position-relative author_all'>
+						<label for="">作者</label>
+						<input type="text" class="author_input" style="background:url('{$admin_themes}/images/icon2.png') no-repeat 280px center" value="{$goods.author_name|escape}">
+                        <input type="hidden" name="author_id" value="{$goods.author_id}">
+						<div class="author-box pos fb-position-absolute ">
+							<div class="author-box-overflow">
+                                <!--{foreach from=$authors key=k item=attrs} -->
+                                <div class="author-box-item {$k}">
+									<div class="author-box-title ">{$k}</div>
+									<div class="author-box-con">
+                                        <!--{foreach from=$attrs item=attr}-->
+										<div class="author-box-con-item fb-inlineBlock" author-id='{$attr.author_id}'>{$attr.author_name}</div>
+                                        <!--{/foreach}-->
+									</div>
+								</div>
+                                <!--{/foreach}-->
+							</div>
+							<div class="author-box-bottom">
+								<input type="text" placeholder="跳转到A-K" class="fb-inlineBlock author-search-val" style="width: 95px;height: 40px;border-radius: 5px;margin:0 10px;">
+								<input type="button" value="跳转"  class="fb-inlineBlock" style="width: 50px;height: 40px;background:none;border:none;">
+								<a class="cancel">取消</a>
+								<!-- <a class='sure'>确定</a> -->
+							</div>
+
+						</div>
+					</div>
+					<div class=' input_all '>
+						<label for="">出产年份</label>
+						<input type="text" class="bridata" name="year" value="{$goods.year}">
+					</div>
+					<div class='fb-position-relative input_all selectBox_all fb-inlineBlock'>
+						<label id='la' for="">类型</label>
+						<select name="cat_id"  id="cat_id"  onchange="getAttrList({$goods.goods_id})"><option value="0">{$lang.select_please}</option>{$cat_list}</select>
+
+					</div>
+                    <div id="tbody-goodsAttr">
+
+                    </div>
+
+                    <div class='input_all'>
+						<label for="">库存</label>
+						<input type="text"  name="goods_number" value="{$goods.goods_number}">
+					</div>
+
+					<div class='input_all fb-position-relative selectBox_all'>
+						<label for="">性质</label>
+						<input type="text" class="selectBox_input nature"  style="background:url('{$admin_themes}/images/icon2.png') no-repeat 280px center" value="可租可买">
+                        <input type="hidden" name="nature" id="nature" value="1">
+						<div class='fb-position-absolute pos selectBox' >
+							<div>
+								<ul>
+									<li sid="1"><a>可租可买</a></li>
+									<li sid="2"><a>只租</a></li>
+									<li sid="3"><a>只买</a></li>
+								</ul>
+							</div>
+							<a  class="cancel">取消</a>
+						</div>
+					</div>
+					<div class='fb-clearfix input_all nature-con'>
+						<label class='fb-float-left' for="">价格（￥）</label>
+						<div class='wi430 fb-float-left'>
+
+								<div class='div-390'>
+									<label class='fb-inlineBlock' for="">购买</label>
+									<input type="text" name="shop_price" value="{$goods.shop_price}">
+								</div>
+								<div class='div-390'>
+									<label class='fb-inlineBlock' for="">租金</label>
+									<input type="text" name="rent" value="{$goods.rent}">
+								</div>
+								<div class='div-390'>
+									<label class='fb-inlineBlock' for="">押金</label>
+									<input type="text" name="deposit" value="{$goods.deposit}">
+								</div>
+						</div>
+					</div>
+<!-- 					<div class='input_all size'>
+						<label for="">物流</label>
+
+						<input type="text"  style="width:180px;background:url('{$admin_themes}/images/icon2.png') no-repeat 160px center" placeholder='地区'>
+						<input type="text" class='logistic' placeholder='物流费用' style='padding-left:25px;'>
+					</div> -->
+					<!-- <p class='add_adress'><a href="#">添加新地区物流费用+</a></p> -->
+					<div class='fb-clearfix input_all'>
+							<label  class='fb-float-left' for="">艺术简介 </label>
+							<div class='intro-fra win-630 fb-float-left hei-400 ' >
+                                <textarea id="editor_id" name="goods_desc" style="width:100%;height:300px;" placeholder="艺术品简介">{$goods_desc}</textarea>
+             				</div>
+                            <div class="clear" ></div>
+					</div>
+					<div class='fb-position-absolute obj_art'>
+			            <!-- <div  class='cover_a' ><a href="#"><img src="{$admin_themes}/images/img4.jpg" alt=""></a></div> -->
+			            <div class="part1_shadeDiv show">
+			              <!-- <div class='part1_shade fb-position-absolute' id="part1_shade"></div> -->
+			              <div  >
+								<div id="uploader-demo" class="fb-position-relative">
+								    <!--用来存放item-->
+								    <div id="fileList" class="uploader-fm-list"><img src="{if $goods.goods_img}/{$goods.goods_img}{else}{$admin_themes}/images/up-icon.jpg{/if}" alt=""></div>
+								    <div id="upfengmian" class="iploader-button fb-position-absolute">选择图片</div>
+								</div>
+							</div>
+			             </div>
+
+			        </div>
+					<div class="input_all mar-top-50">
+                        <input type="hidden" name="goods_img" class="goods_img" value="{$goods.goods_img}" />
+                        <input type="hidden" name="goods_thumb" class="goods_thumb" value="{$goods.goods_thumb}" />
+                        <input type="hidden" name="original_img" class="original_img" value="{$goods.original_img}" />
+
+                        <input type="hidden" name="goods_id" value="{$goods.goods_id}" />
+                        <input type="hidden" name="act" value="{$form_act}" />
+						<button type="submit" class='fb-inlineBlock btn_click btn_warning'>发布</button>
+						<a href="javascript:window.history.go(-1);" class='fb-inlineBlock btn_click btn-common'>返回上一页</a>
+						<!-- <button type="reset"  class='fb-inlineBlock btn_click btn_danger'>删除该艺术品</button> -->
+					</div>
+				</form>
+				<div class="hei-80"></div>
+			</div>
+			<!--内容 right end-->
+		</div>
+	</div>
+	<!--内容 end-->
+
+</body>
+    <!-- 该页面特有 -->
+    <link rel="stylesheet" type="text/css" href="{$admin_themes}/css/jquery.mCustomScrollbar.css">
+    <script type="text/javascript" src="{$admin_themes}/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="{$admin_themes}/js/jquery.mousewheel.min.js"></script>
+<script>
+//删除艺术品
+  $(".btn_danger").on("click",function(){
+    $fb.showModal({
+      title:"天佑艺术馆",
+      content:"是否确定删除该艺术品"
+    },function(){
+      $fb.fbNews({type:"success",content:"点击了删除"})
+    })
+  })
+$(".author-box-overflow").css("height",$(window).height()*0.5).mCustomScrollbar();
+
+
+$(".nature").on("change",function(){
+	var sid = $(this).attr("sid");
+    $("#nature").val(sid);
+
+	switch(sid){
+		case "1" :
+			$(".nature-con").find(".div-390").show();
+			break;
+		case "2" :
+			$(".nature-con").find(".div-390").eq(0).hide().siblings().show();
+			break;
+		case "3" :
+			$(".nature-con").find(".div-390").eq(0).show().siblings().hide();
+			break;
+	}
+})
+
+// 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: 'js/Uploader.swf',
+    // 文件接收服务端。
+    server: 'upload.php?act=upload_goods_img&goods_id={$goods.goods_id}',
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#upfengmian',
+    // 只允许选择图片文件。
+    fileVal:"goods_img",
+    fileNumLimit:2,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+// 当有文件添加进来的时候
+var  $list = $(".uploader-fm-list");
+uploader.on( 'fileQueued', function( file ) {
+    var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+
+            '</div>'
+            );
+
+        console.log(file)
+
+    // $list为容器jQuery实例
+    $list.html("").append( $li );
+
+    // 创建缩略图
+    // 如果为非图片文件，可以不用调用此方法。
+    // thumbnailWidth x thumbnailHeight 为 100 x 100
+    uploader.makeThumb( file, function( error, src ) {
+        if ( error ) {
+            $img.replaceWith('<span>不能预览</span>');
+            return;
+        }
+        $li.css({"background":"url("+src+") no-repeat center","backgroundSize":"186px auto","height":"360px"})
+    },186,360);
+});
+// 文件上传过程中创建进度条实时显示。
+uploader.on( 'uploadProgress', function( file, percentage ) {
+    var $li = $( '#'+file.id ),
+        $percent = $li.find('.progress span');
+
+    // 避免重复创建
+    if ( !$percent.length ) {
+        $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+    }
+
+    $percent.css( 'width', percentage * 100 + '%' );
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+uploader.on( 'uploadSuccess', function( file ,data ) {
+    if(data.error == 0)
+    {
+        $('.goods_thumb').val(data['goods_thumb']);
+        $('.goods_img').val(data['goods_img']);
+        $('.original_img').val(data['original_img']);
+        $( '#'+file.id ).addClass('upload-state-done');
+    }
+    else{
+        $fb.fbNews({type:"error",content:data.message});
+    }
+});
+
+// 文件上传失败，显示上传出错。
+uploader.on( 'uploadError', function( file ) {
+    var $li = $( '#'+file.id ),
+        $error = $li.find('div.error');
+
+    // 避免重复创建
+    if ( !$error.length ) {
+        $error = $('<div class="error"></div>').appendTo( $li );
+    }
+
+    $error.text('上传失败');
+});
+
+// 完成上传完了，成功或者失败，先删除进度条。
+uploader.on( 'uploadComplete', function( file ) {
+    $( '#'+file.id ).find('.progress').remove();
+});
+
+function getAttrList(goodsId)
+{
+    var cat_id = $("#cat_id").find("option:selected").val();
+    $.ajax({
+        cache: true,
+        type: "POST",
+        url:'category.php?act=get_goods_type',
+        data:{'cat_id':cat_id},
+        async: false,
+        error: function(request) {
+            alert("Connection error");
+        },
+        success: function(data) {
+            if(data){
+                Ajax.call('goods.php?is_ajax=1&act=get_attr', 'goods_id=' + goodsId + "&goods_type=" + data, setAttrList, "GET", "JSON");
+            }
+            else{
+                $('#tbody-goodsAttr').html("");
+            }
+
+        }
+    });
+}
+function setAttrList(result, text_result)
+{
+    $('#tbody-goodsAttr').html(result.content);
+}
+
+// var uploader2 = WebUploader.create({
+
+//     // 选完文件后，是否自动上传。
+//     auto: true,
+
+//     // swf文件路径
+//     swf: 'js/Uploader.swf',
+//     // 文件接收服务端。
+//     server: 'http://img2.cdn.wzdala.com:8088/upload_json_2016.asp',
+//     // 选择文件的按钮。可选。
+//     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+//     pick: '#updetail',
+//     // 只允许选择图片文件。
+//     fileVal:"file",
+//     fileNumLimit:5,
+//     accept: {
+//         title: 'Images',
+//         extensions: 'gif,jpg,jpeg,bmp,png',
+//         mimeTypes: 'image/*'
+//     }
+// });
+// // 当有文件添加进来的时候
+// var  $list2 = $(".uploader-de-list");
+// uploader2.on( 'fileQueued', function( file ) {
+
+//     var $li = $(
+//             '<div  id="' + file.id + '" class="file-item thumbnail fb-inlineBlock fb-position-relative">' +
+//                 '<img>' +
+//                 '<div class="close fb-position-absolute">x</div>' +
+//             '</div>'
+//             ),
+//         $img = $li.find('img');
+
+
+//     // $list为容器jQuery实例
+//     $list2.append( $li );
+
+//     // 创建缩略图
+//     // 如果为非图片文件，可以不用调用此方法。
+//     // thumbnailWidth x thumbnailHeight 为 100 x 100
+//     uploader2.makeThumb( file, function( error, src ) {
+//         if ( error ) {
+//             $img.replaceWith('<span>不能预览</span>');
+//             return;
+//         }
+//         $img.attr( 'src', src );
+//     }, 160, 160);
+// });
+// // 文件上传过程中创建进度条实时显示。
+// uploader2.on( 'uploadProgress', function( file, percentage ) {
+//     var $li = $( '#'+file.id ),
+//         $percent = $li.find('.progress span');
+
+//     // 避免重复创建
+//     if ( !$percent.length ) {
+//         $percent = $('<p class="progress"><span></span></p>')
+//                 .appendTo( $li )
+//                 .find('span');
+//     }
+
+//     $percent.css( 'width', percentage * 100 + '%' );
+// });
+
+// // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+// uploader2.on( 'uploadSuccess', function( file ) {
+//     $( '#'+file.id ).addClass('upload-state-done');
+// });
+
+// // 文件上传失败，显示上传出错。
+// uploader2.on( 'uploadError', function( file ) {
+//     var $li = $( '#'+file.id ),
+//         $error = $li.find('div.error');
+
+//     // 避免重复创建
+//     if ( !$error.length ) {
+//         $error = $('<div class="error"></div>').appendTo( $li );
+//     }
+
+//     $error.text('上传失败');
+// });
+
+// // 完成上传完了，成功或者失败，先删除进度条。
+// uploader2.on( 'uploadComplete', function( file ) {
+//     $( '#'+file.id ).find('.progress').remove();
+// });
+// $("body").on("click",".file-item .close",function(){
+// 	var id = $(this).parents(".file-item").attr("id");
+// 	uploader2.removeFile(id,true);
+// 	$(this).parents(".file-item").remove();
+// })
+</script>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <!-- {if $step eq "cart"}  -->
+            <div class="padd40 paddtb60" style="padding-top:20px">
+                <div class="cart">
+                    <form action="flow.php" method="post">
+                    <div class="cart-title fb-font14 fb-color-333 noSelect"  onselectstart="return false">
+                        <div class="cart-cell fb-inlineBlock cart-cell01 allCheck">全选</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell02">商品</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell03">性质</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell04">单价（元）</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell05">押金（元）</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell06">数量</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell07">操作</div>
+                    </div>
+                    <!-- {foreach from=$goods_list item=goods} -->
+                    <div class="cart-item">
+                        <div class="cart-cell fb-inlineBlock cart-cell01 ">
+                            <input type="checkbox" name="rec_id[]" value="{$goods.rec_id}"/>
+                            <div class="cart-checkbox"></div>
+                        </div>
+                        <div class="cart-cell fb-inlineBlock cart-cell02">
+                            <div class="product">
+                                <div class="img fb-inlineBlock " style="background-image:url({$goods.goods_thumb})"></div>
+                                <div class="test fb-inlineBlock fb-font16" >{$goods.goods_name|escape:html}</div>
+                            </div>
+                        </div>
+                        <div class="cart-cell fb-inlineBlock cart-cell03  fb-font16 fb-color-666">
+                            购买
+                        </div>
+                        <div class="cart-cell fb-inlineBlock cart-cell04 fb-font16 fb-color-666">{$goods.goods_price}</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">不需要押金</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell06">
+                            <div class="num">
+                                <div class="prev fb-inlineBlock"></div>
+                                <div class="number fb-inlineBlock fb-font14 fb-color-666">x<span>{$goods.goods_number}</span></div>
+                                <div class="next fb-inlineBlock disable"></div>
+                            </div>
+                        </div>
+                        <div class="cart-cell fb-inlineBlock cart-cell07">
+                            <div class="delete">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- {/foreach} -->
+
+                    </div><!--cart-item end-->
+                    <div class="cart-count fb-font18 fb-color-333">
+                        <!-- <span>邮费：¥50</span> -->
+                        <span>{$shopping_money}</span>
+                        <input type="hidden" name="step" value="checkout" />
+                        <button class="opa_active" type="submit">结算</button>
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+            <!-- {/if} -->
+            <!-- {if $step eq "consignee"}  -->
+            <div class="user clearfix">
+                <div class="user-left fb-float-left">
+                    <div class="user-image">
+                        <img src="images/tx.png" alt="" />
+                    </div>
+                    <ul class="user-nav">
+                        <li class="active"><a href="" class="fb-color-aaa fb-font16">设置地址</a></li>
+                        <li><a href="" class="fb-color-aaa fb-font16">个人资料</a></li>
+                        <li><a href="" class="fb-color-aaa fb-font16">安全设置</a></li>
+                        <li><a href="" class="fb-color-aaa fb-font16">收藏项目</a></li>
+                    </ul>
+                </div><!-- user-left end-->
+                <div class="user-right fb-float-left">
+                   <div class="padd60">
+                       <div class="address-list fb-color-ccc fb-font14">
+                           <div class="address-item address-title clearfix fb-color-666">
+                               <div class="address-cell address-cell01 fb-float-left">收货人</div>
+                               <div class="address-cell address-cell02 fb-float-left">收货地址</div>
+                               <div class="address-cell address-cell03 fb-float-left">联系电话</div>
+                               <div class="address-cell address-cell04 fb-float-left">操作</div>
+                               <div class="address-cell address-cell05 fb-float-left"></div>
+                           </div>
+                           <div class="address-item clearfix default">
+                               <div class="address-cell address-cell01 fb-float-left">收货人</div>
+                               <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
+                               <div class="address-cell address-cell03 fb-float-left">13000000000</div>
+                               <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon()">修改</a> / <a  class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
+                               <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
+                           </div>
+                           <div class="address-item clearfix">
+                               <div class="address-cell address-cell01 fb-float-left">收货人</div>
+                               <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
+                               <div class="address-cell address-cell03 fb-float-left">13000000000</div>
+                               <div class="address-cell address-cell04 fb-float-left"><a class="fb-color-ccc" onclick="update_icon()">修改</a> / <a  class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
+                               <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
+                           </div>
+                           <div class="address-item clearfix">
+                               <div class="address-cell address-cell01 fb-float-left">收货人</div>
+                               <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
+                               <div class="address-cell address-cell03 fb-float-left">13000000000</div>
+                               <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon()">修改</a> / <a class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
+                               <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
+                           </div>
+                           <div class="address-item clearfix">
+                               <div class="address-cell address-cell01 fb-float-left">收货人</div>
+                               <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
+                               <div class="address-cell address-cell03 fb-float-left">13000000000</div>
+                               <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon()">修改</a> / <a class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
+                               <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
+                           </div>
+                       </div><!-- address-list end-->
+                        <div class="add-address">
+                            <div class="add-address-title fb-color-333 fb-font16">
+                                新增地址+
+                            </div>
+                            <form id="addAddress" action="flow.php" onsubmit="return addAddress()">
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14">详细收货地址</label>
+                                     <div class="input-b fb-inlineBlock">
+                                         <select name="" id="" class="fb-inlineBlock">
+                                             <option value="">中国大陆</option>
+                                         </select>
+                                         <input type="text" id="city" name="" class="fb-inlineBlock city" style="width:300px;margin-left:18px;"/>
+                                     </div>
+                                 </div>
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14"></label>
+                                     <div class="input-b fb-inlineBlock">
+                                        <textarea name="" id="" class="dec"></textarea>
+                                     </div>
+                                 </div>
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14">收货人</label>
+                                     <div class="input-b fb-inlineBlock">
+                                        <input type="text" name="consignee" class="fb-inlineBlock name" style="width:300px;"/>
+                                     </div>
+                                 </div>
+                                 <div class="input-item">
+                                     <label class="fb-inlineBlock fb-color-666 fb-font14">手机号码</label>
+                                     <div class="input-b fb-inlineBlock">
+                                        <input type="text" name="mobile" class="fb-inlineBlock tell" style="width:300px;"/>
+                                     </div>
+                                 </div>
+                                 <div class="input-check">
+                                    <input type="checkbox" name='123' id="checkbox" />
+                                    <label class="fb-color-aaa fb-font14" for="checkbox">设置为默认收货地址</label>
+
+                                 </div>
+                                 <input type="hidden" name="step" value="consignee">
+                                 <input type="hidden" name="act" value="checkout">
+                                 <input name="address_id" type="hidden" value="">
+                                 <button class="opa_active" >保存</button>
+                            </form>
+                        </div>
+                   </div>
+                </div><!-- user-right end-->
+
+            </div>
+            <script src="{$ec_themes}/js/Popt.js"></script>
+            <script src="{$ec_themes}/js/cityJson.js"></script>
+            <script src="{$ec_themes}/js/citySet.js"></script>
+
+            <script>
+            function update_icon(){
+                var top = $(window).scrollTop();
+                $("body").css({"overflow":"hidden"})
+                $(".update-address").fadeIn(200).css({"top":top});
+            }
+            $(".update-address .close").on("click",function(){
+                $(".update-address").fadeOut(200);
+                $("body").css({"overflow":"auto"})
+            })
+            function addAddress(){
+                var city = $("#city").val(),
+                dec=$("#addAddress").find(".dec").val(),
+                name=$("#addAddress").find(".name").val(),
+                tell=$("#addAddress").find(".tell").val();
+                if(city.split("-").length < 3){
+                    $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
+                }else if(dec.length <= 0){
+                    $fb.fbNews({"content":"请完善你的详情地址","type":"warning"});
+                }else if(name.length <= 0){
+                    $fb.fbNews({"content":"收货人不可为空","type":"warning"});
+                }else if(!$fb.expPhone(tell)){
+                    $fb.fbNews({"content":"手机号码格式错误","type":"warning"});
+                }else{
+                    $fb.fbNews({"content":"增加地址成功","type":"success"});
+                }
+                return false;
+            }
+            function upAddress(){
+                var city = $("#city2").val(),
+                dec=$("#upAddress").find(".dec").val(),
+                name=$("#upAddress").find(".name").val(),
+                tell=$("#upAddress").find(".tell").val();
+                if(city.split("-").length < 3){
+                    $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
+                }else if(dec.length <= 0){
+                    $fb.fbNews({"content":"请完善你的详情地址","type":"warning"});
+                }else if(name.length <= 0){
+                    $fb.fbNews({"content":"收货人不可为空","type":"warning"});
+                }else if(!$fb.expPhone(tell)){
+                    $fb.fbNews({"content":"手机号码格式错误","type":"warning"});
+                }else{
+                    $fb.fbNews({"content":"修改地址成功","type":"success"});
+                    $(".update-address").fadeOut(200);
+                    $("body").css({"overflow":"auto"})
+
+                }
+                return false;
+            }
+            $("#city").click(function (e) {
+                $(this).blur();
+                SelCity(this,e);
+            });
+            $("#city2").click(function (e) {
+                $(this).blur();
+                SelCity(this,e);
+            });
+            $(".address-cell05 span").on("click",function(){
+                 $fb.fbNews({"content":"设置默认地址成功","type":"success"});
+                 $(this).parents(".address-item ").addClass("default").siblings(".address-item ").removeClass("default")
+            })
+            $("#checkbox").change(function(){
+                if($(this).is(":checked")){
+                    $(this).parents(".input-check").addClass("checked")
+                }else{
+                    $(this).parents(".input-check").removeClass("checked")
+
+                }
+            })
+            function deleteAddress (id) {
+                $fb.showModal({
+                    title:"提示",
+                    content:"是否删除该地址？"
+                },function(){
+                   $fb.fbNews({"content":"删除成功","type":"success"})
+                })
+
+            }
+
+            </script>
+            <!-- {/if} -->
+            <!-- {if $step eq "checkout"}  -->
+            <div class="padd40 paddtb60" style="padding-top:20px">
+                <form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)" target="_blank">
+                <div class="placeOrder">
+                    <div class="placeOrder-Info">
+                        <div class="info-map">
+                            <div class="info-map-title fb-font14 fb-color-333">确认地址</div>
+                            <div class="info-map-left fb-inlineBlock fb-font14 fb-color-333">
+                                寄往:
+                            </div>
+                            <div class="info-map-right  fb-inlineBlock">
+                                <!-- {if $consignee_list} -->
+                                <!-- {foreach from=$consignee_list item=consignee key=sn} -->
+                                <div class="info-map-item {if $consignee.is_default == 1} checked{/if}">
+                                    <div class="info-cell fb-inlineBlock info-cell01 ">
+                                        <input type="radio" name="address_id" value="{$consignee.address_id}" {if $consignee.is_default == 1} checked{/if}/>
+                                        <div class="info-checkbox"></div>
+                                    </div>
+                                    <div class="info-cell fb-inlineBlock info-cell02  fb-font16 f">
+                                        {$consignee.region|escape}{$consignee.address|escape}
+                                    </div>
+                                    <div class="info-cell fb-inlineBlock info-cell03 fb-font16 ">{$consignee.consignee|escape}</div>
+                                    <div class="info-cell fb-inlineBlock info-cell04 fb-font16 ">{$consignee.mobile|escape}</div>
+                                </div>
+                                <!-- {/foreach} -->
+                                <!-- {else} -->
+                                <!-- 没有地址 -->
+                                <div class="noMap fb-font16 fb-color-aaa">
+                                    你还没有添加地址 <a class="fb-font15 opa_active" href="user.php?act=address_list">点击去添加</a>
+                                </div>
+                                <!-- {/if} -->
+                            </div>
+                        </div>
+                        <div class="info-remarks">
+                            <div class="info-remarks-left fb-inlineBlock fb-font14 fb-color-333">
+                                备注:
+                            </div>
+                            <div class="info-remarks-right  fb-inlineBlock">
+                                <textarea name="postscript" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart">
+                        <div class="cart-title fb-font14 fb-color-333">
+                            <div class="cart-cell fb-inlineBlock cart-cell02">商品</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell03">性质</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell04">单价（元）</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell05">押金（元）</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell06">数量</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell07">小计</div>
+                        </div>
+                        <!-- {foreach from=$goods_list item=goods} -->
+                        <div class="cart-item">
+                            <div class="cart-cell fb-inlineBlock cart-cell02">
+                                <div class="product">
+                                    <div class="img fb-inlineBlock " style="background-image:url(images/2.png)"></div>
+                                    <div class="test fb-inlineBlock fb-font16" >商品</div>
+                                </div>
+                            </div>
+                            <div class="cart-cell fb-inlineBlock cart-cell03  fb-font16 fb-color-666">
+                                购买
+                            </div>
+                            <div class="cart-cell fb-inlineBlock cart-cell04 fb-font16 fb-color-666">{$goods.formated_goods_price}</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">不需要押金</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell06">
+                                <div class="num">
+                                    <div class="number fb-inlineBlock fb-font14 fb-color-666">x<span>{$goods.goods_number}</span></div>
+                                </div>
+                            </div>
+                           <div class="cart-cell fb-inlineBlock cart-cell07 fb-font16 fb-color-666">{$goods.formated_subtotal}</div>
+                           <input type="hidden" name="rec_id[]" value="{$goods.rec_id}" />
+                        </div>
+                        <!-- {/foreach} -->
+
+                    </div>
+
+                </div>
+                <div class="cart-count fb-font18 fb-color-333">
+                    <!-- <span>邮费：¥50</span> -->
+                    <span>{$shopping_money}</span>
+                    <input type="hidden" name="step" value="done" />
+                    <button class="opa_active" type="submit">提交订单</button>
+                </div>
+                </form>
+            </div>
+
+            <!-- {/if} -->
+            <!-- {if $step eq "done"}  -->
+
+            <!-- {/if} -->
+        </div>
+    </div>
+    <!-- 主体内容 E -->
+    <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+
+</body>
+<script>
+
+
+</script>
+</html>

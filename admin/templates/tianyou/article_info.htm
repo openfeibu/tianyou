@@ -1,0 +1,362 @@
+{include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,../js/transport_jquery.js,validator.js"}
+{insert_scripts files="../js/region.js"}
+<script charset="utf-8" src="../includes/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="../includes/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+region.isAdmin=true;
+     var editor;
+        KindEditor.ready(function(K) {
+                editor = K.create('#editor_id');
+        });
+</script>
+  <!--内容-->
+  <div class='outArea addAuthor martop-62'>
+    <div class="inArea">
+      <!--标题 left-->
+      <div class='fb-float-left leftDiv publishAct_lefthead'>
+          {include file="tianyou/article_nav.htm"}
+      </div>
+      <!--标题 left end-->
+
+      <!--内容 right-->
+      <div class='rightDiv fb-position-relative publishAct_right martop-62'>
+        {if $article.cat_id == 13}
+        <form action="article.php" id="activeForm" method="post">
+          <input type="hidden" placeholder='' name="article_cat" value="{$article.cat_id}">
+          <div class='input_all'>
+            <label for="">资讯名称</label>
+            <input type="text" placeholder='' name="title" value="{$article.title}">
+          </div>
+          <div class='input_all'>
+            <label for="">资讯类型</label>
+            <select name="activity_type" id="" style="background:url('{$admin_themess}/{$admin_themes}/images/icon2.png') no-repeat 280px center">
+              <option value="资讯类型1">展览</option>
+            </select>
+          </div>
+          <div class='input_all date'>
+            <label for="">活动时间</label>
+            {html_select_date field_order="YMD" prefix="birthday" time=$article.activity_time start_year="-60" end_year="+1" display_days=true month_format="%m"}
+          </div>
+          <div class='input_all'>
+            <label for="">活动地址</label>
+            <select name="province" id="selProvinces" onChange="region.changed(this, 2, 'selCities')"  class="area">
+                <option value="0">{$lang.select_please}</option>
+                {foreach from=$province_list item=province}
+                <option value="{$province.region_id}" {if $article.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                {/foreach}
+            </select>
+            <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')"  class="area">
+                <option value="0">{$lang.select_please}</option>
+                <!-- {foreach from=$city_list item=city} -->
+                <option value="{$city.region_id}" {if $article.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                <!-- {/foreach} -->
+            </select>
+            <select name="district" id="selDistricts"  class="area">
+                <option value="0">{$lang.select_please}</option>
+                <!-- {foreach from=$district_list item=district} -->
+                <option value="{$district.region_id}" {if $article.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                <!-- {/foreach} -->
+            </select>
+
+
+          </div>
+          <div class='input_all'>
+          <label for=""></label>
+            <input name="activity_address" class='win-500' type="text" placeholder='填写详细地址' value="{$article.activity_address}" />
+          </div>
+
+
+          <!--编写正文-->
+
+          <div class='fb-clearfix input_all'>
+              <label  class='fb-float-left' for="">编写正文 </label>
+              <div class='win-720 hei-580 fb-float-left bor-col borRai-3'>
+                <!-- <div class='writeTitle'>
+                  <a href="#"><img src="{$admin_themess}/{$admin_themes}/images/icon5.png" alt=""></a>
+                  <a href="#"><img src="{$admin_themess}/{$admin_themes}/images/icon6.png" alt=""></a>
+                  <a href="#"><img src="{$admin_themess}/{$admin_themes}/images/icon7.png" alt=""></a>
+                </div> -->
+                <div class='write'>
+                    <textarea name="FCKeditor1" id="editor_id">{$article.content}</textarea>
+                </div>
+              </div>
+          </div>
+           <!--编写正文 end-->
+          <div class='input_all'>
+            <label for="">视频url地址</label>
+            <input type="text" placeholder='' name="vedio_url" value="{$article.vedio_url}">
+          </div>
+
+         <div style="height:60px"></div>
+          <div class="input_all ">
+              <input type="hidden" name="file_url" value="" class="file_url"/>
+              <input type="hidden" name="act" value="{$form_action}" />
+              <input type="hidden" name="old_title" value="{$article.title}"/>
+              <input type="hidden" name="id" value="{$article.article_id}" />
+              <button type="submit" class='fb-inlineBlock btn_click btn_warning'>发布</button>
+              <a href="javascript:window.history.go(-1);" class='fb-inlineBlock btn_click btn-common'>返回上一页</a>
+              <button type="reset" class='fb-inlineBlock btn_click btn-common'>重置</button>
+          </div>
+          <a class='fb-inlineBlock fb-position-absolute publishAct_right upload'>
+            <div id="uploader-demo" class="fb-position-relative">
+                <!--用来存放item-->
+                <div id="fileList" class="uploader-list">
+                    <div style="background:url({if $article.file_url}/{$article.file_url}{else}images/img3.jpg{/if}) no-repeat center;background-size:cover;height:165px"></div>
+                </div>
+                <div id="upfengmian" class="iploader-button fb-position-absolute"></div>
+            </div>
+        </a>
+        </form>
+        {elseif $article.cat_id == 14}
+        <form action="article.php" method="post" id="activeForm">
+          <div class='input_all'>
+            <label for="">案例名称</label>
+            <input type="text" placeholder='' name="title" value="{$article.title}">
+          </div>
+          <div class='input_all'>
+            <label for="">案例类型</label>
+            <select name="activity_type" id="" style="background:url('{$admin_themes}/images/icon2.png') no-repeat 280px center">
+              <option value="案例类型1">案例类型1</option>
+            </select>
+          </div>
+          <div class='input_all date'>
+            <label for="">案例陈设时间</label>
+            {html_select_date field_order="YMD" prefix="birthday" time=$article.activity_time start_year="-60" end_year="+1" display_days=true month_format="%m"}
+
+          </div>
+
+          <!--编写正文-->
+
+          <div class='fb-clearfix input_all'>
+              <label  class='fb-float-left' for="">编写正文 </label>
+              <div class='win-720 hei-580 fb-float-left bor-col borRai-3'>
+                <div class='write'>
+                  <textarea name="FCKeditor1" id="editor_id">{$article.content}</textarea>
+                </div>
+              </div>
+          </div>
+           <!--编写正文 end-->
+          <div class='input_all'>
+            <label for="">视频url地址</label>
+            <input type="text" placeholder='' name="vedio_url" value="{$article.vedio_url}">
+          </div>
+
+         <div style="height:60px"></div>
+          <div class="input_all ">
+              <input type="hidden" name="file_url" value="" class="file_url"/>
+              <input type="hidden" name="act" value="{$form_action}" />
+              <input type="hidden" name="old_title" value="{$article.title}"/>
+              <input type="hidden" name="id" value="{$article.article_id}" />
+              <button type="submit" class='fb-inlineBlock btn_click btn_warning'>确定修改</button>
+              <a href="#" class='fb-inlineBlock btn_click btn-common'>返回上一页</a>
+              <button type="reset" class='fb-inlineBlock btn_click btn_danger'>删除该案例</button>
+          </div>
+          <a class='fb-inlineBlock fb-position-absolute publishAct_right upload'>
+            <div id="uploader-demo" class="fb-position-relative">
+                    <!--用来存放item-->
+                <div id="fileList" class="uploader-list">
+                    <div style="background:url({if $article.file_url}/{$article.file_url}{else}images/img3.jpg{/if}) no-repeat center;background-size:cover;height:165px"></div>
+                </div>
+                <div id="upfengmian" class="iploader-button fb-position-absolute"></div>
+            </div>
+          </a>
+        </form>
+        {elseif $article.cat_id == 15}
+        <form action="article.php" method="post" id="activeForm">
+          <div class='input_all'>
+            <label for="">展览服务名称</label>
+            <input type="text" placeholder='' name="active-name" >
+          </div>
+           <div class='input_all'>
+            <label for="">场地大小</label>
+              <input type="text" name="size" placeholder='1099' style="background:url('{$admin_themes}/images/pushact_icon9.png') no-repeat 270px center;" >
+          </div>
+          <div class='fb-clearfix input_all'>
+              <label  class='fb-float-left' for="">简介 </label>
+              <div class='intro-fra win-500 hei-200  fb-float-left scroll'>
+                <textarea name="description" >{$article.content}</textarea>
+              </div>
+          </div>
+
+         <div style="height:60px"></div>
+          <div class="input_all ">
+              <input type="hidden" name="file_url" value="" class="file_url"/>
+              <input type="hidden" name="act" value="{$form_action}" />
+              <input type="hidden" name="old_title" value="{$article.title}"/>
+              <input type="hidden" name="id" value="{$article.article_id}" />
+              <button type="submit" class='fb-inlineBlock btn_click btn_warning'>发布</button>
+              <a href="#" class='fb-inlineBlock btn_click btn-common'>返回上一页</a>
+              <button type="reset" class='fb-inlineBlock btn_click btn-common'>重置</button>
+          </div>
+          <a class='fb-inlineBlock fb-position-absolute publishAct_right upload'>
+            <div id="uploader-demo" class="fb-position-relative">
+                <!--用来存放item-->
+                <div id="fileList" class="uploader-list">
+                    <div style="background:url({if $article.file_url}/{$article.file_url}{else}images/img3.jpg{/if}) no-repeat center;background-size:cover;height:165px"></div>
+                </div>
+                <div id="upfengmian" class="iploader-button fb-position-absolute"></div>
+            </div>
+        </a>
+        </form>
+        {/if}
+        <div class="hei-80"></div>
+      </div>
+      <!--内容 right end-->
+    </div>
+  </div>
+  <!--内容 end-->
+
+</body>
+    <!--引入CSS-->
+<link rel="stylesheet" type="text/css" href="{$admin_themes}/css/webuploader.css">
+
+<!--引入JS-->
+<script type="text/javascript" src="{$admin_themes}/js/webuploader.js"></script>
+<script>
+// 表单验证
+ $fb("#activeForm").formValidator([
+    //   {
+    //     name:"file",
+    //     rules:"required",
+    //     display:"资讯封面不可为空",
+    //   },
+      {
+        name:"active-name",
+        rules:"required",
+        display:"资讯名称不可为空",
+      },
+      {
+        name:"active-date-year",
+        rules:"required",
+        display:"活动时间不可为空",
+      },
+      {
+        name:"active-date-month",
+        rules:"required",
+        display:"活动时间不可为空",
+      },
+      {
+        name:"active-date-day",
+        rules:"required",
+        display:"活动时间不可为空",
+      },
+      {
+        name:"active-city-01",
+        rules:"required",
+        display:"活动地址不可为空",
+      },
+      {
+        name:"active-city-02",
+        rules:"required",
+        display:"活动地址不可为空",
+      },
+      {
+        name:"active-city-03",
+        rules:"required",
+        display:"活动地址不可为空",
+      },
+      {
+        name:"active-city-detail",
+        rules:"required",
+        display:"活动地址不可为空",
+      },
+      {
+        name:"active-con",
+        rules:"required",
+        display:"活动正文不可为空",
+      },
+      {
+        name:"active-type",
+        rules:"required",
+        display:"资讯类型不可为空"
+      }
+
+    ]);
+// 表单验证
+  // 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: 'js/Uploader.swf',
+    // 文件接收服务端。
+    server: 'upload.php?act=upload_article_file',
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#upfengmian',
+    // 只允许选择图片文件。
+    fileVal:"file",
+    fileNumLimit:2,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+// 当有文件添加进来的时候
+var  $list = $(".uploader-list");
+uploader.on( 'fileQueued', function( file ) {
+     var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<div class="img" style="height:165px"></div>' +
+            '</div>'
+            ),
+        $img = $li.find('img');
+    // $list为容器jQuery实例
+      $list.html( $li);
+
+    // 创建缩略图
+    // 如果为非图片文件，可以不用调用此方法。
+    // thumbnailWidth x thumbnailHeight 为 100 x 100
+    uploader.makeThumb( file, function( error, src ) {
+        if ( error ) {
+            $img.replaceWith('<span>不能预览</span>');
+            return;
+        }
+         $li.find(".img").css({"background":"url("+src+") no-repeat center","background-size":"cover"})
+    }, 160, 160);
+});
+// 文件上传过程中创建进度条实时显示。
+uploader.on( 'uploadProgress', function( file, percentage ) {
+    var $li = $( '#'+file.id ),
+        $percent = $li.find('.progress span');
+
+    // 避免重复创建
+    if ( !$percent.length ) {
+        $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+    }
+
+    $percent.css( 'width', percentage * 100 + '%' );
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+uploader.on( 'uploadSuccess', function( file , src) {
+    $('.file_url').val(src['url']);
+    $( '#'+file.id ).addClass('upload-state-done');
+});
+
+// 文件上传失败，显示上传出错。
+uploader.on( 'uploadError', function( file ) {
+    var $li = $( '#'+file.id ),
+        $error = $li.find('div.error');
+
+    // 避免重复创建
+    if ( !$error.length ) {
+        $error = $('<div class="error"></div>').appendTo( $li );
+    }
+
+    $error.text('上传失败');
+});
+
+// 完成上传完了，成功或者失败，先删除进度条。
+uploader.on( 'uploadComplete', function( file ) {
+    uploader.reset();
+    $( '#'+file.id ).find('.progress').remove();
+});
+</script>
+</html>

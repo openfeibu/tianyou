@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <div class="padd30 paddtb60">
+                <div class="activeDe-header fb-position-relative ">
+                    <div class="fb-magnifier fb-position-relative fb-float-left" style="width:900px">
+                        <div class='fb-smallImg fb-position-relative' style="width:900px">
+                            <img width="900" height="360" src="images/activeDe.jpg" />
+                        </div>
+
+                    </div>
+                    <div class="activeDe-right">
+                        <div class="worksInfo">
+                            <div class="worksInfo-name fb-font16">{$article.title|escape:html}</div>
+                            <div class="worksInfo-news fb-font14">
+                                <p>活动类型：{$article.activity_type|escape:html}</p>
+                                <p>活动地址：{$article.activity_address|escape:html}</p>
+                                <p>活动时间：{$article.activity_time}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=" fb-position-absolute college colleged"></div>
+                </div><!--artDe-header end-->
+                <div class="activeCon fb-font16 fb-color-aaa">
+                    {$article.content}
+                </div><!--activeCon end-->
+            </div>
+        </div>
+    </div>
+    <!-- 主体内容 E -->
+    <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+<script>
+
+
+</script>
+</html>

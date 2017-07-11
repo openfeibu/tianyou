@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<body>
+    <!-- 头部 S -->
+    <header>
+        <div class="min1320 fb-position-absolute z999" style="width:100%">
+            <!-- 导航 S-->
+            {include file='library/nav.lbi '}
+
+        <div class="fb-banner-fade fb-position-relative min1320" style="height:500px;">
+            <div class="fb-banner-fade-item fb-position-absolute">
+                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
+            </div>
+            <div class="fb-banner-fade-item fb-position-absolute">
+                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
+            </div>
+            <div class="fb-banner-fade-item fb-position-absolute">
+                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
+            </div>
+            <div class="fb-banner-fade-item fb-position-absolute">
+                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
+            </div>
+            <div class="fb-banner-fade-item fb-position-absolute">
+                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
+            </div>
+            <div class="fb-banner-spot fb-position-absolute">
+                <div class="fb-spot-item fb-spot-item-active fb-inlineBlock"></div>
+                <div class="fb-spot-item fb-inlineBlock"></div>
+                <div class="fb-spot-item fb-inlineBlock"></div>
+                <div class="fb-spot-item fb-inlineBlock"></div>
+                <div class="fb-spot-item fb-inlineBlock"></div>
+            </div>
+           <!--  <div class="fb-banner-prev fb-position-absolute fb-transition"></div>
+            <div class="fb-banner-next fb-position-absolute fb-transition"></div> -->
+        </div>
+    </header>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content w1320">
+        <div class="entrance fb-position-relative">
+            <div class="en01 fb-position-absolute entrance-item">
+                <a href="category.php?id=2">
+                    <img src="{$ec_themes}/images/pic_10.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">陶瓷</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en02 fb-position-absolute entrance-item">
+                <a href="category.php?id=1">
+                    <img src="{$ec_themes}/images/icon_06.png" alt="">
+                    <div class="en-box ">
+                        <span class="fb-position-absolute fb-font14">进入艺术馆</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en03 fb-position-absolute entrance-item">
+                <a href="category.php?id=39">
+                    <img src="{$ec_themes}/images/icon_11.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">木品雕刻</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en04 fb-position-absolute entrance-item">
+                <a href="category.php?id=5">
+                    <img src="{$ec_themes}/images/icon_13.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">奇石玉石</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en05 fb-position-absolute entrance-item">
+                <a href="category.php?id=1">
+                    <img src="{$ec_themes}/images/icon_08.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">中国书画</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en06 fb-position-absolute entrance-item">
+                <a href="category.php?id=40">
+                    <img src="{$ec_themes}/images/pic_13.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">文玩古玩</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en07 fb-position-absolute entrance-item">
+                <a href="category.php?id=4">
+                    <img src="{$ec_themes}/images/pic_15.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">刺绣</span>
+                    </div>
+                </a>
+            </div>
+            <div class="en08 fb-position-absolute entrance-item">
+                <a href="category.php?id=3">
+                    <img src="{$ec_themes}/images/icon_22.png" alt="">
+                    <div class="en-box">
+                        <span class="fb-position-absolute fb-font14">油画</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- 活动资讯 S-->
+        <div class="exService w1320  fb-position-relative">
+            <div class="activeNew-title">
+                <a href="article_cat.php?id=13" class="fb-float-right fb-font16">more</a>
+            </div>
+            <div class="exService-box">
+                <!--{foreach from=$activity_articles item=article name=name}-->
+                <div class="exService-item {if $smarty.foreach.name.iteration ==1}active{/if}">
+                    <div class="img fb-float-left">
+                       <a href="{$article.url}"  style="background:url('{$article.file_url}') no-repeat center;background-size:cover"></a>
+                    </div>
+                    <div class="test fb-float-right">
+                        <div class="con">
+                            <div class="name fb-font18">{$article.title|escape:html}</div>
+                            <div class="defa fb-font16">活动类型：{$article.activity_type}</div>
+                            <div class="defa fb-font16">活动时间：{$article.add_time}</div>
+
+                            <div class="text fb-font14">
+                                {$article.description}
+                            </div>
+                            <a href="{$article.url}" class="fb-font14 fb-float-right">详情</a>
+                        </div>
+                    </div>
+                </div><!-- exService-item end-->
+                <!--{/foreach}-->
+
+            </div>
+            <div class="exService-page fb-position-absolute" index="0">
+                <div class="exService-page-box-overflow fb-position-absolute z999">
+                    <div class="exService-page-box fb-position-relative">
+                        <!--{foreach from=$activity_articles item=article name=name}-->
+                        <div class="{if $smarty.foreach.name.iteration ==1}active{/if} exService-page-item fb-float-left" style="background:url('{$article.file_url}') no-repeat center;background-size:cover;"></div>
+                        <!--{/foreach}-->
+                    </div>
+                </div>
+                <div class="exService-page-prev fb-position-absolute z999 fb-transition">
+
+                </div>
+                <div class="exService-page-next fb-position-absolute z999 fb-transition">
+
+                </div>
+            </div>
+        </div>
+        <!-- 活动资讯 E-->
+        <!-- 陈设案例 S-->
+        <div class="exService w1320  fb-position-relative">
+            <div class="case-title">
+                <a href="article_cat.php?id=14" class="fb-float-right fb-font16">more</a>
+            </div>
+            <div class="exService-box">
+                <!--{foreach from=$case_articles item=article name=name}-->
+                <div class="exService-item {if $smarty.foreach.name.iteration ==1}active{/if}">
+                    <div class="img fb-float-left">
+                       <a href="{$article.url}"  style="background:url('{$article.file_url}') no-repeat center;background-size:cover"></a>
+                    </div>
+                    <div class="test fb-float-right">
+                        <div class="con">
+                            <div class="name fb-font18">{$article.title|escape:html}</div>
+                            <div class="defa fb-font16">活动类型：{$article.activity_type}</div>
+                            <div class="defa fb-font16">活动时间：{$article.add_time} </div>
+                            <div class="text fb-font14">
+                                {$article.description}
+                            </div>
+                            <a href="{$article.url}" class="fb-font14 fb-float-right">详情</a>
+                        </div>
+                    </div>
+                </div><!-- exService-item end-->
+                <!--{/foreach}-->
+            </div>
+            <div class="exService-page fb-position-absolute" index="0">
+                <div class="exService-page-box-overflow fb-position-absolute z999">
+                    <div class="exService-page-box fb-position-relative">
+                        <!--{foreach from=$case_articles item=article name=name}-->
+                        <div class="{if $smarty.foreach.name.iteration ==1}active{/if} exService-page-item fb-float-left" style="background:url('{$article.file_url}') no-repeat center;background-size:cover;"></div>
+                        <!--{/foreach}-->
+                    </div>
+                </div>
+                <div class="exService-page-prev fb-position-absolute z999 fb-transition">
+
+                </div>
+                <div class="exService-page-next fb-position-absolute z999 fb-transition">
+
+                </div>
+            </div>
+        </div>
+        <!-- 陈设案例 E-->
+        <!-- 展览服务 S-->
+        <div class="exService w1320  fb-position-relative">
+            <div class="exService-title">
+                <a href="article_cat.php?id=15" class="fb-float-right fb-font16">more</a>
+            </div>
+            <div class="exService-box">
+                <!--{foreach from=$exhibition_articles item=article name=name}-->
+                <div class="exService-item {if $smarty.foreach.name.iteration ==1}active{/if}">
+                    <div class="img fb-float-left">
+                       <a href="javascript:;"  style="background:url('{$article.file_url}') no-repeat center;background-size:cover"></a>
+                    </div>
+                    <div class="test fb-float-right">
+                        <div class="con">
+                            <div class="name fb-font18">{$article.title|escape:html}</div>
+                            <div class="defa fb-font16">场地大小：{$article.area_size}m²</div>
+                            <div class="defa fb-font16">发布时间：{$article.add_time}</div>
+                            <div class="text fb-font14">
+                                {$article.description}
+                            </div>
+                            <a href="javascript:;" class="fb-font14 fb-float-right">详情</a>
+                        </div>
+                    </div>
+                </div><!-- exService-item end-->
+                <!--{/foreach}-->
+            </div>
+            <div class="exService-page fb-position-absolute" index="0">
+                <div class="exService-page-box-overflow fb-position-absolute z999">
+                    <div class="exService-page-box fb-position-relative">
+                        <!--{foreach from=$exhibition_articles item=article name=name}-->
+                        <div class="{if $smarty.foreach.name.iteration ==1}active{/if} exService-page-item fb-float-left" style="background:url('{$article.file_url}') no-repeat center;background-size:cover;"></div>
+                        <!--{/foreach}-->
+                    </div>
+                </div>
+                <div class="exService-page-prev fb-position-absolute z999 fb-transition">
+
+                </div>
+                <div class="exService-page-next fb-position-absolute z999 fb-transition">
+
+                </div>
+            </div>
+        </div>
+        <!-- 展览服务 E-->
+        <!-- 作者排行榜 S-->
+        <div class="author w1250" id='author'>
+            <div class="author-title">
+
+            </div>
+            <div class="author-content">
+                <div class="big-author clearfix">
+                    <!-- {foreach from=$authors item=author key=key name=name} -->
+                    <!-- {if $key < 10} -->
+                    <div class="big-author-item fb-position-relative fb-float-left">
+                        <a href="">
+                            <span class="No{if $smarty.foreach.name.iteration <10}0{/if}{$smarty.foreach.name.iteration} fb-position-absolute"></span>
+                            <img src="{$author.author_avatar}" alt="{$author.author_name}" />
+                            <div class="big-author-bg fb-position-absolute fb-font14">
+                                <p>
+                                    {$author.author_name}<br />
+                                    已有{$author.goods_count}件作品
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- {/if} -->
+                    <!-- {/foreach} -->
+                </div>
+                <div class="small-author clearfix">
+                    <!-- {foreach from=$authors item=author key=key name=name} -->
+                    <!-- {if $key > 9} -->
+                    <div class="small-author-item fb-transition fb-float-left">
+                        <a href="">
+                            <div class="img fb-float-left">
+                                <img src="{$author.author_avatar}" alt="{$author.author_name}" />
+                            </div>
+                            <div class="test">
+                                <p class="name fb-font14">{$author.author_name}</p>
+                                <p class="pro-num fb-font14">共{$author.goods_count}件作品</p>
+                            </div>
+                        </a>
+                    </div><!-- small-author end-->
+                    <!-- {/if} -->
+                    <!-- {/foreach} -->
+                </div>
+            </div>
+        </div>
+        <!-- 作者排行榜 E-->
+    </div>
+    <!-- 主体内容 E -->
+<!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+<script>
+    $fb(".fb-banner-fade").banner_fade({
+         speed : 1200,//unit: 滑动速度
+         interval : 5000,//unit:轮播图间隔
+    });
+    $fb(".entrance-item").MouseDirection({
+        enter:function($element, dir,i){
+            var dom = $element.eq(i);
+            if(dir == "top"){
+                dom.find(".en-box").css({"top":-dom.height(),"left":0,"opacity":0.7,"display":"block"}).animate({"top":0,"opacity":0.7},300)
+            }else if(dir == "left"){
+                dom.find(".en-box").css({"left":-dom.width(),"top":0,"opacity":0.7,"display":"block"}).animate({"left":0,"opacity":0.7},300)
+            }else if(dir == "bottom"){
+                dom.find(".en-box").css({"top":dom.height(),"left":0,"opacity":0.7,"display":"block"}).animate({"top":0,"opacity":0.7},300)
+            }else if(dir == "right"){
+                dom.find(".en-box").css({"left":dom.width(),"top":0,"opacity":0.7,"display":"block"}).animate({"left":0,"opacity":0.7},300)
+            }
+        },
+        leave:function($element, dir,i){
+            var dom = $element.eq(i);
+            if(dir == "top"){
+                dom.find(".en-box").stop().animate({"top":-dom.height(),"opacity":0.7},300)
+            }else if(dir == "left"){
+                dom.find(".en-box").stop().animate({"left":-dom.width(),"opacity":0.7},300)
+            }else if(dir == "bottom"){
+                dom.find(".en-box").stop().animate({"top":dom.height(),"opacity":0.7},300)
+            }else if(dir == "right"){
+                dom.find(".en-box").stop().animate({"left":dom.width(),"opacity":0.7},300)
+            }
+        }
+    })
+
+    </script>
+</html>

@@ -1,0 +1,139 @@
+{include file="tianyou/head.htm"}
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--标题 left-->
+            <div class='fb-float-left leftDiv publishAct_lefthead'>
+                {include file="tianyou/order_nav.htm"}
+            </div>
+            <!--标题 left end-->
+            <!--内容 right-->
+            <div class='rightDiv fb-position-relative publishAct_right'>
+                <div class='return-page marL-10'>
+                    <a class="marL-30 " href="javascript:window.history.go(-1);"> 返回上一页</a>
+                </div>
+                <div class='refund_notDealmessDetail'>
+                    <form action="order.php" method="post">
+                    <div class='bor-bot hei-80 fb-clearfix'>
+                        <div class='top_left fb-float-left'>
+                            <div class="img_right">
+                                <img src="/{$order.avatar}" alt="{$order.user_name}" class="avatar">
+                                <div class='text_right'>
+                                    <span>{$order.user_name|default:$lang.anonymous}</span>
+                                    <br>
+                                    <span>地区</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class='fb-float-right lh-80' style='margin-right:30px;'>订单编号：{$order.order_sn}</p>
+                    </div>
+
+                    <div class='proDiv bor-bot fb-clearfix'>
+                        {foreach from=$goods_list item=goods}
+                        <div class="fb-inlineBlock mar-10 fb-txtAlign-center">
+                            <img src="/{$goods.goods_thumb}" alt="{$goods.goods_name}">
+                            <h2> {$goods.goods_name}</h2>
+                            <h3> 陶瓷</h3>
+                            <input name="send_number[{$goods.rec_id}]" type="hidden" id="send_number_{$goods.rec_id}" value="{$goods.goods_number}" size="10" maxlength="11" {$goods.readonly}/>
+                        </div>
+                        {/foreach}
+                    </div>
+                    <div class="proDiv pro_detail bor-bot">
+                        <p class='pro_detail_p1'> <span>下单时间:</span> {$order.formated_add_time}</p>
+                        <p class='pro_detail_p2'> <span>订单金额：</span> {$order.formated_goods_amount}</p>
+                        <p class='pro_detail_p3'> <span>备注：</span> {$order.postscript}</p>
+                        <p class='pro_detail_p3'> <span>状态：</span> {$lang.ps[$order.pay_status]}</p>
+                    </div>
+                    {if $order.pay_status == 2 && $order.shipping_status == 0}
+
+                    <div class="proDiv pro_detail bor-bot">
+
+                        <div class='proformDiv'>
+                            <label for="">填写物流信息</label>
+                        </div>
+                        <div class='proformDiv'>
+                            <label for="">物流公司</label>
+                            <select name="" id="" style="background:url('images/icon2.png') no-repeat 280px center">
+                                {foreach from=$shipping_list item=shipping}
+                                <option value="{$shipping.shipping_id}">{$shipping.shipping_name}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class='proformDiv'>
+                            <label for="">物流单号</label>
+                            <input type="text" name="invoice_no" />
+                        </div>
+
+                        <div class="fb-clearfix" style="margin-bottom:20px">
+                            <div class="input_all refund_Detail_click fb-float-right">
+                                <a href="#" class='fb-inlineBlock btn_click btn_warning2 col-white opa-4 '>留言给卖家</a>
+                                <!-- <a href="#" class='fb-inlineBlock btn_click btn_warning  col-white'>已发货，确认处理信息</a> -->
+                                <button class='fb-inlineBlock btn_click btn_warning  col-white'>已发货，确认处理信息</button>
+                                <input type="hidden" name="act" value="delivery_ship">
+                                <input type="hidden" name="order_id" value="{$order.order_id}">
+                            </div>
+                        </div>
+                    </div>
+                    {else if $order.order_status == 5}
+                    <div class="proDiv pro_detail bor-bot">
+                        <p class='pro_detail_p1'> 物流信息</p>
+                        <p class='pro_detail_p2'>物流公司：{$order.shipping_name}</p>
+                        <p class='pro_detail_p3'> 物流单号：{$order.invoice_no}</p>
+                    </div>
+                    <div id="queryContext" class="fix"></div>
+                    <!--物流流程信息-->
+                    <!--
+                    <div class="proDiv pro_detail bor-bot flow_path fb-position-relative ">
+                        <div class="flowMess ">
+                            <span class='flow_day'>周几</span>
+                            <span class='fb-inlineBlock'>00时00分00秒</span>
+                            <em class='fb-inlineBlock'> 物流返回信息</em>
+                            <br>
+
+                            <span class='fb-inlineBlock'>00时00分00秒</span>
+                            <em class='fb-inlineBlock'> 物流返回信息</em>
+                        </div>
+                        <div class="flowMess ">
+                            <span class='flow_day'>周几</span>
+                            <span class='fb-inlineBlock'>00时00分00秒</span>
+                            <em class='fb-inlineBlock'> 物流返回信息</em>
+
+                        </div>
+
+                        <div class="flowMess">
+                            <span class='flow_day'>周几</span>
+                            <span class='fb-inlineBlock'>00时00分00秒</span>
+                            <em class='fb-inlineBlock'> 物流返回信息</em>
+                            <br>
+                            <span class='fb-inlineBlock'>00时00分00秒</span>
+                            <em class='fb-inlineBlock'> 物流返回信息</em>
+                        </div>
+
+
+
+                    </div>
+                    -->
+                    <!--物流流程信息 end-->
+                    {/if}
+                    {insert_scripts files="../plugins/kdniao/jquery.min.js"}
+                    {insert_scripts files="../plugins/kdniao/kdniao.js"}
+                    </form>
+                    <!--物流流程信息-->
+                    <!--物流流程信息 end-->
+                </div>
+                <div style='height:80px'>
+                </div>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+    <!--原因 弹出框-->
+    <!--原因 弹出框 end-->
+    <script type="text/javascript">
+        {if $order.order_status=5}
+        kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
+        {/if}
+    </script>
+</body>
+</html>

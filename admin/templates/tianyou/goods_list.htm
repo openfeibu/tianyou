@@ -1,0 +1,149 @@
+{if $full_page}
+{include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+  <!--内容-->
+  <div class='outArea addAuthor martop-62'>
+    <div class="inArea">
+      <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                <div><a href="goods.php?act=add" >发布艺术品</a></div>
+                <div><a href="goods.php?act=list" class="aTitle-hover">编辑艺术品</a></div>
+            </div>
+            <!--发布艺术品 left end-->
+
+      <!--内容 right-->
+        <div class=' rightDiv fb-position-relative publishAct_right'>
+
+            <div class="publishAct_choseEditCon">
+                <div class="">
+                    <form class="fb-clearfix" action="javascript:searchGoods()" name="searchForm">
+                        <div  class="fb-float-left" >
+                            <select name="cat_id" id="" placeholder="类型" class="fb-float-left">
+                                <option value="0">全部类型</option>
+                                {$cat_list}
+                            </select>
+                            <!-- <select name="" id="" placeholder="题材" class="fb-float-left">
+                                <option value="0">全部题材</option>
+                                <option value="1">刺绣</option>
+                                <option value="1">刺绣</option>
+                                <option value="1">刺绣</option>
+                                <option value="1">刺绣</option>
+                                <option value="1">刺绣</option>
+                            </select> -->
+                            <select name="nature" id="nature" placeholder="性质" class="fb-float-left">
+                                <option value="0">全部</option>
+                                <option value="1">可租可买</option>
+                                <option value="2">只租</option>
+                                <option value="3">只买</option>
+                            </select>
+                            <input class="sear fb-float-left" type="text" name="keyword" placeholder="请输入要搜索的关键字">
+                            <input type="submit" value="" class="fb-float-left submit-btn">
+                        </div>
+                    </form>
+                </div>
+{literal}
+<script language="JavaScript">
+    function searchGoods()
+    {
+{/literal}
+        {if $smarty.get.act neq "trash"}
+        listTable.filter['cat_id'] = document.forms['searchForm'].elements['cat_id'].value;
+        listTable.filter['nature'] = document.forms['searchForm'].elements['nature'].value;
+        {/if}
+{literal}
+        listTable.filter['keyword'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+        listTable.filter['page'] = 1;
+
+        listTable.loadList();
+    }
+</script>
+{/literal}
+            </div>
+            <div class="list-div" id="listDiv">
+{/if}
+            <table class="art-table">
+                <colgroup>
+                    <col style="width:5%">
+                    <col style="width:15%">
+                    <col style="width:10%">
+                    <col style="width:20%">
+                    <col style="width:10%">
+                    <col style="width:10%">
+                    <col style="width:10%">
+                    <col style="width:10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <td>id</td>
+                    <td>艺术品名称</td>
+                    <td>艺术品封面</td>
+                    <td>价格</td>
+                    <td>库存</td>
+                    <td>类型</td>
+                    <td>性质</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 循环体 -->
+                {foreach from=$goods_list item=goods}
+                <tr>
+                    <td>{$goods.goods_id}</td>
+                    <td>{$goods.goods_name|escape:html}</td>
+                    <td><img src="{$goods.goods_thumb}" alt="{$goods.goods_name|escape:html}"></td>
+                    <td>
+                        购买（元）：{$goods.shop_price} <br />
+                        租赁（元）：{$goods.rent} <br />
+                        押金（元）：{$goods.deposit}
+                    </td>
+                    <td>{$goods.goods_number}</td>
+                    <td>刺绣</td>
+                    <td>{$goods.nature_desc}</td>
+                    <td>
+                        <a style="color:#007560;" href="goods.php?act=edit&goods_id={$goods.goods_id}">详情</a>
+                        <span class="delete-danger opa_active" onclick="artDelete(12)">删除</span>
+                    </td>
+                </tr>
+                <tr></tr>
+                {/foreach}
+                <!-- 循环体 -->
+
+                <tr></tr>
+                <!-- 循环体 -->
+
+
+                </tbody>
+
+            </table>
+
+            <div class="pageDiv" id="page-table">
+                {include file="tianyou/page.htm"}
+            </div>
+{if $full_page}
+            </div>
+        </div>
+      <!--内容 right end-->
+    </div>
+  </div>
+  <!--内容 end-->
+
+</body>
+<script>
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+
+    function artDelete(id){
+        $fb.showModal({
+          title:"天佑艺术馆",
+          content:"是否确定删除该艺术品"
+        },function(){
+          $fb.fbNews({type:"success",content:"点击了删除"+id})
+        })
+    }
+</script>
+</html>
+{/if}

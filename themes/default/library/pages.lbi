@@ -1,0 +1,13 @@
+<div class="page">
+    <div class="allprev fb-inlineBlock fb-transition"><a href="{$pager.page_first}"></a></div>
+    <div class="prev fb-inlineBlock fb-transition"><a href="{$pager.page_prev}"></a></div>
+    <div class="con fb-inlineBlock fb-font14">
+    <!--{foreach from=$pager.page_number key=key item=item}-->
+      <!-- {if $pager.page eq $key} -->
+     {$key}
+      <!-- {/if} -->
+    <!--{/foreach}-->
+    /{$pager.page_count}</div>
+    <div class="next fb-inlineBlock fb-transition"><a href="{$pager.page_next}"></a></div>
+    <div class="allnext fb-inlineBlock fb-transition"><a href="{$pager.page_last}"></a></div>
+</div>

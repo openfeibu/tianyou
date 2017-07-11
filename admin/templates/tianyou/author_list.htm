@@ -1,0 +1,115 @@
+{if $full_page}
+{include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+  <!--内容-->
+  <div class='outArea addAuthor martop-62'>
+    <div class="inArea">
+      <!--发布 left-->
+      <div class='fb-float-left leftDiv'>
+        <div><a href="author.php?act=add" >发布作者</a></div>
+        <div><a href="author.php?act=list" class="aTitle-hover">编辑作者</a></div>
+      </div>
+      <!--发布 left end-->
+
+      <!--内容 right-->
+        <div class=' rightDiv fb-position-relative publishAct_right'>
+
+            <div class="publishAct_choseEditCon">
+                <div class="">
+                    <form class="fb-clearfix" action="">
+                        <div  class="fb-float-left" >
+                            <input class="sear fb-float-left" type="text" placeholder="请输入要搜索的关键字">
+                            <input type="submit" value="" class="fb-float-left submit-btn">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="list-div" id="listDiv">
+{/if}
+
+            <table class="art-table">
+                <colgroup>
+                    <col style="width:5%">
+                    <col style="width:10%">
+                    <col style="width:10%">
+                    <col style="width:10%">
+                    <col style="width:35%">
+                    <col style="width:20%">
+                    <col style="width:10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <td>id</td>
+                    <td>作者名称</td>
+                    <td>作者头像</td>
+                    <td>出生年月日</td>
+                    <td>简介</td>
+                    <td>已有作品</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 循环体 -->
+                {foreach from=$author_list item=author}
+                <tr>
+                    <td>{$author.author_id}</td>
+                    <td>{$author.author_name}</td>
+                    <td><img src="/{$author.author_avatar}" alt="{$author.author_name}"></td>
+                    <td>
+                        {$author.birthday}
+                    </td>
+                    <td>
+                        <p style="padding:5px">{$author.content}</p>
+                    </td>
+                    <td class="td2">
+                        {foreach from=$author.goods_list item=goods}
+                        <span><img src="/{$goods.goods_thumb}" alt="{$goods.goods_name}"></span>
+                        {/foreach}
+                    </td>
+                    <td>
+
+                        <a style="color:#007560;" href="author.php?act=edit&author_id={$author.author_id}">详情</a>
+                        <span class="delete-danger opa_active" onclick="artDelete({$author.author_id})">删除</span>
+                    </td>
+                </tr>
+                <tr></tr>
+                {/foreach}
+
+                </tbody>
+
+            </table>
+
+            <div class="pageDiv" id="page-table">
+                {include file="tianyou/page.htm"}
+            </div>
+
+{if $full_page}
+            </div>
+        </div>
+      <!--内容 right end-->
+    </div>
+  </div>
+  <!--内容 end-->
+
+</body>
+
+<script type="text/javascript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    function artDelete(id){
+        $fb.showModal({
+          title:"天佑艺术馆",
+          content:"是否确定删除该作者"
+        },function(){
+            listTable.delete(id);
+            // $fb.fbNews({type:"success",content:"点击了删除"+id})
+        })
+    }
+</script>
+</html>
+{/if}

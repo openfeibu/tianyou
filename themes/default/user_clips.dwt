@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<script type="text/javascript" src="{$ec_themes}/js/webuploader.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{$ec_themes}/css/webuploader.css">
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <div class="user clearfix">
+                <div class="user-left fb-float-left">
+                    <div class="user-image">
+                        <img src="{$ec_themes}/images/tx.png" alt="" />
+                    </div>
+                    <ul class="user-nav">
+                        <li><a href="" class="fb-color-aaa fb-font16">设置地址</a></li>
+                        <li class="active"><a href="" class="fb-color-aaa fb-font16">个人资料</a></li>
+                        <li><a href="" class="fb-color-aaa fb-font16">安全设置</a></li>
+                        <li><a href="" class="fb-color-aaa fb-font16">收藏项目</a></li>
+                    </ul>
+                </div><!-- user-left end-->
+                <!--{if $action eq 'collection_list'} -->
+                <div class="user-right fb-float-left">
+                      <div class="collection-title">
+                        <div class="con-search fb-float-right">
+                          <input type="text" placeholder="请输入要搜索的关键字">
+                          <input type="submit" value="">
+                        </div>
+                      </div>
+                      <div class="paddtb60 collection fb-waterfall-con fb-position-relative">
+
+                      </div>
+                </div><!-- user-right end-->
+                <script>
+                    var data = [
+                    {"img":"images/1.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"500",
+                    "href":"#"},
+                    {"img":"images/2.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"200",
+                    "href":"#"},
+                    {"img":"images/3.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"300",
+                    "href":"#"},
+                    {"img":"images/4.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"400",
+                    "href":"#"},
+                    {"img":"images/5.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"400",
+                    "href":"#"},
+                    {"img":"images/6.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"500",
+                    "href":"#"},
+                    {"img":"images/7.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"300",
+                    "href":"#"},
+                    {"img":"images/8.png",
+                    "name":"艺术品名称",
+                    "popularity":"21人气",
+                    "width":"192",
+                    "height":"200",
+                    "href":"#"},
+                    ];
+                    $fb.waterfall({
+                              "el":".fb-waterfall-con",
+                              "margin":20,
+                              "column" : 5,//unit:列数
+                              'data':data
+                          });
+                </script>
+                <!-- {/if} -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 主体内容 E -->
+   <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+{include file="tianyou/head.htm"}
+<link rel="stylesheet" type="text/css" href="{$admin_themes}/css/webuploader.css">
+<script type="text/javascript" src="{$admin_themes}/js/webuploader.js"></script>
+<script charset="utf-8" src="../includes/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="../includes/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+     var editor;
+        KindEditor.ready(function(K) {
+                editor = K.create('#editor_id');
+        });
+</script>
+  <!--头部 end-->
+
+  <!--内容-->
+  <div class='outArea addAuthor martop-62'>
+    <div class="inArea">
+      <!--发布 left-->
+      <div class='fb-float-left leftDiv'>
+        <div><a href="author.php?act=add"  {if $is_add}class="aTitle-hover"{/if}>发布作者</a></div>
+        <div><a href="author.php?act=list" {if !$is_add}class="aTitle-hover"{/if}>编辑作者</a></div>
+      </div>
+      <!--发布 left end-->
+
+      <!--内容 right-->
+      <div class='rightDiv fb-position-relative author_right'>
+             <div class='return-page  mar-10'>
+               <a class="marL-30 " href="javascript:window.history.go(-1);"> 返回上一页</a>
+            </div>
+        <form action="author.php" id="authorForm" method="post">
+          <div class='input_all'>
+            <label for="">作者名字</label>
+            <input type="text" placeholder='' name="author_name" value="{$author.author_name}">
+          </div>
+            <div class='input_all date'>
+            <label for="">出生年月日</label>
+                {html_select_date field_order="YMD" prefix="birthday" time=$author.birthday start_year="-60" end_year="+1" display_days=true month_format="%m"}
+            </div>
+          <!--国画题材-->
+          <div class='fb-clearfix input_all'>
+              <label  class='fb-float-left' for="">简介 </label>
+              <div class='intro-fra win-510 fb-float-left hei-400'>
+                  <textarea id="editor_id" name="content">{$content}</textarea>
+              </div>
+          </div>
+          <div class='fb-clearfix input_all'>
+              <label  class='fb-float-left' for="">已有作品 </label>
+              <div class="fb-position-relative "  style="margin-left:150px;">
+              {foreach from=$goods_list item=goods}
+              <div class='fb-inlineBlock fb-position-relative mar-r-20 mar-b-20'>
+                  <a href="goods.php?act=edit&goods_id={$goods.goods_id}" class='win-160-w fb-inlineBlock'><img src="/{$goods.goods_thumb}" alt="{$goods.goods_name}">
+                  </a>
+              </div>
+              {/foreach}
+
+              </div>
+          </div>
+          <div style="height:60px">
+
+          </div>
+
+          <div class="input_all ">
+              <input type="hidden" name="act" value="{$form_act}" />
+              <input type="hidden" name="id" value="{$author.author_id}" />
+              <button type="submit" class='fb-inlineBlock btn_click btn_warning'>提交</button>
+              <a href="javascript:window.history.go(-1);" class='fb-inlineBlock btn_click btn-common'>返回上一页</a>
+              <button type="reset" class='fb-inlineBlock btn_click btn_danger'>删除该作者</button>
+          </div>
+        </form>
+          <a class='fb-inlineBlock fb-position-absolute author_right perPhoto'>
+              <div id="uploader-demo" class="fb-position-relative">
+                    <!--用来存放item-->
+                    <div id="fileList" class="uploader-list">
+                      <div style="background:url({if $author.author_avatar}/{$author.author_avatar}{else}images/img3.jpg{/if}) no-repeat center;background-size:cover;height:165px"></div>
+                    </div>
+                    <div id="upfengmian" class="iploader-button fb-position-absolute"></div>
+                </div>
+          </a>
+          <div class="hei-80">
+
+          </div>
+      </div>
+      <!--内容 right end-->
+    </div>
+  </div>
+  <!--内容 end-->
+
+</body>
+
+</html>
+<script>
+  //删除作者
+  $(".btn_danger").on("click",function(){
+    $fb.showModal({
+      title:"天佑艺术馆",
+      content:"是否确定删除该作者"
+    },function(){
+      $fb.fbNews({type:"success",content:"点击了删除"})
+    })
+  })
+  $fb("#authorForm").formValidator([
+      {
+        name:"author-name",
+        rules:"required",
+        display:"作者名称必填",
+        maxLength:"12",
+        maxdisplay:"名称不可大于12个字符",
+        minLength:"1",
+        mindisplay:"名称不可小于12个字符"
+      },
+      {
+        name:"author-con",
+        rules:"required",
+        display:"作者简介必填",
+      },
+    ]);
+  // 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: 'js/Uploader.swf',
+    // 文件接收服务端。
+    server: 'http://webuploader.duapp.com/server/fileupload.php',
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#upfengmian',
+    // 只允许选择图片文件。
+    fileVal:"file",
+    fileNumLimit:2,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+// 当有文件添加进来的时候
+var  $list = $(".uploader-list");
+uploader.on( 'fileQueued', function( file ) {
+    var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<div class="img" style="height:165px"></div>' +
+            '</div>'
+            ),
+        $img = $li.find('img');
+    // $list为容器jQuery实例
+      $list.html( $li);
+
+    // 创建缩略图
+    // 如果为非图片文件，可以不用调用此方法。
+    // thumbnailWidth x thumbnailHeight 为 100 x 100
+    uploader.makeThumb( file, function( error, src ) {
+        if ( error ) {
+            $img.replaceWith('<span>不能预览</span>');
+            return;
+        }
+        $li.find(".img").css({"background":"url("+src+") no-repeat center","background-size":"cover"})
+    }, 160, 160);
+});
+// 文件上传过程中创建进度条实时显示。
+uploader.on( 'uploadProgress', function( file, percentage ) {
+    var $li = $( '#'+file.id ),
+        $percent = $li.find('.progress span');
+
+    // 避免重复创建
+    if ( !$percent.length ) {
+        $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+    }
+
+    $percent.css( 'width', percentage * 100 + '%' );
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+uploader.on( 'uploadSuccess', function( file ) {
+    $( '#'+file.id ).addClass('upload-state-done');
+});
+
+// 文件上传失败，显示上传出错。
+uploader.on( 'uploadError', function( file ) {
+    var $li = $( '#'+file.id ),
+        $error = $li.find('div.error');
+
+    // 避免重复创建
+    if ( !$error.length ) {
+        $error = $('<div class="error"></div>').appendTo( $li );
+    }
+
+    $error.text('上传失败');
+});
+
+// 完成上传完了，成功或者失败，先删除进度条。
+uploader.on( 'uploadComplete', function( file ) {
+    $( '#'+file.id ).find('.progress').remove();
+});
+</script>

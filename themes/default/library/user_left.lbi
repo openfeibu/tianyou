@@ -1,0 +1,12 @@
+<div class="user-left fb-float-left">
+    <div class="user-image">
+        <img src="{if $profile.avatar}{$profile.avatar}{else}{$ec_themes}/images/tx.png{/if}" alt="" />
+    </div>
+    <ul class="user-nav">
+        <li {if $action eq 'default' || $action eq 'profile'}class="active"{/if}><a href="user.php" class="fb-color-aaa fb-font16">个人资料</a></li>
+        <li {if $action eq 'address_list'}class="active"{/if}><a href="user.php?act=address_list" class="fb-color-aaa fb-font16">设置地址</a></li>
+        <li {if $action eq 'password'}class="active"{/if}><a href="user.php?act=password" class="fb-color-aaa fb-font16">安全设置</a></li>
+        <li {if $action eq 'collection_list'}class="active"{/if}><a href="user.php?act=collection_list" class="fb-color-aaa fb-font16">收藏项目</a></li>
+        <!-- <li {if $action eq 'order_back'|| $action eq 'order_back_search'}class="active"{/if}><a href="user.php?act=order_back">退换货列表</a></li>  -->
+    </ul>
+</div>

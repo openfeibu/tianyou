@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+{insert_scripts files='common.js,transport_jquery.js,jquery.json.js'}
+
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <div class="padd80 paddtb60">
+                <div class="artDe-header clearfix">
+                    <div class="fb-magnifier fb-position-relative fb-float-left">
+                        <div class='fb-smallImg fb-position-relative'>
+                            <img src="{$goods.original_img}" />
+                            <div class='fb-imgHover fb-position-absolute'></div>
+                        </div>
+                        <div class='fb-bigImg fb-position-absolute'>
+                            <img src="{$goods.original_img}" alt="{$goods.goods_name}">
+                        </div>
+                    </div>
+                    <div class="artDe-right">
+                        <div class="ar-author-name">
+                            <a href="" class="fb-float-left">
+                                <div class="author-img fb-float-left"><img src="{$author.author_avatar}" alt="{$author.author_name}"></div>
+                                <span class="fb-font16">{$author.author_name}</span>
+                            </a>
+                            <p class="fb-float-left fb-font16" style="margin-right:20px">|</p>
+                            <p class="fb-float-left fb-font16">共{$author.goods_count}件作品</p>
+                        </div>
+                        <div class="worksInfo">
+                            <div class="worksInfo-name fb-font16">{$goods.goods_name|escape:html}</div>
+                            <div class="worksInfo-news fb-font14">
+                                <p>陶瓷<span>丨</span>瓷瓶</p>
+                                <p>长 50cm<span>x</span> 高 82cm</p>
+                                <p>可租可售</p>
+                            </div>
+                            <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
+                        </div>
+                        <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+                        <div class="worksOperation">
+                            <div class="clearfix fb-position-relative form">
+                                <div class="input-b fb-float-left fb-font14">
+                                  <input class="radio fb-inlineBlock inputType" type="radio" name="type" id="buy" value="buy" checked>
+                                  <label class="fb-inlineBlock fb-transition active" for="buy">购买</label>
+                                </div>
+                                <div class="input-b fb-float-left fb-font14">
+                                  <input class="radio fb-inlineBlock inputType" type="radio" name="type" id="rent" value="rent" >
+                                  <label class="fb-inlineBlock fb-transition" for="rent">租赁</label>
+                                </div>
+                            </div>
+                            <div class="worksCollection fb-transition collect {if $is_collect}active{/if}" onclick="javascript:worksCollection({$goods.goods_id});">
+                                收藏该艺术品
+                            </div>
+                            <div class="worksQues">
+                                <a onclick="showQ()">常见问题</a>
+                                <span>|</span>
+                                <a onclick="showZ()">租赁流程</a>
+                            </div>
+                            <div class="worksButton">
+                                <div class="fb-float-left fb-font14 addCart fb-transition"><a href="javascript:addToCart({$goods.goods_id})">加入购物车</a></div>
+                                <div class="fb-float-left fb-font14 toBuy fb-transition"><a href="javascript:addToCart({$goods.goods_id},1)">立即购买</a></div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div><!--artDe-header end-->
+                <div class="artCon fb-font16">
+                    <p>{$goods.goods_desc} </p>
+                    <img src="{$ec_themes}/images/activeDe.jpg" alt="">
+                    <img src="{$ec_themes}/images/activeDe.jpg" alt="">
+                    <img src="{$ec_themes}/images/activeDe.jpg" alt="">
+                </div><!--artCon end-->
+                <div class="authorRecommend">
+                    <div class="author-img fb-inlineBlock">
+                        <div class="img"><img src="{$author.author_avatar}" alt="{$author.author_name}"></div>
+                        <span class="fb-font16">{$author.author_name}</span>
+                    </div>
+                    <div class="author-c fb-inlineBlock fb-font16">
+                        {$author.content}
+                    </div>
+                </div><!--authorRecommend end-->
+                <div class="guessLike">
+                    <div class="guessLike-title fb-font16">猜你喜欢</div>
+                    <div class="guessLike-group">
+                        <!--{foreach from=$goods_history item=val}-->
+                        <div class="guessLike-item fb-inlineBlock fb-transition">
+                            <a href="">
+                                <div class="works-img" style="background:url({$val.goods_thumb}) no-repeat center">
+                                </div>
+                                <div class="works-con">
+                                    <div class="name fb-font14 fb-transition">{$val.goods_name}</div>
+                                    <div class="money fb-font16 fb-transition">{$val.shop_price}</div>
+                                </div>
+                            </a>
+                        </div>
+                        <!--{/foreach}-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 常见问题 -->
+    <div class="showQ commonProblem fb-position-fixed">
+        <div class="commonProblem-box fb-position-relative">
+            <div class="commonProblem-close fb-position-absolute fb-transition"></div>
+            <div class="commonProblem-title fb-font18 fb-color-333">
+                常见问题
+            </div>
+            <div class="commonProblem-con fb-font14 fb-color-333">
+                Q ：天佑艺术网是做什么的？<br/>
+                A ：天佑艺术
+                      买——让艺术品消费跳出小众艺术圈，与更为广泛的大众消费者拥抱；艺术小白可先租后买。
+                      租——坚持为社会打造“健康良好的行业生态”；租金每天低至一元。
+                      陈列设计——根据客户的需求，为其提供量身定制的空间展示服务。让艺术之美真正的走进千家万户。<br/><br/>
+
+                Q ：天佑艺术网有哪些不同于其他艺术品电商？<br/>
+                A ：1、租艺术——低租金，高回报，定期更换让空间新鲜起来。<br/>
+                      2、买艺术：欣赏和购买宝甄的所有艺术作品，通过筛选功能挑选出心中所爱。<br/>
+                      3、线下实体：线下实体是我们的天佑艺术线下体验馆，这其中有画展、文玩手串展柜，咖啡馆、餐厅等，如果您恰巧路过，里面又有您喜爱的作品，为何不去小坐一会呢？<br/>
+                      4、私人定制：不管是国画、油画、陶瓷、刺绣，还是木雕摆件、宝石奇石，天佑愿意做美丽背后的指使者，为您开启艺术天堂的大门。<br/><br/>
+
+                Q ：为什么艺术品的到货时间不像一般电商那么快？<br/>
+                A ：因为艺术品非普通商品，可能涉及到艺术家邮寄、验货、装裱包装，大件运输等各个环节，因此到货时间在7-30天内属于正常范围。其中：当艺术品在艺术家手里，通常会在5-14天内发货。如果在发货过程中出现延时情况，我们的客服会及时来电沟通。<br/><br/>
+
+                Q ：为什么一次购买多件作品的运费不能减少？<br/>
+                A ：由于每个作品都需要独立包装，出库检验和物流费用都是按件计算，因此即使一次购买多件运费也不会降低。但对于一次购买多件无需装裱且作品确实可卷曲的情况，我们也会灵活处理。<br/><br/>
+
+                Q ：在购买中因画作损坏、质量问题或超过最长到货时间，我想退款该怎么办？<br/>
+            </div>
+            <div class="commonProblem-bottom ">
+                <button class="fb-buttonFill-info fb-transition" >知道了</button>
+            </div>
+        </div>
+    </div>
+    <!-- 租赁流程 -->
+    <div class="showZ commonProblem fb-position-fixed">
+        <div class="commonProblem-box fb-position-relative">
+           <div class="commonProblem-close fb-position-absolute fb-transition"></div>
+            <div class="commonProblem-title fb-font18 fb-color-333">
+                租赁流程
+            </div>
+            <div class="commonProblem-con fb-font14 fb-color-333">
+                Q ：天佑艺术网是做什么的？<br/>
+                A ：天佑艺术
+                      买——让艺术品消费跳出小众艺术圈，与更为广泛的大众消费者拥抱；艺术小白可先租后买。
+                      租——坚持为社会打造“健康良好的行业生态”；租金每天低至一元。
+                      陈列设计——根据客户的需求，为其提供量身定制的空间展示服务。让艺术之美真正的走进千家万户。<br/><br/>
+
+                Q ：天佑艺术网有哪些不同于其他艺术品电商？<br/>
+                A ：1、租艺术——低租金，高回报，定期更换让空间新鲜起来。<br/>
+                      2、买艺术：欣赏和购买宝甄的所有艺术作品，通过筛选功能挑选出心中所爱。<br/>
+                      3、线下实体：线下实体是我们的天佑艺术线下体验馆，这其中有画展、文玩手串展柜，咖啡馆、餐厅等，如果您恰巧路过，里面又有您喜爱的作品，为何不去小坐一会呢？<br/>
+                      4、私人定制：不管是国画、油画、陶瓷、刺绣，还是木雕摆件、宝石奇石，天佑愿意做美丽背后的指使者，为您开启艺术天堂的大门。<br/><br/>
+
+                Q ：为什么艺术品的到货时间不像一般电商那么快？<br/>
+                A ：因为艺术品非普通商品，可能涉及到艺术家邮寄、验货、装裱包装，大件运输等各个环节，因此到货时间在7-30天内属于正常范围。其中：当艺术品在艺术家手里，通常会在5-14天内发货。如果在发货过程中出现延时情况，我们的客服会及时来电沟通。<br/><br/>
+
+                Q ：为什么一次购买多件作品的运费不能减少？<br/>
+                A ：由于每个作品都需要独立包装，出库检验和物流费用都是按件计算，因此即使一次购买多件运费也不会降低。但对于一次购买多件无需装裱且作品确实可卷曲的情况，我们也会灵活处理。<br/><br/>
+
+                Q ：在购买中因画作损坏、质量问题或超过最长到货时间，我想退款该怎么办？<br/>
+            </div>
+            <div class="commonProblem-bottom ">
+                <button class="fb-buttonFill-info fb-transition" >知道了</button>
+            </div>
+        </div>
+    </div>
+    <!-- 主体内容 E -->
+    <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+ <!-- 该页面特有 -->
+    <link rel="stylesheet" type="text/css" href="{$ec_themes}/css/jquery.mCustomScrollbar.css">
+    <script type="text/javascript" src="{$ec_themes}/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="{$ec_themes}/js/jquery.mousewheel.min.js"></script>
+<script>
+    $fb(".fb-magnifier").magnifier({
+        height:'{$goods.height}',
+    });
+    $(".commonProblem-con").mCustomScrollbar();
+    function showQ(){
+        $(".showQ").fadeIn(200);
+        $("body").css("overflow","hidden")
+
+    }
+    function showZ(){
+        $(".showZ").fadeIn(200);
+        $("body").css("overflow","hidden")
+
+    }
+    $(".commonProblem-bottom button,.commonProblem .commonProblem-close").on("click",function(){
+        $(this).parents(".commonProblem").fadeOut(200);
+        $("body").css("overflow","auto")
+    })
+
+
+
+</script>
+</html>

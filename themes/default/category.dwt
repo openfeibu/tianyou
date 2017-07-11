@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content  fb-position-relative" >
+        <div class="clock fb-position-absolute"></div>
+        <div class="artwork-list ">
+            <div class="artwork-list-top">
+                <div class="artwork-class">
+                    <dl class="w1320">
+                        <dt class="fb-inlineBlock fb-font16"><b>条件筛选</b></dt>
+                        <!--{foreach from=$categories item=val}-->
+                        <dd class="fb-inlineBlock fb-font16 artwork-class-item {if $category == $val['id']}on{/if}" cat_id='{$val.id}'>{$val.name}</dd>
+                        <!--{/foreach}-->
+                    </dl>
+                    <div class="fb-position-relative w1320 z999">
+                    <div class="screen-box fb-position-absolute">
+                        <!--{foreach from=$cats_all_attr_list item=cat_all_attr_list key=cat_all_attr_key}-->
+                        <!-- 中国书画 S-->
+                        <div class="screen-item  fb-center {if $cat_all_attr_list.class}{$cat_all_attr_list.class}{else}screen-item-three{/if}">
+                            <form action="">
+                                <!--{foreach from=$cat_all_attr_list.cats item=cat name=cat}-->
+                                <div class="screen-theme fb-float-left screen-theme{$smarty.foreach.cat.iteration}">
+                                    <div class="title fb-font18">{$cat.name}</div>
+                                    <div class="theme-item fb-position-relative fb-float-left fb-font16">
+                                        <label >全部</label>
+                                        <input type="radio" name="theme" value="{$cat.id}"checked/>
+                                    </div>
+                                    <!--{foreach from=$cat.cat_id item=cat_child}-->
+                                    <div class="theme-item fb-position-relative fb-float-left fb-font16">
+                                        <label >{$cat_child.name}</label>
+                                        <input type="radio" name="cat_id" value="{$cat_child.id}" checked/>
+                                    </div>
+                                    <!--{/foreach}-->
+                                </div>
+                                <!--{/foreach}-->
+                                <!-- 题材 S-->
+                                <!--{foreach from=$cat_all_attr_list.all_attr_list item=filter_attr}-->
+                                <div class="<!-- {if $filter_attr.special == 1} --> screen-size <!-- {elseif $filter_attr.special == 2} --> screen-author <!-- {else} --> screen-theme <!-- {/if} --> fb-float-left ">
+                                    <div class="title fb-font18">{$filter_attr.filter_attr_name|escape:html}</div>
+                                    <!-- {if $filter_attr.special == 1} -->
+                                        <!-- 尺寸 S-->
+                                            <div class="screen-size-item" attr_id="{$filter_attr.attr_list.0.attr_id}">
+                                                <label >长</label>
+                                                <input type="text" name="slong" value=""/>
+                                                <span>--</span>
+                                                <input type="text" name="llong" value=""/>
+                                            </div>
+                                            <div class="screen-size-item" attr_id="{$filter_attr.attr_list.1.attr_id}">
+                                                <label >高</label>
+                                                <input type="text" name="sheight" value=""/>
+                                                <span>--</span>
+                                                <input type="text" name="lheight" value=""/>
+                                            </div>
+                                        <!-- 尺寸 E-->
+                                    <!-- {elseif $filter_attr.special == 2} -->
+                                    <div class="screen-author-overflow">
+                                        <div class="screen-author-item">
+                                            <p></p>
+                                            <ul>
+                                                <li>
+                                                    <label class="on">全部</label>
+                                                    <input type="radio" name="author" value="a" checked>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                        <!--{foreach from=$filter_attr.attr_list key=k item=attrs} -->
+                                        <div class="screen-author-item">
+                                            <p>{$k}</p>
+                                            <ul>
+                                                <!--{foreach from=$attrs item=attr}-->
+                                                <li>
+                                                    <label >{$attr.author_name}</label>
+                                                    <input type="radio" name="author" value="{$attr.author_id}">
+                                                </li>
+                                                <!--{/foreach}-->
+                                            </ul>
+                                        </div>
+                                        <!--{/foreach}-->
+                                    </div>
+                                    <!-- {else} -->
+                                        <!--{foreach from=$filter_attr.attr_list item=attr}-->
+                                        <div class="theme-item fb-position-relative fb-float-left fb-font16">
+                                            <label <!-- {if $attr.selected} --> class="on" <!-- {/if} --> >{$attr.attr_value}</label>
+                                            <input type="radio" name="theme" <!-- {if $attr.selected} --> checked <!-- {/if} --> value='{$attr.value}'/>
+                                        </div>
+                                        <!--{/foreach}-->
+                                    <!-- {/if} -->
+                                    </div>
+                                <!--{/foreach}-->
+                                <!-- 题材 E-->
+
+                                <!-- 价格 S-->
+                                <div class="screen-value fb-float-left ">
+                                    <div class="title fb-font18">价格（¥）</div>
+                                    <!--{foreach from=$price_grades[$cat_all_attr_key] item=grade}-->
+                                    <div class="screen-value-item ">
+                                       <label <!-- {if $grade.selected} --> class="on" <!-- {/if} --> >{$grade.price_range}</label>
+                                       <input type="radio" name="price" value="{$grade.value}" <!-- {if $grade.selected} --> checked <!-- {/if} --> />
+                                    </div>
+                                    <!--{/foreach}-->
+                                </div>
+                                <!-- 价格 E-->
+                                <!-- 状态 S-->
+                                <div class="screen-state fb-float-left ">
+                                    <div class="title fb-font18">状态</div>
+                                    <div class="screen-state-item">
+                                       <label class="on">可租可购</label>
+                                       <input type="radio" name="nature" value="1" checked/>
+                                    </div>
+                                    <div class="screen-state-item">
+                                       <label>租用</label>
+                                       <input type="radio" name="nature" value="2"/>
+                                    </div>
+                                    <div class="screen-state-item">
+                                       <label>购买</label>
+                                       <input type="radio" name="nature" value="3"/>
+                                    </div>
+                                </div>
+                                <!-- 状态 E-->
+                                <div class="form-button ">
+                                    <input type="submit" class="fb-inlineBlock fb-font16 opa_active category_search_btn" value="确定" / >
+                                    <input type="button" class="fb-inlineBlock close-form  fb-font16 opa_active" value="取消" / >
+                                </div>
+                            </form>
+                        </div>
+                        <!--{/foreach}-->
+                    </div>
+                    </div>
+                </div>
+                <!--
+                <div class="collocation w1320">
+                    <div class="fb-figureCarousel fb-position-relative" style="padding-top:10px;">
+                        <div class="fb-figureCarousel-boxOverflow" style="width: 1200px">
+                            <div class="fb-figureCarousel-box fb-position-relative">
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_118.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+                                <div class="fb-figureCarousel-item fb-float-left">
+                                    <a href=""><img src="{$ec_themes}/images/icon_18.png" alt=""></a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="fb-figureCarousel-left fb-position-absolute"></div>
+                        <div class="fb-figureCarousel-right fb-position-absolute"></div>
+                    </div>
+                </div>
+            </div>
+            -->
+            <div class="artwork-list-con fb-waterfall-con fb-position-relative" >
+
+            </div>
+            <div class="fb-loading fb-font16"></div>
+        </div>
+
+    </div>
+    <!-- 主体内容 E -->
+    <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+    <!-- 该页面特有 -->
+    <link rel="stylesheet" type="text/css" href="{$ec_themes}/css/jquery.mCustomScrollbar.css">
+    <script type="text/javascript" src="{$ec_themes}/js/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" src="{$ec_themes}/js/jquery.mousewheel.min.js"></script>
+<script>
+
+    $fb(".fb-figureCarousel").figureCarousel({
+            speed : 500,
+            autoPlay: true,
+            showNum:5
+    });
+    var goods_list = {$goods_list_json};
+
+    $fb.waterfall({
+                "el":".artwork-list-con",
+                "margin":20,
+                'data':goods_list
+            });
+    ajaxCallUrl = '{$app_pager.page_next}';
+    $fb.monitorBottom({
+        bottom:100,
+        arriveFun:function(){
+            if(ajaxCallUrl != '')
+            {
+                $(".fb-loading").text("正在加载中...");
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url:ajaxCallUrl,
+                    data:{'ajax':1},// 你的formid
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        $(".fb-loading").text("");
+                        var obj = JSON.parse(data);
+                        ajaxCallUrl = obj.app_pager.page_next;
+                        console.log(ajaxCallUrl);
+                        $fb.waterfall({
+                            "el":".artwork-list-con",
+                            'data':obj.goods_list,
+                            "margin":20
+                        })
+                        if(ajaxCallUrl == ''){
+
+                            $(".fb-loading").text("已经到底了")
+                            return false;
+                        }
+                         $fb.monitorBottom.again();
+                    }
+                });
+            }
+        }
+    });
+    $(".screen-item-one .screen-author .screen-author-overflow").mCustomScrollbar();
+    $(".category_search_btn").click(function(){
+        //c
+        $fb.resetWaterfall({
+            "el":".artwork-list-con",
+        })
+        var slong = $(this).parent().parent().find("input[name='slong']").val();
+        var llong = $(this).parent().parent().find("input[name='llong']").val();
+        var sheight = $(this).parent().parent().find("input[name='sheight']").val();
+        var lheight = $(this).parent().parent().find("input[name='lheight']").val();
+        var filter_attr = $(this).parent().parent().find("input[name='theme']:checked").val();
+        var prices = $(this).parent().parent().find("input[name='price']:checked").val();
+        var author_id = $(this).parent().parent().find("input[name='author']:checked").val();
+        var cat_id = $(this).parent().parent().find("input[name='cat_id']:checked").val();
+        var nature = $(this).parent().parent().find("input[name='nature']:checked").val();
+        var id = '{$category}';
+        var long_attr_id = 0;
+        var height_attr_id = 0;
+        var price_min = 0;
+        var price_max = 0;
+        if(prices){
+            var price_arr = prices.split('_');
+            var price_min = price_arr[0];
+            var price_max = price_arr[1];
+        }
+
+        if(slong || llong){
+            var long_attr_id = $(this).parent().parent().find("input[name='slong']").parent().attr('attr_id');
+        }
+        if(sheight || lheight){
+            var height_attr_id = $(this).parent().parent().find("input[name='sheight']").parent().attr('attr_id');
+        }
+        if(!cat_id)
+        {
+            id = $('.artwork-class-item.on').attr('cat_id');
+        }
+        var url = 'category.php?id='+id+'&price_min='+price_min+'&price_max='+price_max+'&filter_attr='+filter_attr+'&author_id='+author_id+'&slong='+slong+'&llong='+llong+'&sheight='+sheight+'&lheight='+lheight+'&long_attr_id='+long_attr_id+'&height_attr_id='+height_attr_id+'&nature='+nature;
+
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url:url,
+            data:{'ajax':1},// 你的formid
+            async: false,
+            error: function(request) {
+                alert("Connection error");
+                return false;
+            },
+            success: function(data) {
+                $(".screen-box").fadeOut(200);
+        		$(".clock").fadeOut(200);
+                $(".fb-loading").text("");
+                var obj = JSON.parse(data);
+                ajaxCallUrl = obj.app_pager.page_next;
+                console.log(ajaxCallUrl);
+                $fb.waterfall({
+                    "el":".artwork-list-con",
+                    'data':obj.goods_list,
+                    "margin":20
+                })
+                if(ajaxCallUrl == ''){
+
+                    $(".fb-loading").text("已经到底了")
+                    return false;
+                }
+                 $fb.monitorBottom.again();
+
+            }
+        });
+        return false;
+    });
+</script>
+</html>
