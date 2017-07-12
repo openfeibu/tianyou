@@ -21,7 +21,7 @@
                                 <div class='text_right'>
                                     <span>{$order.user_name|default:$lang.anonymous}</span>
                                     <br>
-                                    <span>地区</span>
+                                    <span>{$order.region} {$order.address|escape}</span>
                                 </div>
                             </div>
                         </div>
@@ -81,42 +81,30 @@
                         <p class='pro_detail_p3'> 物流单号：{$order.invoice_no}</p>
                     </div>
                     <div id="queryContext" class="fix"></div>
-                    <!--物流流程信息-->
-                    <!--
-                    <div class="proDiv pro_detail bor-bot flow_path fb-position-relative ">
-                        <div class="flowMess ">
-                            <span class='flow_day'>周几</span>
-                            <span class='fb-inlineBlock'>00时00分00秒</span>
-                            <em class='fb-inlineBlock'> 物流返回信息</em>
-                            <br>
-
-                            <span class='fb-inlineBlock'>00时00分00秒</span>
-                            <em class='fb-inlineBlock'> 物流返回信息</em>
-                        </div>
-                        <div class="flowMess ">
-                            <span class='flow_day'>周几</span>
-                            <span class='fb-inlineBlock'>00时00分00秒</span>
-                            <em class='fb-inlineBlock'> 物流返回信息</em>
-
-                        </div>
-
-                        <div class="flowMess">
-                            <span class='flow_day'>周几</span>
-                            <span class='fb-inlineBlock'>00时00分00秒</span>
-                            <em class='fb-inlineBlock'> 物流返回信息</em>
-                            <br>
-                            <span class='fb-inlineBlock'>00时00分00秒</span>
-                            <em class='fb-inlineBlock'> 物流返回信息</em>
-                        </div>
-
-
-
-                    </div>
-                    -->
-                    <!--物流流程信息 end-->
-                    {/if}
                     {insert_scripts files="../plugins/kdniao/jquery.min.js"}
                     {insert_scripts files="../plugins/kdniao/kdniao.js"}
+                    <script type="text/javascript">
+                        {if $order.order_status=5}
+                        kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
+                        {/if}
+                    </script>
+                    {/if}
+                    {if $order.shipping_status == 2}
+                    <div class="proDiv pro_detail bor-bot">
+                        <p class='pro_detail_p1'> 物流信息</p>
+                        <p class='pro_detail_p2'>物流公司：{$order.shipping_name}</p>
+                        <p class='pro_detail_p3'> 物流单号：{$order.invoice_no}</p>
+                    </div>
+                    <div id="queryContext" class="fix"></div>
+                    <div class="proDiv pro_detail icon_whit icon10 " style="margin-top:75px;margin-bottom:10px;">买家已收到货物，订单已完成！</div>
+                    {insert_scripts files="../plugins/kdniao/jquery.min.js"}
+                    {insert_scripts files="../plugins/kdniao/kdniao.js"}
+                    <script type="text/javascript">
+                        {if $order.order_status=5}
+                        kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
+                        {/if}
+                    </script>
+                    {/if}
                     </form>
                     <!--物流流程信息-->
                     <!--物流流程信息 end-->
@@ -130,10 +118,6 @@
     <!--内容 end-->
     <!--原因 弹出框-->
     <!--原因 弹出框 end-->
-    <script type="text/javascript">
-        {if $order.order_status=5}
-        kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
-        {/if}
-    </script>
+
 </body>
 </html>

@@ -2367,7 +2367,16 @@ function order_query_sql($type = 'finished', $alias = '')
         return " AND   {$alias}order_status " .
                  db_create_in(array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) .
                " AND   {$alias}shipping_status " .
-                 db_create_in(array(SS_UNSHIPPED, SS_PREPARING, SS_SHIPPED_ING)) .
+                 db_create_in(array(SS_UNSHIPPED, SS_PREPARING)) .
+               " AND ( {$alias}pay_status " . db_create_in(array(PS_PAYED, PS_PAYING)) . " OR {$alias}pay_id " . db_create_in(payment_id_list(true)) . ") ";
+    }
+
+    elseif ($type == 'shipping')
+    {
+        return " AND   {$alias}order_status " .
+                 db_create_in(array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) .
+               " AND   {$alias}shipping_status " .
+                 db_create_in(array(SS_SHIPPED_ING,SS_SHIPPED)) .
                " AND ( {$alias}pay_status " . db_create_in(array(PS_PAYED, PS_PAYING)) . " OR {$alias}pay_id " . db_create_in(payment_id_list(true)) . ") ";
     }
     /* 待付款订单 */
@@ -2399,7 +2408,7 @@ function order_query_sql($type = 'finished', $alias = '')
     /* 已发货订单：不论是否付款 */
     elseif ($type == 'shipped')
     {
-        return " AND {$alias}order_status = '" . OS_CONFIRMED . "'" .
+        return " AND {$alias}order_status " . db_create_in(array(OS_CONFIRMED, OS_SPLITED)) .
                " AND {$alias}shipping_status " . db_create_in(array(SS_SHIPPED, SS_RECEIVED)) . " ";
     }
     else

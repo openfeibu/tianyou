@@ -1,4 +1,4 @@
 
-<div><a href="order.php?act=list" class="aTitle-hover">未处理</a></div>
-<div><a href="order.php?act=list&type=dealing">正在处理</a></div>
-<div><a href="order.php?act=list&type=dealed">已处理</a></div>
+<div><a href="order.php?act=list" {if $type == 'to_deal'}class="aTitle-hover"{/if}>未处理</a></div>
+<div><a href="order.php?act=list&type=dealing" {if $type == 'dealing'}class="aTitle-hover"{/if}>正在处理</a></div>
+<div><a href="order.php?act=list&type=dealed" {if $type == 'dealed'}class="aTitle-hover"{/if}>已处理</a></div>

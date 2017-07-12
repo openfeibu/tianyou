@@ -98,6 +98,7 @@ define('PS_PAYED',                  2); // 已付款
 define('CS_AWAIT_PAY',              100); // 待付款：货到付款且已发货且未付款，非货到付款且未付款
 define('CS_AWAIT_SHIP',             101); // 待发货：货到付款且未发货，非货到付款且已付款且未发货
 define('CS_FINISHED',               102); // 已完成：已确认、已付款、已发货
+define('CS_SHIPPING',               103); // 发货中
 
 /* 缺货处理 */
 define('OOS_WAIT',                  0); // 等待货物备齐后再发

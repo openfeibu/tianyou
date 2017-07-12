@@ -523,7 +523,6 @@ elseif ($action == 'logout')
 
     $user->logout();
     $ucdata = empty($user->ucdata)? "" : $user->ucdata;
-	header("Location: /index.php"); 
     show_message($_LANG['logout'] . $ucdata, array($_LANG['back_up_page'], $_LANG['back_home_lnk']), array($back_act, 'index.php'), 'info');
 }
 
@@ -3119,8 +3118,24 @@ elseif ($action == 'order_back_request_submit')
     $back_sn = strtotime(date('Y-m-d H:i:s',time()))+(rand()*100);
     $date = date('Y-m-d H:i:s',time());
     $order_sn = $order_info['order_sn'];
-    $sql = "INSERT INTO " .$ecs->table('order_back'). " (`back_sn`, `invoice_no`, `order_sn`, `user_id`, `case`, `shipping_name`, `goods`, `subtotal`, `liyou`, `beizhu`, `add_time`, `receve`, `status`, `back_pic1`, `back_pic2`, `back_pic3`) VALUES ('$back_sn','','$order_sn','$user_id','$case','','$goods_info','$subtotal_price','$liyou','$beizhu','$date','',1,'$back_pic1','$back_pic2','$back_pic3')";
-    $db->query($sql);
+    $sql = "INSERT INTO " .$ecs->table('order_back'). " (`back_sn`, `invoice_no`, `order_sn`,`order_id`,`user_id`, `case`, `shipping_name`, `goods`, `subtotal`, `liyou`, `beizhu`, `add_time`, `receve`, `status`, `back_pic1`, `back_pic2`, `back_pic3`) VALUES ('$back_sn','','$order_sn','$id','$user_id','$case','','$goods_info','$subtotal_price','$liyou','$beizhu','$date','',1,'$back_pic1','$back_pic2','$back_pic3')";
+    if($db->query($sql)){
+        $order_back_id = $db->insert_id();
+        if($goods_id)
+        {
+            $sql = "INSERT INTO ".$ecs->table('order_back_goods')."(`order_back_id`,`goods_id`,`order_id`,`goods_number`) VALUES ('$order_back_id','$goods_id','$id','$number')";
+            $db->query($sql);
+        }else
+        {
+            $goods_list = "SELECT goods_id,goods_number FROM ". $ecs->table('order_info') . " WHERE order_id = '$id' ";
+            foreach($goods_list  as $key => $value)
+            {
+                $sql = "INSERT INTO ".$ecs->table('order_back_goods')."(`order_back_id`,`goods_id`,`order_id`,`goods_number`) VALUES ('$order_back_id','".$value['goods_id']."','$id','".$value['goods_number']."')";
+                $db->query($sql);
+            }
+        }
+    }
+
     ajax_show_message('您的售后申请已提交，客服将按顺序依次处理，一般当天即可处理&hellip;<br>退货地址见退款详情页管理员回复处。<br>退款将退还账户余额。', 'success', 'user.php?act=back_detail&back_sn='.$back_sn);
 }
 /* 提交退货配送信息表单 */

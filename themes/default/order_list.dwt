@@ -96,7 +96,7 @@
                             <!-- {/if} -->
                             <div class="refund-form-item">
                                 <label class="fb-inlineBlock fb-font14 fb-color-333">退款说明*</label>
-                                <textarea class="fb-inlineBlock" name="beizu" id="explanation" ></textarea>
+                                <textarea class="fb-inlineBlock" name="beizhu" id="explanation" ></textarea>
                             </div>
                             <div class="refund-form-item">
                                 <label class="fb-inlineBlock fb-font14 fb-color-333">上传图片</label>
@@ -191,7 +191,7 @@
                          {
                              window.location.href = data.url;
                          }else{
-                             $fb.fbNews({"content":data.message,"type":"success"})
+                             $fb.fbNews({"content":data.message,"type":"warning"});
                          }
                       }
                  });

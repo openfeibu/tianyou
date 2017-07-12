@@ -43,3 +43,11 @@
 .mess-table2 .goods_thumb {
     height:100px;
 }
+.mess-table .goods_thumb {
+    height: 100px;
+}
+.mess-table tr .td1 >div img {
+    height: 65px;
+    width: 65px;
+    border-radius: 50%;
+}

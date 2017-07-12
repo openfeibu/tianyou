@@ -1935,7 +1935,7 @@ function article_categories_tree($cat_id = 0)
 {
     if ($cat_id > 0)
     {
-        $sql = 'SELECT parent_id FROM ' . $GLOBALS['ecs']->table('article_cat') . " WHERE cat_id = '$cat_id'";
+        $sql = 'SELECT parent_id FROM ' . $GLOBALS['ecs']->table('article_cat') . " WHERE cat_id = '$cat_id' AND show_in_nav = 1";
         $parent_id = $GLOBALS['db']->getOne($sql);
     }
     else
@@ -1956,7 +1956,7 @@ function article_categories_tree($cat_id = 0)
                     'b.cat_id AS child_id, b.cat_name AS child_name, b.sort_order AS child_order ' .
                 'FROM ' . $GLOBALS['ecs']->table('article_cat') . ' AS a ' .
                 'LEFT JOIN ' . $GLOBALS['ecs']->table('article_cat') . ' AS b ON b.parent_id = a.cat_id ' .
-                "WHERE a.parent_id = '$parent_id' AND a.cat_type=1 ORDER BY parent_order ASC, a.cat_id ASC, child_order ASC";
+                "WHERE a.parent_id = '$parent_id' AND a.cat_type=1  AND a.show_in_nav = 1 ORDER BY parent_order ASC, a.cat_id ASC, child_order ASC";
     }
     else
     {
@@ -1964,7 +1964,7 @@ function article_categories_tree($cat_id = 0)
         $sql = 'SELECT a.cat_id, a.cat_name, a.en_cat_name,b.cat_id AS child_id, b.cat_name AS child_name, b.sort_order ' .
                 'FROM ' . $GLOBALS['ecs']->table('article_cat') . ' AS a ' .
                 'LEFT JOIN ' . $GLOBALS['ecs']->table('article_cat') . ' AS b ON b.parent_id = a.cat_id ' .
-                "WHERE b.parent_id = '$parent_id' AND b.cat_type = 1 ORDER BY sort_order ASC";
+                "WHERE b.parent_id = '$parent_id' AND b.cat_type = 1  AND a.show_in_nav = 1 ORDER BY sort_order ASC";
     }
     $res = $GLOBALS['db']->getAll($sql);
 

@@ -77,7 +77,8 @@ elseif ($_REQUEST['act'] == 'list')
     $smarty->assign('record_count', $order_list['record_count']);
     $smarty->assign('page_count',   $order_list['page_count']);
     $smarty->assign('sort_order_time', '<img src="images/sort_desc.gif">');
-
+    $type = isset($_REQUEST['type']) ? trim($_REQUEST['type']) : 'to_deal';
+    $smarty->assign('type',         $type);
     /* 显示模板 */
     assign_query_info();
     $smarty->display($_CFG['template_name'].'order_list.htm');
@@ -125,18 +126,28 @@ elseif ($_REQUEST['act'] == 'back_detail')
     /* 检查权限 */
     admin_priv('back_view');
     $back_sn = $_REQUEST['back_sn'];
-    $sql = 'SELECT * FROM ' .$ecs->table('order_back'). " WHERE back_sn = '$back_sn'";
-    $back = $db->getRow($sql);
+    $sql = "SELECT ob.*, u.user_name ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "."  WHERE back_sn = '$back_sn'";
+    $back = $GLOBALS['db']->getRow($sql);
+    $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$back['order_back_id']."'";
+    $order_back_goods_list = $GLOBALS['db']->getAll($sql);
+    foreach($order_back_goods_list as $k => $order_back_goods)
+    {
+        $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$back['order_id']." ' LIMIT 1";
+        $goods = $GLOBALS['db']->getRow($sql);
+        $goods['goods_price'] = price_format($goods['goods_price']);
+        $goods['goods_thumb'] = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
+        $goods['goods_number'] = $order_back_goods['goods_number'];
+        $goods_list[] = $goods;
+    }
+    $back['goods_list'] = $goods_list;
+
     /* 模板赋值 */
     $smarty->assign('ur_here', $_LANG['10_back_order']);
     $smarty->assign('os_unconfirmed', OS_UNCONFIRMED);
     $smarty->assign('cs_await_pay', CS_AWAIT_PAY);
     $smarty->assign('cs_await_ship', CS_AWAIT_SHIP);
-    $smarty->assign('full_page', 1);
     $smarty->assign('back', $back);
-    $smarty->assign('filter', $result['filter']);
-    $smarty->assign('record_count', $result['record_count']);
-    $smarty->assign('page_count', $result['page_count']);
+
     $smarty->assign('add_time', '<img src="images/sort_desc.gif">');
     $res = $db->query("SELECT * FROM " . $ecs->table('back_message') . " WHERE back_sn = '$back_sn'");
     while ($row = $GLOBALS['db']->fetchRow($res))
@@ -311,9 +322,11 @@ elseif ($_REQUEST['act'] == 'stop_back_submit')
     admin_priv('back_view');
     $back_sn = $_REQUEST['back_sn'];
     $receve = $_REQUEST['receve'];
+
     $sql = "update " .$ecs->table('order_back'). " set status = 7, receve = '$receve' where back_sn='$back_sn'";
     $db->query($sql);
-    ecs_header("Location: order.php?act=list_back\n");
+
+    ajax_show_message('操作成功','success','order.php?act=list_back');
     exit;
 }
 /* 退换货留言提交 */
@@ -1587,9 +1600,10 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
     clear_cache_files();
 
     /* 操作成功 */
-    $links[] = array('text' => $_LANG['09_delivery_order'], 'href' => 'order.php?act=delivery_list');
-    $links[] = array('text' => $_LANG['delivery_sn'] . $_LANG['detail'], 'href' => 'order.php?act=delivery_info&delivery_id=' . $delivery_id);
-    sys_msg($_LANG['act_ok'], 0, $links);
+    // $links[] = array('text' => $_LANG['09_delivery_order'], 'href' => 'order.php?act=delivery_ship');
+    // $links[] = array('text' => $_LANG['delivery_sn'] . $_LANG['detail'], 'href' => 'order.php?act=delivery_info&delivery_id=' . $delivery_id);
+    // sys_msg($_LANG['act_ok'], 0, $links);
+    header('Location:order.php?act=list&type=dealing');
 }
 
 /*------------------------------------------------------ */
@@ -5563,6 +5577,16 @@ function order_list()
         $filter['start_time'] = empty($_REQUEST['start_time']) ? '' : (strpos($_REQUEST['start_time'], '-') > 0 ?  local_strtotime($_REQUEST['start_time']) : $_REQUEST['start_time']);
         $filter['end_time'] = empty($_REQUEST['end_time']) ? '' : (strpos($_REQUEST['end_time'], '-') > 0 ?  local_strtotime($_REQUEST['end_time']) : $_REQUEST['end_time']);
 
+        $type = isset($_REQUEST['type']) ? trim($_REQUEST['type']) : 'to_deal';
+        if($type == 'dealing')
+        {
+            $filter['composite_status'] = CS_SHIPPING;
+        }else if($type == 'dealed')
+        {
+            $filter['composite_status'] = SS_RECEIVED;
+        }else{
+            $filter['composite_status'] = CS_AWAIT_SHIP;
+        }
         $where = 'WHERE 1 ';
         if ($filter['order_sn'])
         {
@@ -5654,6 +5678,12 @@ function order_list()
 
             case CS_AWAIT_SHIP :
                 $where .= order_query_sql('await_ship');
+                break;
+            case CS_SHIPPING :
+                $where .= order_query_sql('shipping');
+                break;
+            case SS_RECEIVED :
+                $where .= order_query_sql('shipped');
                 break;
 
             case CS_FINISHED :
@@ -7034,19 +7064,19 @@ function list_back($back_sn,$order_sn,$invoice_no,$status)
         $where = 'WHERE 1 ';
         if ($back_sn)
         {
-            $where .= " AND back_sn = '" . $back_sn . "'";
+            $where .= " AND ob.back_sn = '" . $back_sn . "'";
         }
         if ($order_sn)
         {
-            $where .= " AND order_sn = '" . $order_sn . "'";
+            $where .= " AND ob.order_sn = '" . $order_sn . "'";
         }
         if ($invoice_no)
         {
-            $where .= " AND invoice_no = '" . $invoice_no . "'";
+            $where .= " AND ob.invoice_no = '" . $invoice_no . "'";
         }
         if ($status)
         {
-            $where .= " AND status = '" . $status . "'";
+            $where .= " AND ob.status = '" . $status . "'";
         }
         /* 分页大小 */
         $filter['page'] = empty($_REQUEST['page']) || (intval($_REQUEST['page']) <= 0) ? 1 : intval($_REQUEST['page']);
@@ -7067,7 +7097,7 @@ function list_back($back_sn,$order_sn,$invoice_no,$status)
         $filter['record_count'] = $GLOBALS['db']->getOne($sql);
         $filter['page_count'] = $filter['record_count'] > 0 ? ceil($filter['record_count'] / $filter['page_size']) : 1;
         /* 查询 */
-        $sql = "SELECT * FROM " . $GLOBALS['ecs']->table("order_back") . " $where ORDER BY add_time desc LIMIT " . ($filter['page'] - 1) * $filter['page_size'] . ", " . $filter['page_size'] . " ";
+        $sql = "SELECT ob.*, u.user_name ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "." $where ORDER BY ob.add_time desc LIMIT " . ($filter['page'] - 1) * $filter['page_size'] . ", " . $filter['page_size'] . " ";
         set_filter($filter, $sql);
     }
     else
@@ -7085,8 +7115,21 @@ function list_back($back_sn,$order_sn,$invoice_no,$status)
         $row[$key]['add_time'] = $value['add_time'];
         $row[$key]['order_sn'] = $value['order_sn'];
         $row[$key]['user_id'] = $value['user_id'];
+        $row[$key]['user_name'] = $value['user_name'];
+        $row[$key]['avatar'] = $value['avatar'];
         $row[$key]['case'] = $value['case'];
         $row[$key]['status'] = $value['status'];
+        $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$value['order_back_id']."'";
+        $order_back_goods_list = $GLOBALS['db']->getAll($sql);
+        foreach($order_back_goods_list as $k => $order_back_goods)
+        {
+            $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$value['order_id']." ' LIMIT 1";
+            $goods = $GLOBALS['db']->getRow($sql);
+            $goods['goods_thumb']  = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
+            $goods_list[] = $goods;
+        }
+        $row[$key]['goods_list'] = $goods_list;
+
     }
     $arr = array('back' => $row, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
     return $arr;
