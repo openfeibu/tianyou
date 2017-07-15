@@ -1072,6 +1072,16 @@ elseif ($action == 'order_detail')
         }
         $smarty->assign('payment_list', $payment_list);
     }
+    /* 取得区域名 */
+    $sql = "SELECT concat(IFNULL(c.region_name, ''), '  ', IFNULL(p.region_name, ''), " .
+                "'  ', IFNULL(t.region_name, ''), '  ', IFNULL(d.region_name, '')) AS region " .
+            "FROM " . $ecs->table('order_info') . " AS o " .
+                "LEFT JOIN " . $ecs->table('region') . " AS c ON o.country = c.region_id " .
+                "LEFT JOIN " . $ecs->table('region') . " AS p ON o.province = p.region_id " .
+                "LEFT JOIN " . $ecs->table('region') . " AS t ON o.city = t.region_id " .
+                "LEFT JOIN " . $ecs->table('region') . " AS d ON o.district = d.region_id " .
+            "WHERE o.order_id = '$order[order_id]'";
+    $order['region'] = $db->getOne($sql);
 
     /* 订单 支付 配送 状态语言项 */
     $order['order_status'] = $_LANG['os'][$order['order_status']];
@@ -1080,7 +1090,7 @@ elseif ($action == 'order_detail')
 
     $smarty->assign('order',      $order);
     $smarty->assign('goods_list', $goods_list);
-    $smarty->display('user_transaction.dwt');
+    $smarty->display('order_list.dwt');
 }
 
 /* 取消订单 */
@@ -3146,7 +3156,7 @@ elseif ($action == 'back_submit')
     $invoice_no = $_REQUEST['invoice_no'];
     $sql = "update " .$ecs->table('order_back'). " set shipping_name = '$shipping_name', invoice_no = '$invoice_no', status = 3 where back_sn = '$back_sn'";
     $db->query($sql);
-    ecs_header("Location: user.php?act=order_back\n");
+    ajax_show_message('操作成功！','success','user.php?act=order_list');
     exit;
 }
 /* 退换货列表 */
@@ -3167,15 +3177,16 @@ elseif ($action == 'order_back')
 /* 退货信息详情 */
 elseif ($action == 'back_detail')
 {
-    //include_once(ROOT_PATH . 'includes/lib_transaction.php');
+    include_once(ROOT_PATH . 'includes/lib_order.php');
     $back_sn = $_REQUEST['back_sn'];
-    $sql = "SELECT * FROM " .$ecs->table('order_back'). " WHERE back_sn = '$back_sn'";
-    $back = $db->getRow($sql);
+    $back = get_back_info($back_sn);
     $res = $db->query("SELECT * FROM " . $ecs->table('back_message') . " WHERE back_sn = '$back_sn'");
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
         $back_msg_list[] = $row;
     }
+    $shipping_list = available_shipping_list($region_id_list);
+    $smarty->assign('shipping_list', $shipping_list);
     $smarty->assign('back_msg_list', $back_msg_list);
     $smarty->assign('back', $back);
     $smarty->display('order_list.dwt');
@@ -3217,7 +3228,7 @@ elseif ($action == 'back_del')
     include_once(ROOT_PATH .'includes/lib_transaction.php');
     $sql = "delete from " .$ecs->table('order_back'). " where back_sn='$back_sn'";
     $db->query($sql);
-    ecs_header("Location: user.php?act=order_back\n");
+    ecs_header("Location: user.php?act=order_list\n");
     exit;
 }
 /* 退换货留言提交 */

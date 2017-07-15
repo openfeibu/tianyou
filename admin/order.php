@@ -93,7 +93,20 @@ elseif ($_REQUEST['act'] == 'list_back')
     $back_sn = $_REQUEST['back_sn'];
     $order_sn = $_REQUEST['order_sn'];
     $invoice_no = $_REQUEST['invoice_no'];
-    $status = $_REQUEST['status'];
+    //$status = $_REQUEST['status'];
+    $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'to_deal';
+    $smarty->assign('type', $type);
+    switch ($type) {
+        case 'to_deal':
+            $status = array(1);
+            break;
+        case 'dealing':
+            $status = array(2,3,4);
+            break;
+        default:
+            $status = array(5,6,7);
+            break;
+    }
     /* 查询 */
     $result = list_back($back_sn,$order_sn,$invoice_no,$status);
     /* 模板赋值 */
@@ -126,20 +139,7 @@ elseif ($_REQUEST['act'] == 'back_detail')
     /* 检查权限 */
     admin_priv('back_view');
     $back_sn = $_REQUEST['back_sn'];
-    $sql = "SELECT ob.*, u.user_name ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "."  WHERE back_sn = '$back_sn'";
-    $back = $GLOBALS['db']->getRow($sql);
-    $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$back['order_back_id']."'";
-    $order_back_goods_list = $GLOBALS['db']->getAll($sql);
-    foreach($order_back_goods_list as $k => $order_back_goods)
-    {
-        $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$back['order_id']." ' LIMIT 1";
-        $goods = $GLOBALS['db']->getRow($sql);
-        $goods['goods_price'] = price_format($goods['goods_price']);
-        $goods['goods_thumb'] = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
-        $goods['goods_number'] = $order_back_goods['goods_number'];
-        $goods_list[] = $goods;
-    }
-    $back['goods_list'] = $goods_list;
+    $back = get_back_info($back_sn);
 
     /* 模板赋值 */
     $smarty->assign('ur_here', $_LANG['10_back_order']);
@@ -152,7 +152,7 @@ elseif ($_REQUEST['act'] == 'back_detail')
     $res = $db->query("SELECT * FROM " . $ecs->table('back_message') . " WHERE back_sn = '$back_sn'");
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
-      $back_msg_list[] = $row;
+        $back_msg_list[] = $row;
     }
     $smarty->assign('back_msg_list', $back_msg_list);
     /* 显示模板 */
@@ -195,7 +195,7 @@ elseif ($_REQUEST['act'] == 'pase_back_submit')
     $receve = $_REQUEST['receve'];
     $sql = "update " .$ecs->table('order_back'). " set status = 2, receve = '$receve' where back_sn='$back_sn'";
     $db->query($sql);
-    ecs_header("Location: order.php?act=list_back\n");
+    ajax_show_message('操作成功','success','order.php?act=list_back');
     exit;
 }
 /*------------------------------------------------------ */
@@ -235,7 +235,7 @@ elseif ($_REQUEST['act'] == 'jujue')
     $back_sn = $_REQUEST['back_sn'];
     $sql = "update " .$ecs->table('order_back'). " set status = 6 where back_sn='$back_sn'";
     $db->query($sql);
-    ecs_header("Location: order.php?act=list_back\n");
+    ajax_show_message('操作成功','success','order.php?act=list_back');
     exit;
 }
 /*------------------------------------------------------ */
@@ -7076,7 +7076,7 @@ function list_back($back_sn,$order_sn,$invoice_no,$status)
         }
         if ($status)
         {
-            $where .= " AND ob.status = '" . $status . "'";
+            $where .= " AND ".db_create_in($status, 'ob.status');
         }
         /* 分页大小 */
         $filter['page'] = empty($_REQUEST['page']) || (intval($_REQUEST['page']) <= 0) ? 1 : intval($_REQUEST['page']);
@@ -7093,7 +7093,7 @@ function list_back($back_sn,$order_sn,$invoice_no,$status)
             $filter['page_size'] = 15;
         }
         /* 记录总数 */
-        $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_back') . $where;
+        $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_back') ." AS ob ". $where;
         $filter['record_count'] = $GLOBALS['db']->getOne($sql);
         $filter['page_count'] = $filter['record_count'] > 0 ? ceil($filter['record_count'] / $filter['page_size']) : 1;
         /* 查询 */

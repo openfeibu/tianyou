@@ -3028,4 +3028,22 @@ function judge_package_stock($package_id, $package_num = 1)
 
     return false;
 }
+function get_back_info($back_sn)
+{
+    $sql = "SELECT ob.*, u.user_name ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "."  WHERE back_sn = '$back_sn'";
+    $back = $GLOBALS['db']->getRow($sql);
+    $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$back['order_back_id']."'";
+    $order_back_goods_list = $GLOBALS['db']->getAll($sql);
+    foreach($order_back_goods_list as $k => $order_back_goods)
+    {
+        $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$back['order_id']." ' LIMIT 1";
+        $goods = $GLOBALS['db']->getRow($sql);
+        $goods['goods_price'] = price_format($goods['goods_price']);
+        $goods['goods_thumb'] = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
+        $goods['goods_number'] = $order_back_goods['goods_number'];
+        $goods_list[] = $goods;
+    }
+    $back['goods_list'] = $goods_list;
+    return $back;
+}
 ?>

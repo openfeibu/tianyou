@@ -49,7 +49,7 @@ var kdniao={
 			cache:false,
 			dataType:'json',
 			success:function(result){
-				var shtml='<div class="header"><div class="th">';
+				var shtml='<div class="header1"><div class="th">';
 				if(cont.attr("class")=="flo"){
 					shtml+='<a class="close" href="#" onclick="kdniao.close()"></a>';
 				}
@@ -104,7 +104,7 @@ var kdniao={
 					}
 				}
 				shtml+='</div>';
-				shtml+='<div class="footer"><div class="info">以上信息由物流公司提供，如无跟踪信息或有疑问，请咨询对应的物流公司</div></div>';
+				shtml+='<div class="footer1"><div class="info">以上信息由物流公司提供，如无跟踪信息或有疑问，请咨询对应的物流公司</div></div>';
 				cont.html(shtml);
 				$("#queryContext").show();
 				if(cont.attr("class")=="flo")

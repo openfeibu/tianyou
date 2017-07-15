@@ -242,7 +242,7 @@
                     <!-- {foreach from=$authors item=author key=key name=name} -->
                     <!-- {if $key < 10} -->
                     <div class="big-author-item fb-position-relative fb-float-left">
-                        <a href="">
+                        <a href="author.php?id={$author.author_id}">
                             <span class="No{if $smarty.foreach.name.iteration <10}0{/if}{$smarty.foreach.name.iteration} fb-position-absolute"></span>
                             <img src="{$author.author_avatar}" alt="{$author.author_name}" />
                             <div class="big-author-bg fb-position-absolute fb-font14">
@@ -260,7 +260,7 @@
                     <!-- {foreach from=$authors item=author key=key name=name} -->
                     <!-- {if $key > 9} -->
                     <div class="small-author-item fb-transition fb-float-left">
-                        <a href="">
+                        <a href="author.php?id={$author.author_id}">
                             <div class="img fb-float-left">
                                 <img src="{$author.author_avatar}" alt="{$author.author_name}" />
                             </div>

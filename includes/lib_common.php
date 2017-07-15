@@ -3091,7 +3091,7 @@ function get_article_info($article_id)
 
     return $row;
 }
-function ajax_show_message($content,$type = 'error',$url = '')
+function ajax_show_message($content,$type = 'error',$url = '',$data = array())
 {
     $msg['message'] = $content;
     $msg['url'] = $url;
@@ -3110,6 +3110,13 @@ function ajax_show_message($content,$type = 'error',$url = '')
             break;
     }
     $msg['message'] = $content;
+    $msg['data'] = $data;
     die(json_encode($msg));
+}
+function get_shop_setting()
+{
+    $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('shop_setting')." WHERE id = 1";
+    $shop_setting = $GLOBALS['db']->getRow($sql);
+    return $shop_setting;
 }
 ?>
