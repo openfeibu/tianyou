@@ -1,0 +1,85 @@
+{include file="tianyou/head.htm"}
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                {include file="tianyou/setting_nav.htm"}
+            </div>
+            <!--发布艺术品 left end-->
+            <!--内容 right-->
+            <div class=' rightDiv'>
+                <form action="" id="contactForm">
+                    <div class='input_all'>
+                        <label for="">地址</label>
+                        <input type="text" name="address" value="{$shop_setting.address}">
+                    </div>
+                    <div class='input_all'>
+                        <label for="">邮箱</label>
+                        <input type="text" name="email" value="{$shop_setting.email}">
+                    </div>
+                    <div class='input_all'>
+                        <label for="">联系方式</label>
+                        <input type="text" name="tell" value="{$shop_setting.tell}">
+                    </div>
+                    <div class='input_all'>
+                        <label for="">联系人</label>
+                        <input type="text" name="tellName" value="{$shop_setting.contacts}">
+                    </div>
+                    <div style="height: 280px">
+                    </div>
+                    <div class="input_all ">
+                        <button type="submit" class='fb-inlineBlock btn_click btn_warning'>保存</button>
+                        <button type="reset" class='fb-inlineBlock btn_click btn-common'>重置</button>
+                    </div>
+                </form>
+                <div class="hei-80"></div>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+</body>
+<script>
+    $fb("#contactForm").formValidator([
+      {
+        name:"address",
+        rules:"required",
+        display:"地址不可为空",
+      },{
+        name:"tell",
+        rules:"required",
+        display:"联系方式不可为空",
+      },{
+        name:"tellName",
+        rules:"required",
+        display:"联系人不可为空",
+      }
+  ],function($el){
+      var email = $.trim($el.find("input[name='email']").val());
+      var address = $.trim($el.find("input[name='address']").val());
+      var tell = $.trim($el.find("input[name='tell']").val());
+      var contacts = $.trim($el.find("input[name='tellName']").val());
+
+      $.ajax({
+          type: "POST",
+          url:'setting.php?act=contact_submit',
+          data:{'email':email,'address':address,'tell':tell,'contacts':contacts},
+          error: function(request) {
+              alert("连接错误");
+              return false;
+          },
+          success: function(data) {
+              var obj = JSON.parse(data);
+              if(obj.error == 0){
+                  $fb.fbNews({"content":obj.message,"type":"success"})
+
+              }else{
+                  $fb.fbNews({"content":obj.message,"type":"warning"})
+              }
+              return false;
+          }
+      });
+  });
+</script>
+</html>

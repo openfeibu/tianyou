@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+{include file='library/head.lbi '}
+<body>
+    <!-- 头部 S -->
+    <div class="header min1320">
+        <div class="header_top">
+            {include file='library/nav.lbi '}
+        </div>
+    </div>
+    <!-- 头部 E -->
+    <!-- 主体内容 S -->
+    <div class="content">
+        <div class="con-list w1320 m-200">
+            <div class="padd100 paddtb60">
+                <div class="authorDe-header">
+                    <div class="author-img"><img src="{$author.author_avatar}" alt=""></div>
+                    <div class="author-test fb-font14 fb-color-333">
+                         {$author.author_name}
+                        <span>|</span>
+                        {$author.goods_count}
+                    </div>
+                </div>
+                <div class="authorDe-summary">
+                    <div class="authorDe-summary-title fb-font18 fb-color-333">简介</div>
+                    <div class="authorDe-summary-con fb-font16 fb-color-666">
+                        {$author.content}
+                    </div>
+                </div>
+                <div class="authorDe-works">
+                    <div class="authorDe-works-title fb-font18 fb-color-333">作品</div>
+                    <div class="authorDe-works-con fb-waterfall-con fb-position-relative">
+
+                    </div>
+                </div>
+                <div class="authorDe-actions">
+                    <div class="authorDe-actions-title fb-font18 fb-color-333">活动</div>
+                    <div class="authorDe-actions-con">
+                        <div class="con-list-group">
+                            <!-- {foreach from=$activities item=item} -->
+                            <div class="list-item-second">
+                                <div class="img fb-float-left">
+                                    <img src="images/img.jpg" alt="">
+                                </div>
+                                <div class="test">
+                                    <h3 class="fb-font18 fb-transition">{$item.title}<a href="article.php?id={$item.article_id}" class=" fb-font14">详情</a></h3>
+                                    <p class="fb-font16">
+                                        {$item.description}
+                                    </p>
+                                    <div class="test-bottom fb-font14">
+                                        <div class="fb-float-left">活动类型：{$item.activity_type}</div>
+                                        <div class="fb-float-right">活动时间:{$item.activity_time}</div>
+                                    </div>
+                                </div>
+                            </div><!--list-item-second-->
+                            <!-- {/foreach} -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 主体内容 E -->
+    <!-- footer S -->
+    {include file='library/footer.lbi'}
+    <!-- footer E -->
+</body>
+<script>
+     var data = {$goods_list_json};
+    $fb.waterfall({
+                "el":".authorDe-works-con",
+                "margin":20,
+                'data':data,
+                'width':265
+    });
+</script>
+</html>

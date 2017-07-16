@@ -1,0 +1,94 @@
+{if $full_page}
+{include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--标题 left-->
+            <div class='fb-float-left leftDiv publishAct_lefthead'>
+                {include file="tianyou/list_back_nav.htm"}
+            </div>
+            <!--标题 left end-->
+            <!--内容 right-->
+            <div class=' rightDiv fb-position-relative publishAct_right'>
+                <div class="publishAct_choseEditCon">
+                    <div class="">
+                        <form class="fb-clearfix" action="">
+                            <div class="fb-float-left">
+                                <input class="sear fb-float-left" type="text" placeholder="请输入要搜索的关键字">
+                                <input type="submit" value="" class="fb-float-left submit-btn">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class='refund-title'>
+                    <a href="#"> 未处理退款消息共{$record_count}条</a>
+                </div>
+{/if}
+                <div class="list-div" id="listDiv">
+                    <table class="mess-table">
+                        <colgroup>
+                            <col class="col1">
+                            <col class="col2">
+                            <col class="col3">
+                            <col class="col4">
+                            <col class="col5">
+                            <col class="col6">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>商品</td>
+                                <td>金额</td>
+                                <td>要求</td>
+                                <!-- <th>退货单号</th> -->
+                                <td>订单编号</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$list_back item=order key=dkey}
+                            <tr>
+                                <td class="td1">
+                                    <div><img src="/{$order.avatar}" alt=""></div>
+                                    <p><span class="span_username">{$order.user_name}</span>
+                                        <br /><span class="span_district">地区</span>
+                                    </p>
+                                </td>
+
+                                <td class="td2">
+                                    {foreach from=$order.goods_list item=goods key=ogkey}
+                                    <span><img src="/{$goods.goods_thumb}" alt="{$goods.goods_name}" class="goods_thumb"></span>
+                                    {/foreach}
+                                </td>
+                                <td>￥00</td>
+                                <td>退款</td>
+                                <!-- <th>{$order.back_sn}</th> -->
+                                <td>{$order.order_sn}</td>
+                                <td><a style="color:#007560;" href="order.php?act=back_detail&back_sn={$order.back_sn}">详情</a></td>
+                            </tr>
+                            <tr></tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                    <div class="pageDiv">
+                        {include file="tianyou/page.htm"}
+                    </div>
+{if $full_page}
+                </div>
+
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+    <script type="text/javascript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+</body>
+</html>
+{/if}

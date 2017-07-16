@@ -1,0 +1,100 @@
+{include file="tianyou/head.htm"}
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                 {include file="tianyou/setting_nav.htm"}
+            </div>
+            <!--发布艺术品 left end-->
+            <!--内容 right-->
+            <div class=' rightDiv'>
+                <form action="" id="qqForm">
+                    <div class='input_all' >
+                        <label for="">增加QQ客服</label>
+                        <input type="text" name="qq" placeholder="" />
+                        <button type="submit" class="btn_click btn_warning">增加</button>
+                    </div>
+                    <div class='input_all'>
+                        <label class="fb-float-left" for="">已有客服账号</label>
+                        <ul class="add-account fb-inlineBlock">
+                            {foreach from=$qq_list item=item}
+                            <li>
+                                <dd>{$item.account}</dd>
+                                <a class="fb-inlineBlock fb-position-absolute" attr-id="{$item.id}"></a>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+</body>
+<script>
+        // 表单验证
+ $fb("#qqForm").formValidator([
+      {
+        name:"qq",
+        rules:"required",
+        display:"QQ客服不可为空",
+      }
+    ],function($el){
+        var qqName = $el.find('[name="qq"]').val();
+        $.ajax({
+            type: "POST",
+            url:'setting.php?act=qq_add_submit',
+            data:{'account':qqName},
+            error: function(request) {
+                alert("连接错误");
+                return false;
+            },
+            success: function(data) {
+                var obj = JSON.parse(data);
+                if(obj.error == 0){
+                    $fb.fbNews({"type":"success","content":"增加成功"});
+                    $el.find('[name="qq"]').val('');
+                    $el.find('[name="qq"]').focus();
+                    var qqHtml = '<li>\
+                                    <dd>'+qqName+'</dd>\
+                                    <a class="fb-inlineBlock fb-position-absolute" attr-id="'+obj.data.id+'"></a>\
+                                </li>';
+                    $(".add-account").append(qqHtml);
+                }else{
+                    $fb.fbNews({"content":obj.message,"type":"warning"})
+                }
+                return false;
+            }
+        });
+        return false;
+    });
+// 表单验证
+$(".add-account").on("click","li a",function(){
+    var that = $(this);
+    var id = that.attr('attr-id');
+    $fb.showModal({title : '天佑艺术馆',content:'是否删除该客服'},function(){
+        $.ajax({
+            type: "POST",
+            url:'setting.php?act=remove',
+            data:{'id':id},
+            error: function(request) {
+                alert("连接错误");
+                return false;
+            },
+            success: function(data) {
+                var obj = JSON.parse(data);
+                if(obj.error == 0){
+                    that.parents("li").remove();
+                    $fb.fbNews({"type":"success","content":"删除成功"});
+                }else{
+                    $fb.fbNews({"type":"warning","content":"删除失败"});
+                }
+
+            }
+        });
+    })
+})
+</script>
+</html>

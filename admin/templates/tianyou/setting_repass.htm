@@ -1,0 +1,95 @@
+{include file="tianyou/head.htm"}
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                {include file="tianyou/setting_nav.htm"}
+            </div>
+            <!--发布艺术品 left end-->
+            <!--内容 right-->
+            <div class=' rightDiv'>
+                <form action="" id="activeForm">
+                    <div class='input_all'>
+                        <label for="">目前密码</label>
+                        <input type="password" name="nowPass" placeholder='*************'>
+                    </div>
+<!--                     <div class='input_all'>
+                        <label for="">后台验证码</label>
+                        <input class="win-160-w " type="text">
+                        <a class="win-120-w hei-40-h get_code fb-inlineBlock" href="">获取验证码</a>
+                    </div> -->
+                    <div class='input_all'>
+                        <label for="">新密码</label>
+                        <input type="password" name="newPass01">
+                    </div>
+                    <div class='input_all'>
+                        <label for="">确认新密码</label>
+                        <input type="password" name="newPass02">
+                    </div>
+                    <div style="height: 280px">
+                    </div>
+                    <div class="input_all ">
+                        <button type="submit" class='fb-inlineBlock btn_click btn_warning'>保存</button>
+                        <button type="reset" class='fb-inlineBlock btn_click btn-common'>重置</button>
+                    </div>
+                </form>
+                <div class="hei-80"></div>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+</body>
+<script>
+    // 表单验证
+ $fb("#activeForm").formValidator([
+      {
+        name:"nowPass",
+        rules:"required",
+        display:"当前密码不可为空",
+      },
+      {
+        name:"newPass01",
+        rules:"required",
+        minLength:6,
+        display:"密码不可为空",
+        mindisplay:"密码不可小于6位数"
+      },
+      {
+        name:"newPass02",
+        rules:"is_equal",
+        equalName:"newPass01",
+        minLength:6,
+        display:"密码不可为空",
+        mindisplay:"密码不可小于6位数",
+        equaldisplay:"两次密码不一样"
+      },
+
+  ],function(){
+      var old_password = $.trim($("input[name='nowPass']").val());
+      var new_password = $.trim($("input[name='newPass01']").val());
+      var pwd_confirm = $.trim($("input[name='newPass02']").val());
+      $.ajax({
+          type: "POST",
+          url:'setting.php?act=repass_submit',
+          data:{'old_password':old_password,'new_password':new_password,'pwd_confirm':pwd_confirm},
+          error: function(request) {
+              alert("连接错误");
+              return false;
+          },
+          success: function(data) {
+              var obj = JSON.parse(data);
+              if(obj.error == 0){
+                  window.location.href=obj.url;
+
+              }else{
+                  $fb.fbNews({"content":obj.message,"type":"warning"})
+              }
+              return false;
+          }
+      });
+  });
+// 表单验证
+</script>
+</html>

@@ -1,0 +1,166 @@
+{include file="tianyou/head.htm"}
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--标题 left-->
+            <div class='fb-float-left leftDiv publishAct_lefthead'>
+                {include file="tianyou/list_back_nav.htm"}
+            </div>
+            <!--标题 left end-->
+            <!--内容 right-->
+            <div class='rightDiv fb-position-relative publishAct_right'>
+                <div class='return-page  mar-10'>
+                    <a class="marL-30 " href="javascript:window.history.go(-1);"> 返回上一页</a>
+                </div>
+                <div class='refund_notDealmessDetail'>
+                    <div class='bor-bot hei-80 fb-clearfix'>
+                        <div class='top_left fb-float-left'>
+                            <div class="img_right" >
+                                <img src="/{$back.avatar}" alt="{$back.user_name}" class="avatar">
+                                <div class='text_right'>
+                                    <span>{$back.user_name}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class='fb-float-right lh-80' style='margin-right:30px;'>订单编号：{$back.order_sn}</p>
+                    </div>
+                    <div class='proDiv bor-bot fb-clearfix'>
+                        {foreach from=$back.goods_list item=goods key=ogkey}
+                        <div class="fb-clearfix marb-10">
+                            <div class="proDiv_clas fb-float-left">
+                                <img src="/{$goods.goods_thumb}" alt="">
+                                <div class='fb-inlineBlock'>
+                                    <p class='fb-inlineBlock' style="margin:10px 20px;">{$goods.goods_name}</p>
+                                    <div style="height:40px;">
+                                    </div>
+                                    <p class='fb-inlineBlock' style="margin:10px 20px;">{$goods.goods_price} * {$goods.goods_number}</p>
+                                </div>
+                                <br>
+                            </div>
+                            <div class='fb-inlineBlock fb-float-right'>
+                                <p class='fb-inlineBlock' style="margin:10px 20px;">奇石玉石</p>
+                                <br>
+                                <p class='fb-inlineBlock' style="margin:10px 20px;">砗磲</p>
+                                <br>
+                                <p class='fb-inlineBlock' style="margin:10px 20px;">105×54 cm</p>
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+                    <div class="proDiv pro_detail bor-bot">
+                        <p class='pro_detail_p1'> <span>退款编号：</span>{$back.back_sn}</p>
+                        <p class='pro_detail_p2'> <span>退款金额：</span>¥5299</p>
+                        <p class='pro_detail_p4'> <span>原因：</span>{$back.liyou}</p>
+                        <p class='pro_detail_p5'> <span>说明：</span>{$back.beizhu}</p>
+                    </div>
+                    <!--{if $back.status == 1}-->
+                    <div class="proDiv pro_detail bor-bot fb-clearfix">
+                        <div class="input_all refund_Detail_click fb-float-right">
+                            <a href="#" class='fb-inlineBlock btn_click btn_danger popRenson'>不予退款</a>
+                            <!-- <a href="#" class='fb-inlineBlock btn_click btn_warning'>已同意退款，等待</a> -->
+                            <a href="#" class='fb-inlineBlock btn_click btn_warning pase_back'>同意退款</a>
+                        </div>
+                        <script>
+                        $(function() {
+                            $('.popRenson').click(function() {
+                                $fb.showModal({
+                                    title: '管理员回复',
+                                    textBox: 'textarea'
+                                }, function(val) {
+                                    $.ajax({
+                                        cache: true,
+                                        type: "POST",
+                                        url:'order.php?act=stop_back_submit&back_sn={$back.back_sn}',
+                                        data:{'ajax':1,'receve':val},// 你的formid
+                                        async: false,
+                                        error: function(request) {
+                                            alert("连接错误");
+                                            return false;
+                                        },
+                                        success: function(data) {
+                                            var obj = JSON.parse(data);
+                                            if(obj.error == 0){
+                                                window.location.href=obj.url;
+                                            }else{
+                                                $fb.fbNews({"content":obj.message,"type":"warning"})
+                                            }
+                                        }
+                                    });
+                                });
+                            });
+                            $('.pase_back').click(function() {
+                                $fb.showModal({
+                                    title: '管理员回复',
+                                    textBox: 'textarea'
+                                }, function(val) {
+                                    $.ajax({
+                                        cache: true,
+                                        type: "POST",
+                                        url:'order.php?act=pase_back_submit&back_sn={$back.back_sn}',
+                                        data:{'ajax':1,'receve':val},// 你的formid
+                                        async: false,
+                                        error: function(request) {
+                                            alert("连接错误");
+                                            return false;
+                                        },
+                                        success: function(data) {
+                                            var obj = JSON.parse(data);
+                                            if(obj.error == 0){
+                                                window.location.href=obj.url;
+                                            }else{
+                                                $fb.fbNews({"content":obj.message,"type":"warning"})
+                                            }
+                                        }
+                                    });
+                                });
+                            });
+                        })
+                        </script>
+                    </div>
+                    <!--{elseif $back.status == 2}-->
+                    <div class="proDiv pro_detail fb-clearfix" style="color:#e50000">
+                        * 由于客户还没有填写退货的物流信息，暂时不能直接退款 *
+                        <div class="input_all refund_Detail_click fb-float-right mar-10">
+                            <a href="#" class='fb-inlineBlock btn_click ban-btn col-white'>已收货，直接退款</a>
+                        </div>
+                    </div>
+                    <!--{elseif $back.status == 3}-->
+                    <div class="proDiv pro_detail bor-bot">
+                        <p class='pro_detail_p1'> 物流信息</p>
+                        <p class='pro_detail_p2'>物流公司：{$back.shipping_name}</p>
+                        <p class='pro_detail_p3'> 物流单号：{$back.invoice_no}</p>
+                    </div>
+                    <!--物流流程信息-->
+                    <div id="queryContext">
+
+                    </div>
+                    <div class="fb-position-relative" >
+                        <div class="fb-clearfix">
+                            <div class="input_all refund_Detail_click fb-float-right">
+                                <a  href="order.php?act=shouhuo&back_sn={$back.back_sn}" class='fb-inlineBlock btn_click warn-btn col-white'>已收货，直接退款</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--物流流程信息 end-->
+                    {insert_scripts files="../plugins/kdniao/jquery.min.js"}
+                    {insert_scripts files="../plugins/kdniao/kdniao.js"}
+                    <script type="text/javascript">
+                        {if $order.order_status=5}
+                        kdniao.query('{$back.invoice_no}','{$back.shipping_name}');
+                        {/if}
+                    </script>
+                    <!--{/if}-->
+                </div>
+                <div class="hei-80"></div>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+    <!--原因 弹出框-->
+    <!-- <div class="popReason">
+
+</div> -->
+    <!--原因 弹出框 end-->
+</body>
+</html>

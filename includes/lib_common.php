@@ -2410,7 +2410,15 @@ function get_final_price($goods_id, $goods_num = '1', $is_spec_price = false, $s
     //返回商品最终购买价格
     return $final_price;
 }
-
+function get_final_rent_price($goods_id)
+{
+    $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('goods')." WHERE goods_id = '$goods_id'";
+    $goods = $GLOBALS['db']->getRow($sql);
+    return [
+        'rent' => $goods['rent'],
+        'deposit' => $goods['deposit'],
+    ];
+}
 /**
  * 将 goods_attr_id 的序列按照 attr_id 重新排序
  *
@@ -2917,6 +2925,16 @@ function get_author($id)
     $sql = 'SELECT * FROM '. $GLOBALS['ecs']->table('author') . ' ORDER BY author_id = '.$id.' DESC';
     $author = $GLOBALS['db']->getRow($sql);
     return $author;
+}
+function get_author_activities($author_id)
+{
+    $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('article') . " WHERE author_id = $author_id";
+    $acivities = $GLOBALS['db']->getAll($sql);
+    foreach ($acivities as $key => $acivity) {
+        $acivities[$key]['add_time']    = local_date('Y-m-d H:i:s', $acivity['add_time']);
+        $acivities[$key]['activity_time']    = local_date('Y-m-d H:i:s', $acivity['activity_time']);
+    }
+    return $acivities;
 }
 
 function get_history()
