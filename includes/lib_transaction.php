@@ -307,15 +307,15 @@ function add_bonus($user_id, $bouns_sn)
  * @param   int         $start          列表起始位置
  * @return  array       $order_list     订单列表
  */
-function get_user_orders($user_id, $num = 10, $start = 0)
+function get_user_orders($user_id, $num = 10, $start = 0,$keyword)
 {
     /* 取得订单列表 */
     $arr    = array();
 
-    $sql = "SELECT *, " .
+    $sql = "SELECT o.*, " .
            "(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - discount) AS total_fee ".
-           " FROM " .$GLOBALS['ecs']->table('order_info') .
-           " WHERE user_id = '$user_id' ORDER BY add_time DESC";
+           " FROM " .$GLOBALS['ecs']->table('order_info') . " AS o LEFT JOIN ".$GLOBALS['ecs']->table('order_goods') .
+           " AS g ON o.order_id = g.order_id WHERE user_id = '$user_id' AND (o.order_sn LIKE '%".$keyword."%' OR  g.goods_name LIKE '%".$keyword."%')  GROUP BY o.order_id ORDER BY add_time DESC ";
     $res = $GLOBALS['db']->SelectLimit($sql, $num, $start);
 
     while ($row = $GLOBALS['db']->fetchRow($res))
@@ -361,14 +361,15 @@ function get_user_orders($user_id, $num = 10, $start = 0)
         {
             $goods_list[$key]['market_price'] = price_format($value['market_price'], false);
             $goods_list[$key]['goods_price']  = price_format($value['goods_price'], false);
+            $goods_list[$key]['formated_deposit']      = price_format($value['deposit'], false);
             $goods_list[$key]['subtotal']     = price_format($value['subtotal'], false);
             $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('order_back_goods') . " AS obg JOIN ".$GLOBALS['ecs']->table('order_back')." AS ob ON ob.order_back_id = obg.order_back_id WHERE obg.goods_id = '".$value['goods_id']."' AND obg.order_id = '".$row['order_id']."'";
             $order_back_goods = $GLOBALS['db']->getRow($sql);
             if($order_back_goods)
             {
-                $goods_list[$key]['handler'] = '<a href="user.php?act=back_detail&back_sn='.$order_back_goods['back_sn'].'" class="fb-color-fff">查看退款进度</a>';
-            }else{
-                $goods_list[$key]['handler'] = '<a href="user.php?act=order_back_request&order_id='.$row['order_id'].'&goods_id='.$value['goods_id'].'" class="fb-color-fff">退款</a>';
+                $goods_list[$key]['handler'] = '<div class="oneRefund fb-position-absolute opa_active"><a href="user.php?act=back_detail&back_sn='.$order_back_goods['back_sn'].'" class="fb-color-fff">查看退款进度</a></div>';
+            }else if($row['pay_status'] == 2){
+                $goods_list[$key]['handler'] = '<div class="oneRefund fb-position-absolute opa_active"><a href="user.php?act=order_back_request&order_id='.$row['order_id'].'&goods_id='.$value['goods_id'].'" class="fb-color-fff">退款</a></div>';
             }
         }
         /* 如果是未付款状态，生成支付按钮 */

@@ -120,7 +120,7 @@ if (!$smarty->is_cached('article.dwt', $cache_id))
 
     assign_dynamic('article');
 }
-if(isset($article) && $article['cat_id'] == 17)
+if(isset($article) && ($article['cat_id'] == 17 || $article['cat_id'] == -1))
 {
     $smarty->display('article_info.dwt', $cache_id);
 

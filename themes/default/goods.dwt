@@ -39,21 +39,25 @@
                             <div class="worksInfo-news fb-font14">
                                 <p>陶瓷<span>丨</span>瓷瓶</p>
                                 <p>长 50cm<span>x</span> 高 82cm</p>
-                                <p>可租可售</p>
+                                <p>{$goods.nature_desc}</p>
                             </div>
                             <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
                         </div>
                         <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
                         <div class="worksOperation">
                             <div class="clearfix fb-position-relative form">
+                                {if $goods.nature == 1 || $goods.nature == 3}
                                 <div class="input-b fb-float-left fb-font14">
-                                  <input class="radio fb-inlineBlock inputType" type="radio" name="type" id="buy" value="buy" checked>
+                                  <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="buy" value="1" checked>
                                   <label class="fb-inlineBlock fb-transition active" for="buy">购买</label>
                                 </div>
+                                {/if}
+                                {if $goods.nature == 1 || $goods.nature == 2}
                                 <div class="input-b fb-float-left fb-font14">
-                                  <input class="radio fb-inlineBlock inputType" type="radio" name="type" id="rent" value="rent" >
+                                  <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="rent" value="2" >
                                   <label class="fb-inlineBlock fb-transition" for="rent">租赁</label>
                                 </div>
+                                {/if}
                             </div>
                             <div class="worksCollection fb-transition collect {if $is_collect}active{/if}" onclick="javascript:worksCollection({$goods.goods_id});">
                                 收藏该艺术品

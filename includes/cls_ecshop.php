@@ -18,7 +18,7 @@ if (!defined('IN_ECS'))
     die('Hacking attempt');
 }
 
-define('APPNAME', 'ECSHOP');
+define('APPNAME', 'TIANYOU');
 define('VERSION', 'v3.0.0');
 define('RELEASE', '20160518');
 

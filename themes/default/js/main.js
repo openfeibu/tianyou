@@ -146,7 +146,7 @@ $(function(){
 	});
 	//注册获取验证码
 	$(".reg .getCode").on("click",function(){
-		var tell = $("[name='account']").val();
+		var tell = $("[name='mobile']").val();
 		if(!$fb.expPhone(tell)){
 			$fb.fbNews({"type":"danger","content":"手机号码格式错误"});
 			return false;
@@ -289,25 +289,48 @@ $(function(){
 	worksCollection = function(goodsId){
 		$.getJSON('user.php?act=collect&id='+goodsId, function(data){
 			if(data.error == 0)
-			{
-				$(".collect").toggleClass("active");
+			{	if(data.active == 1)
+				{
+					$(".collect").toggleClass("active");
+				}else{
+					$(".collect").removeClass("active");
+				}
 			}else{
 				$fb.fbNews({"content":data.message,"type":"warning"});
 			}
 		});
 	};
 
-
+	/*
 	//删除购物车
 	$(".cart .delete").on("click",function(){
 		$fb.showModal({
 		    title:"提示",
 		    content:"是否删除该商品？"
 		},function(){
-
-		})
+			$.ajax({
+				type: "POST",
+				url:'flow.php?act=ajax_drop_goods',
+				data:{'ajax':1},
+				error: function(request) {
+					alert("连接失败");
+				},
+				success: function(data) {
+					console.log(data.message);
+					if(data.error ==1)
+					{
+						$fb.fbNews({"content":"删除成功","type":"warning"})
+					}
+					else if(data.error == 0)
+					{
+						$(".address-item_"+id).remove();
+						$fb.fbNews({"content":"删除成功","type":"success"})
+					}
+				}
+			});
+		});
 	})
-
+*/
 	//选择购物车
 	$(".cart-checkbox").on("click",function(){
 		$(this).toggleClass("checked");

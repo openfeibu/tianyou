@@ -710,3 +710,4 @@ input:checked{background: #000}
 .qqBox .qqBox-item a{color: #222 !important;display: block;}
 .qqBox .qqBox-item:hover a{color: #f1c362 !important;display: block;}
 .contactM{cursor: pointer;}
+.pad-bot-80{padding-bottom:80px;}

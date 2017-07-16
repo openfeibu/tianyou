@@ -24,7 +24,7 @@ function addToCart(goodsId,one_step_buy = 0, parentId)
 
 	quick = 1;
   }
-
+  goods.buy_type = formBuy.elements['buy_type'].value;
   goods.quick    = quick;
   goods.spec     = spec_arr;
   goods.goods_id = goodsId;

@@ -75,14 +75,14 @@
 
 					<div class='input_all fb-position-relative selectBox_all'>
 						<label for="">性质</label>
-						<input type="text" class="selectBox_input nature"  style="background:url('{$admin_themes}/images/icon2.png') no-repeat 280px center" value="可租可买">
-                        <input type="hidden" name="nature" id="nature" value="1">
+						<input type="text" class="selectBox_input nature"  style="background:url('{$admin_themes}/images/icon2.png') no-repeat 280px center" value="{$goods.nature_desc}">
+                        <input type="hidden" name="nature" id="nature" value="{$goods.nature}">
 						<div class='fb-position-absolute pos selectBox' >
 							<div>
 								<ul>
-									<li sid="1"><a>可租可买</a></li>
-									<li sid="2"><a>只租</a></li>
-									<li sid="3"><a>只买</a></li>
+									<li sid="1" {if $goods.nature == 1}class="on"{/if}><a>可租可买</a></li>
+									<li sid="2" {if $goods.nature == 2}class="on"{/if}><a>只租</a></li>
+									<li sid="3" {if $goods.nature == 3}class="on"{/if}><a>只买</a></li>
 								</ul>
 							</div>
 							<a  class="cancel">取消</a>

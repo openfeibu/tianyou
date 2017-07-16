@@ -15,20 +15,29 @@
     <div class="content">
         <div class="con-list w1320 m-200">
             <!-- {if $action eq 'order_list'} -->
-            <div class="padd40 paddtb60" style="padding-top:20px">
+            <div class="padd40 paddtb60" style="padding-top:20px" id="order_list">
                 <div class="list-search">
                     <div class="list-search-box">
-                        <input type="text" placeholder="请输入商品名称或者订单号来进行搜索">
-                        <input type="submit" value=""/>
+                        <form action="user.php?act=order_list" method="post">
+                            <input type="text" placeholder="请输入商品名称或者订单号来进行搜索" name="keyword" value="{$keyword}">
+                            <input type="submit" value=""/>
+                        </form>
                     </div>
                 </div>
                 <div class="orderList">
                     <!--{foreach from=$orders item=item}-->
                     <div class="orderList-item">
-                        <div class="orderList-item-header">
+                        <div class="orderList-item-header fb-position-relative">
                             <div class="date fb-float-left fb-color-aaa fb-font14">订单时间：{$item.order_time}</div>
                             <div class="orderNum fb-float-left fb-color-aaa fb-font14">订单号码：{$item.order_sn}</div>
-                            <div class="contactM fb-float-right fb-color-333 fb-font14"><a href="" class=" fb-color-333 fb-font14">联系客服</a></div>
+                            <div class="contactM fb-float-right fb-color-333 fb-font14"><a  class=" fb-color-333 fb-font14">联系客服</a></div>
+                            <div class="qqBox fb-position-absolute">
+                                {foreach from=$qq_list item=qq_item name=qq}
+                                <div class="qqBox-item fb-transition">
+                                    <a target="_black" href="http://wpa.qq.com/msgrd?v=3&uin={$qq_item.account}&site=qq&menu=yes">QQ客服{$smarty.foreach.qq.iteration}</a>
+                                </div>
+                                {/foreach}
+                            </div>
                         </div>
                         <div class="orderList-content">
                             <!-- {foreach from=$item.goods_list item=goods} -->
@@ -39,13 +48,13 @@
                                         <a href="goods.php?id={$goods.goods_id}">{$goods.goods_name}</a>
                                     </div>
                                     <div class="test-bottom fb-position-absolute">
-                                        <div class="proMoney fb-color-666 fb-font14 fb-inlineBlock">{$goods.goods_price} × {$goods.goods_number}</div>
+                                        <div class="proMoney fb-color-666 fb-font14 fb-inlineBlock"> {if $goods.buy_type ==2}({$goods.goods_price} + {$goods.formated_deposit} ){else}{$goods.goods_price}{/if} × {$goods.goods_number}</div>
                                         <div class="dMoney fb-color-666 fb-font14 fb-inlineBlock"></div>
-                                        <div class="buyType fb-color-666 fb-font14 fb-inlineBlock">购买</div>
+                                        <div class="buyType fb-color-666 fb-font14 fb-inlineBlock">{if $goods.buy_type == 1}购买{else}租赁{/if}</div>
                                     </div>
-                                    <div class="oneRefund fb-position-absolute opa_active">
-                                        {$goods.handler}
-                                    </div>
+
+                                    {$goods.handler}
+
 
                                 </div>
                             </div>
@@ -79,6 +88,15 @@
                 </div>
                 <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
             </div>
+            <script>
+
+            $(".contactM,.qqBox").hover(function(){
+                $(this).parents(".orderList-item-header").find(".qqBox").stop().slideDown(200)
+
+            },function(){
+                $(this).parents(".orderList-item-header").find(".qqBox").stop().slideUp(200)
+            })
+            </script>
             <!-- {/if} -->
 
             <!-- {if $action eq 'order_detail'}-->

@@ -137,9 +137,25 @@ if (!empty($_REQUEST['act']) && $_REQUEST['act'] == 'gotopage')
 /*------------------------------------------------------ */
 //-- PROCESSOR
 /*------------------------------------------------------ */
+$is_collect = 0;
+if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] == 0)
+{
+    $is_collect = 0;
+}else{
+    $sql = "SELECT COUNT(*) FROM " .$GLOBALS['ecs']->table('collect_goods') .
+        " WHERE user_id='$_SESSION[user_id]' AND goods_id = '$goods_id'";
+    if ($GLOBALS['db']->GetOne($sql) > 0)
+    {
+        $is_collect = 1;
+    }
+}
+$smarty->assign('is_collect', $is_collect);
 
-$cache_id = $goods_id . '-' . $_SESSION['user_rank'].'-'.$_CFG['lang'];
+$cache_id = $goods_id . '-' . $_SESSION['user_rank'].'-'.$_CFG['lang'].'-'.$is_collect;
 $cache_id = sprintf('%X', crc32($cache_id));
+
+
+
 if (!$smarty->is_cached('goods.dwt', $cache_id))
 {
     $smarty->assign('image_width',  $_CFG['image_width']);
@@ -154,19 +170,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
     /* 获得商品的信息 */
     $goods = get_goods_info($goods_id);
 
-    $is_collect = 0;
-    if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] == 0)
-    {
-        $is_collect = 0;
-    }else{
-        $sql = "SELECT COUNT(*) FROM " .$GLOBALS['ecs']->table('collect_goods') .
-            " WHERE user_id='$_SESSION[user_id]' AND goods_id = '$goods_id'";
-        if ($GLOBALS['db']->GetOne($sql) > 0)
-        {
-            $is_collect = 1;
-        }
-    }
-    $smarty->assign('is_collect', $is_collect);
+
 
     if ($goods === false)
     {

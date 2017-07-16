@@ -28,7 +28,7 @@ if (!defined('IN_ECS'))
  *
  * @return  array   $arr
  */
-function get_collection_goods($user_id, $num = 10, $start = 0)
+function get_collection_goods($user_id, $num = 10, $start = 0,$keyword ='')
 {
     $sql = 'SELECT g.goods_id, g.goods_name, g.market_price, g.shop_price AS org_price, '.
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, ".
@@ -38,7 +38,7 @@ function get_collection_goods($user_id, $num = 10, $start = 0)
                 "ON g.goods_id = c.goods_id ".
             " LEFT JOIN " . $GLOBALS['ecs']->table('member_price') . " AS mp ".
                 "ON mp.goods_id = g.goods_id AND mp.user_rank = '$_SESSION[user_rank]' ".
-            " WHERE c.user_id = '$user_id' ORDER BY c.rec_id DESC";
+            " WHERE c.user_id = '$user_id' AND g.goods_name like '%".$keyword."%' ORDER BY c.rec_id DESC";
     $res = $GLOBALS['db'] -> selectLimit($sql, $num, $start);
 
     $goods_list = array();
@@ -56,14 +56,14 @@ function get_collection_goods($user_id, $num = 10, $start = 0)
         $goods_list[$row['goods_id']]['rec_id']        = $row['rec_id'];
         $goods_list[$row['goods_id']]['is_attention']  = $row['is_attention'];
         $goods_list[$row['goods_id']]['goods_id']      = $row['goods_id'];
-        $goods_list[$row['goods_id']]['goods_name']    = $row['goods_name'];
+        $goods_list[$row['goods_id']]['goods_name']    = $goods_list[$row['goods_id']]['name'] = $row['goods_name'];
         $goods_list[$row['goods_id']]['market_price']  = price_format($row['market_price']);
         $goods_list[$row['goods_id']]['shop_price']    = price_format($row['shop_price']);
         $goods_list[$row['goods_id']]['promote_price'] = ($promote_price > 0) ? price_format($promote_price) : '';
         $goods_list[$row['goods_id']]['url']           = build_uri('goods', array('gid'=>$row['goods_id']), $row['goods_name']);
         $goods_list[$row['goods_id']]['goods_thumb']      = $goods_list[$row['goods_id']]['img'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $goods_list[$row['goods_id']]['goods_img']        = get_image_path($row['goods_id'], $row['goods_img']);
-        list($width, $height, $type, $attr) = getimagesize($arr[$row['goods_id']]['goods_thumb'] );
+        list($width, $height, $type, $attr) = getimagesize($row['goods_thumb']);
         $goods_list[$row['goods_id']]['width'] = $width;
         $goods_list[$row['goods_id']]['height'] = $height;
         $goods_list[$row['goods_id']]['popularity'] = $row['click_count'].'人气';

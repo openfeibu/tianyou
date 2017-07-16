@@ -60,7 +60,7 @@
                 </div>
                 <div class="enter-checked">
                     <input type="checkbox" name="agreement" class="fb-inlineBlock">
-                    <p class="fb-inlineBlock fb-font16">我已阅读并同意《  <a href="">天佑用户协议</a>  》</p>
+                    <p class="fb-inlineBlock fb-font16">我已阅读并同意《  <a href="article.php?id=6" target="_blank">天佑用户协议</a>  》</p>
                 </div>
                 <div class="enter-input">
                     <input name="act" type="hidden" value="act_register" >

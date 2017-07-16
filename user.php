@@ -990,14 +990,20 @@ elseif ($action == 'order_list')
     include_once(ROOT_PATH . 'includes/lib_order.php');
     include_once(ROOT_PATH . 'includes/lib_clips.php');
 
+    $keyword = isset($_REQUEST['keyword']) ? trim($_REQUEST['keyword']) : '';
+    $smarty->assign('keyword',  $keyword);
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
 
     $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). " WHERE user_id = '$user_id'");
 
     $pager  = get_pager('user.php', array('act' => $action), $record_count, $page);
 
-    $orders = get_user_orders($user_id, $pager['size'], $pager['start']);
+    $orders = get_user_orders($user_id, $pager['size'], $pager['start'],$keyword);
     $merge  = get_user_merge($user_id);
+
+    $sql = "SELECT * FROM " .$GLOBALS['ecs']->table('qq'). " ORDER BY id ASC" ;
+    $qq_list = $GLOBALS['db']->getAll($sql);
+    $smarty->assign('qq_list',$qq_list);
 
     $smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
@@ -1119,6 +1125,8 @@ elseif ($action == 'address_list')
     include_once(ROOT_PATH . 'languages/' .$_CFG['lang']. '/shopping_flow.php');
     $smarty->assign('lang',  $_LANG);
 
+    $shopping = isset($_REQUEST['shopping']) ?  intval($_REQUEST['shopping']) : 0;
+    $smarty->assign('shopping',       $shopping);
     /* 取得国家列表、商店所在国家、商店所在国家的省列表 */
     $smarty->assign('country_list',       get_regions());
     $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
@@ -1186,10 +1194,8 @@ elseif ($action == 'act_edit_address')
         'sign_building' => isset($_POST['sign_building']) ? compile_str(trim($_POST['sign_building'])) : '',
         'zipcode'       => isset($_POST['zipcode'])       ? compile_str(make_semiangle(trim($_POST['zipcode']))) : '',
         );
-    if(isset($_POST['country']) && intval($_POST['country']))
-    {
-        $address['country'] = intval($_POST['country']);
-    }
+    $address['country'] = 1;
+
     if(isset($_POST['province']) && intval($_POST['province']))
     {
         $address['province'] = intval($_POST['province']);
@@ -1209,7 +1215,13 @@ elseif ($action == 'act_edit_address')
     if (update_address($address))
     {
         $message = '操作成功';
-        $url = 'user.php?act=address_list';
+        if($_POST['shopping'])
+        {
+            $url = 'flow.php?step=checkout&shopping=1';
+        }else{
+            $url = 'user.php?act=address_list';
+        }
+
     }
     $data = [
         'message' => $message,
@@ -1302,9 +1314,11 @@ elseif ($action == 'collection_list')
     $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('collect_goods').
                                 " WHERE user_id='$user_id' ORDER BY add_time DESC");
 
+    $keyword = isset($_REQUEST['keyword']) ? trim($_REQUEST['keyword']) : '';
+    $smarty->assign('keyword',$keyword );
     $pager = get_pager('user.php', array('act' => $action), $record_count, $page);
     $smarty->assign('pager', $pager);
-    $goods_list = get_collection_goods($user_id, $pager['size'], $pager['start']);
+    $goods_list = get_collection_goods($user_id, $pager['size'], $pager['start'],$keyword);
     $smarty->assign('goods_list',$goods_list );
     $goods_list_json = $json->encode($goods_list);
     $smarty->assign('goods_list_json',$goods_list_json );
@@ -1968,11 +1982,16 @@ elseif ($action == 'collect')
     else
     {
         /* 检查是否已经存在于用户的收藏夹 */
-        $sql = "SELECT COUNT(*) FROM " .$GLOBALS['ecs']->table('collect_goods') .
+        $sql = "SELECT rec_id FROM " .$GLOBALS['ecs']->table('collect_goods') .
             " WHERE user_id='$_SESSION[user_id]' AND goods_id = '$goods_id'";
-        if ($GLOBALS['db']->GetOne($sql) > 0)
+        $rec_id = $GLOBALS['db']->GetOne($sql);
+        if ($rec_id)
         {
-            $result['error'] = 1;
+
+            $db->query('DELETE FROM ' .$ecs->table('collect_goods'). " WHERE rec_id='$rec_id' AND user_id ='$_SESSION[user_id]'" );
+            $result['error'] = 0;
+            $result['active'] = 0;
+            $result['rec_id'] = $rec_id;
             $result['message'] = $GLOBALS['_LANG']['collect_existed'];
             die($json->encode($result));
         }
@@ -1990,6 +2009,7 @@ elseif ($action == 'collect')
             }
             else
             {
+                $result['active'] = 1;
                 $result['error'] = 0;
                 $result['message'] = $GLOBALS['_LANG']['collect_success'];
                 die($json->encode($result));

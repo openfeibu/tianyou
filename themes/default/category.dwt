@@ -232,7 +232,7 @@
                     data:{'ajax':1},// 你的formid
                     async: false,
                     error: function(request) {
-                        alert("Connection error");
+                        alert("连接失败");
                     },
                     success: function(data) {
                         $(".fb-loading").text("");

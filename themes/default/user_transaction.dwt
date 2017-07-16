@@ -103,6 +103,7 @@
                 })
                 function addAddress(){
                     var city = $("#city").val(),
+                    shopping = '{$shopping}',
                     address=$("#addAddress").find(".address").val(),
                     consignee=$("#addAddress").find(".consignee").val(),
                     mobile=$("#addAddress").find(".mobile").val();
@@ -126,7 +127,7 @@
                         $.ajax({
                              type: "POST",
                              url: "user.php?act=act_edit_address",
-                             data: {consignee:consignee, mobile:mobile,address:address,country:country,province:province,city:city,district:district,is_default:is_default},
+                             data: {'consignee':consignee, 'mobile':mobile,'address':address,'country':country,'province':province,'city':city,'district':district,'is_default':is_default,'shopping':shopping},
                              dataType: "json",
                              success: function(data){
                                  $fb.fbNews({"content":"增加地址成功","type":"success"});
@@ -550,8 +551,10 @@
                 <div class="user-right fb-float-left">
                       <div class="collection-title">
                         <div class="con-search fb-float-right">
-                          <input type="text" placeholder="请输入要搜索的关键字">
-                          <input type="submit" value="">
+                            <form action="user.php?act=collection_list" method="post">
+                                <input type="text" placeholder="请输入要搜索的关键字" name="keyword" value="{$keyword}">
+                                <input type="submit" value="">
+                            </form>
                         </div>
                       </div>
                       <div class="paddtb60 collection fb-waterfall-con fb-position-relative">

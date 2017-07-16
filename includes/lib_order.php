@@ -467,7 +467,7 @@ function order_goods($order_id)
 {
     $sql = "SELECT rec_id, goods_id, goods_name, goods_sn, market_price, goods_number, " .
             "goods_price, goods_attr, is_real, parent_id, is_gift, " .
-            "goods_price AS subtotal, extension_code " .
+            "goods_price AS subtotal, extension_code, deposit, buy_type " .
             "FROM " . $GLOBALS['ecs']->table('order_goods') .
             " WHERE order_id = '$order_id'";
 
@@ -581,7 +581,7 @@ function order_fee($order, $goods, $consignee)
             $total['real_goods_count']++;
         }
 
-        $total['goods_price']  += $val['goods_price'] * $val['goods_number'];
+        $total['goods_price']  += ($val['goods_price'] + $val['deposit'])* $val['goods_number'];
         $total['market_price'] += $val['market_price'] * $val['goods_number'];
     }
 
@@ -859,8 +859,8 @@ function get_order_sn()
 function cart_goods($type = CART_GENERAL_GOODS,$rec_id = [])
 {
     $sql = "SELECT c.rec_id, c.user_id, c.goods_id, c.goods_name, g.goods_thumb, c.goods_sn, c.goods_number, " .
-            "c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping, " .
-            "c.goods_price * c.goods_number AS subtotal " .
+            "c.market_price, c.goods_price, c.goods_attr, c.is_real, c.extension_code, c.parent_id, c.is_gift, c.is_shipping,c.deposit, c.buy_type ," .
+            "(c.goods_price + c.deposit) * c.goods_number AS subtotal " .
             "FROM " . $GLOBALS['ecs']->table('cart') .
 			" AS c LEFT JOIN ".$GLOBALS['ecs']->table('goods').
             " AS g ON c.goods_id = g.goods_id WHERE session_id = '" . SESS_ID . "' " .
@@ -878,10 +878,12 @@ function cart_goods($type = CART_GENERAL_GOODS,$rec_id = [])
         $arr[$key]['formated_goods_price']  = price_format($value['goods_price'], false);
         $arr[$key]['formated_subtotal']     = price_format($value['subtotal'], false);
 
+        $arr[$key]['formated_deposit']  = $value['deposit'] > 0  ? price_format($value['deposit'], false) : '不需要押金';
         if ($value['extension_code'] == 'package_buy')
         {
             $arr[$key]['package_goods_list'] = get_package_goods($value['goods_id']);
         }
+        $arr[$key]['goods_thumb'] = get_image_path($value['goods_id'], $value['goods_thumb'], true);
     }
 
     return $arr;
@@ -1013,14 +1015,14 @@ function cart_weight_price($type = CART_GENERAL_GOODS)
  * @param   integer $parent     基本件
  * @return  boolean
  */
-function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $rec_type = CART_GENERAL_GOODS)
+function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0,$buy_type = 1, $rec_type = CART_GENERAL_GOODS)
 {
     $GLOBALS['err']->clean();
     $_parent_id = $parent;
 
     /* 取得商品信息 */
     $sql = "SELECT g.goods_name, g.goods_sn, g.is_on_sale, g.is_real, ".
-                "g.market_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date, ".
+                "g.market_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date,g.rent,g.deposit, ".
                 "g.promote_end_date, g.goods_weight, g.integral, g.extension_code, ".
                 "g.goods_number, g.is_alone_sale, g.is_shipping,".
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ".
@@ -1225,7 +1227,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $rec_type
                 " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
                 " AND parent_id = 0 AND goods_attr = '" .get_goods_attr_info($spec). "' " .
                 " AND extension_code <> 'package_buy' " .
-                " AND rec_type = 'CART_GENERAL_GOODS'";
+                " AND rec_type = 'CART_GENERAL_GOODS' AND buy_type = '$buy_type'";
 
         $row = $GLOBALS['db']->getRow($sql);
 
@@ -1234,7 +1236,7 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $rec_type
             $num += $row['goods_number'];
             if(is_spec($spec) && !empty($prod) )
             {
-             $goods_storage=$product_info['product_number'];
+                $goods_storage=$product_info['product_number'];
             }
             else
             {
@@ -1242,9 +1244,17 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $rec_type
             }
             if ($GLOBALS['_CFG']['use_storage'] == 0 || $num <= $goods_storage)
             {
-                $goods_price = get_final_price($goods_id, $num, true, $spec);
+                if($buy_type == 1)
+                {
+                    $goods_price = get_final_price($goods_id, $num, true, $spec);
+                    $deposit = 0;
+                }else{
+                    $prices = get_final_rent_price($goods_id, $num);
+                    $goods_price = $prices['rent'];
+                    $deposit = $prices['deposit'];
+                }
                 $sql = "UPDATE " . $GLOBALS['ecs']->table('cart') . " SET goods_number = '$num'" .
-                       " , goods_price = '$goods_price'".
+                       " , goods_price = '$goods_price',deposit = '$deposit' ".
                        " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
                        " AND parent_id = 0 AND goods_attr = '" .get_goods_attr_info($spec). "' " .
                        " AND extension_code <> 'package_buy' " .
@@ -1260,10 +1270,20 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0, $rec_type
         }
         else //购物车没有此物品，则插入
         {
-            $goods_price = get_final_price($goods_id, $num, true, $spec);
+            if($buy_type == 1)
+            {
+                $goods_price = get_final_price($goods_id, $num, true, $spec);
+                $deposit = 0;
+            }else{
+                $prices = get_final_rent_price($goods_id, $num);
+                $goods_price = $prices['rent'];
+                $deposit = $prices['deposit'];
+            }
             $parent['goods_price']  = max($goods_price, 0);
+            $parent['deposit']  = max($deposit, 0);
             $parent['goods_number'] = $num;
             $parent['parent_id']    = 0;
+            $parent['buy_type']    = $buy_type;
             $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('cart'), $parent, 'INSERT');
         }
     }
@@ -1620,13 +1640,14 @@ function get_cart_goods($rec_type = CART_GENERAL_GOODS,$rec_id = [])
 
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
-        $total['goods_price']  += $row['goods_price'] * $row['goods_number'];
+        $total['goods_price']  += ($row['goods_price']+$row['deposit']) * $row['goods_number'];
         $total['market_price'] += $row['market_price'] * $row['goods_number'];
 
-        $row['subtotal']     = price_format($row['goods_price'] * $row['goods_number'], false);
+        $row['subtotal']     = price_format(($row['goods_price']+$row['deposit']) * $row['goods_number'], false);
         $row['goods_price']  = price_format($row['goods_price'], false);
         $row['market_price'] = price_format($row['market_price'], false);
 
+        $row['deposit']  = $row['deposit'] > 0  ? price_format($row['deposit'], false) : '不需要押金';
         /* 统计实体商品和虚拟商品的个数 */
         if ($row['is_real'])
         {

@@ -258,7 +258,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 'author_id'     => 0,
             );
         }
-
+        $goods['nature_desc'] = $GLOBALS['_LANG']['goods_nature'][$goods['nature']];
         /* 获取商品类型存在规格的类型 */
         $specifications = get_goods_type_specifications();
         $goods['specifications_id'] = $specifications[$goods['goods_type']];
@@ -546,8 +546,8 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     $is_best = isset($_POST['is_best']) ? 1 : 0;
     $is_new = isset($_POST['is_new']) ? 1 : 0;
     $is_hot = isset($_POST['is_hot']) ? 1 : 0;
-    $is_on_sale = isset($_POST['is_on_sale']) ? 1 : 0;
-    $is_alone_sale = isset($_POST['is_alone_sale']) ? 1 : 0;
+    $is_on_sale =  1;
+    $is_alone_sale = 1 ;
     $is_shipping = isset($_POST['is_shipping']) ? 1 : 0;
     $goods_number = isset($_POST['goods_number']) ? $_POST['goods_number'] : 0;
     $warn_number = isset($_POST['warn_number']) ? $_POST['warn_number'] : 0;

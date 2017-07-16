@@ -730,6 +730,6 @@ $_LANG['preferences_price'] = '优惠价格';
 $_LANG['divided_into'] = '分成规则';
 
 $_LANG['nature'][1] = '可租可用';
-$_LANG['nature'][2] = '可租';
-$_LANG['nature'][3] = '可买';
+$_LANG['nature'][2] = '只租';
+$_LANG['nature'][3] = '只买';
 ?>

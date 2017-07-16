@@ -26,7 +26,7 @@
                         <div class="cart-cell fb-inlineBlock cart-cell07">操作</div>
                     </div>
                     <!-- {foreach from=$goods_list item=goods} -->
-                    <div class="cart-item">
+                    <div class="cart-item cart-item-{$goods.rec_id}" id="goods_{$goods.rec_id}">
                         <div class="cart-cell fb-inlineBlock cart-cell01 ">
                             <input type="checkbox" name="rec_id[]" value="{$goods.rec_id}"/>
                             <div class="cart-checkbox"></div>
@@ -34,23 +34,23 @@
                         <div class="cart-cell fb-inlineBlock cart-cell02">
                             <div class="product">
                                 <div class="img fb-inlineBlock " style="background-image:url({$goods.goods_thumb})"></div>
-                                <div class="test fb-inlineBlock fb-font16" >{$goods.goods_name|escape:html}</div>
+                                <div class="test fb-inlineBlock fb-font16" ><a href="goods.php?id={$goods.goods_id}">{$goods.goods_name|escape:html}</a></div>
                             </div>
                         </div>
                         <div class="cart-cell fb-inlineBlock cart-cell03  fb-font16 fb-color-666">
-                            购买
+                            {if $goods.buy_type == 1}购买{else}租赁{/if}
                         </div>
                         <div class="cart-cell fb-inlineBlock cart-cell04 fb-font16 fb-color-666">{$goods.goods_price}</div>
-                        <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">不需要押金</div>
+                        <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">{$goods.deposit}</div>
                         <div class="cart-cell fb-inlineBlock cart-cell06">
                             <div class="num">
-                                <div class="prev fb-inlineBlock"></div>
-                                <div class="number fb-inlineBlock fb-font14 fb-color-666">x<span>{$goods.goods_number}</span></div>
-                                <div class="next fb-inlineBlock disable"></div>
+                                <div class="prev fb-inlineBlock" onclick="changenum({$goods.rec_id},-1)"></div>
+                                <div class="number fb-inlineBlock fb-font14 fb-color-666">x<span id="goods_number_{$goods.rec_id}">{$goods.goods_number}</span></div>
+                                <div class="next fb-inlineBlock" onclick="changenum({$goods.rec_id},1)"></div>
                             </div>
                         </div>
                         <div class="cart-cell fb-inlineBlock cart-cell07">
-                            <div class="delete">
+                            <div class="delete" attr-id="{$goods.rec_id}" onclick="javascript:delete_cart('{$goods.rec_id}')">
 
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                     </div><!--cart-item end-->
                     <div class="cart-count fb-font18 fb-color-333">
                         <!-- <span>邮费：¥50</span> -->
-                        <span>{$shopping_money}</span>
+                        <span id="shopping_money">{$shopping_money}</span>
                         <input type="hidden" name="step" value="checkout" />
                         <button class="opa_active" type="submit">结算</button>
                     </div>
@@ -68,6 +68,117 @@
                 </div>
 
             </div>
+            <script type="text/javascript">
+                function changenum(rec_id, diff)
+                {
+                    var goods_number =Number($('#goods_number_' + rec_id).text()) + Number(diff);
+                    change_goods_number(rec_id,goods_number);
+                }
+                function change_goods_number(rec_id, goods_number)
+                {
+                   if(goods_number >= 1){
+                       $.ajax({
+                           type: "POST",
+                           url:'flow.php?step=ajax_update_cart',
+                           data:{'ajax':1,'rec_id':rec_id,'goods_number':goods_number},
+                           error: function(request) {
+                               alert("连接失败");
+                           },
+                           success: function(data) {
+                               var obj = JSON.parse(data);
+                               change_goods_number_response(obj);
+                           }
+                       });
+                   }
+                }
+                function change_goods_number_response(result)
+                {
+                    if (result.error == 0)
+                    {
+                        var rec_id = result.rec_id;
+                        var tr_goods = '#goods_' + rec_id;
+
+                        $('#goods_number_' +rec_id).text(result.goods_number);//更新数量
+                        //$('#goods_subtotal_' +rec_id).innerHTML = result.goods_subtotal;//更新小计
+                        if (result.goods_number <= 0)
+                        {// 数量为零则隐藏所在行
+                            $(tr_goods).style.display = 'none';
+                            $(tr_goods).innerHTML = '';
+                        }
+                        $('#shopping_money').html(result.shopping_money);//更新合计
+                        if ($('#ECS_CARTINFO'))
+                        {//更新购物车数量
+                           $('#ECS_CARTINFO').html(result.cart_info);
+                        }
+                    }
+                    else if (result.message != '')
+                    {
+                        alert(result.message);
+                    }
+                }
+            </script>
+            <script type="text/javascript">
+            //删除购物车
+            function delete_cart(id)
+            {
+                $fb.showModal({
+                    title:"提示",
+                    content:"是否删除该商品？"
+                },function(){
+                    $.ajax({
+                        type: "POST",
+                        url:'flow.php?step=ajax_drop_goods',
+                        data:{'ajax':1,'id':id},
+                        error: function(request) {
+                            alert("连接失败");
+                        },
+                        success: function(data) {
+                            var obj = JSON.parse(data);
+                            console.log(obj.error);
+                            if(obj.error ==1)
+                            {
+                                $fb.fbNews({"content":"删除失败","type":"warning"});
+                            }
+                            else if(obj.error == 0)
+                            {
+                                $(".cart-item-"+id).remove();
+                                $fb.fbNews({"content":"删除成功","type":"success"});
+                            }
+                        }
+                    });
+                });
+            }
+            /*
+            $(".cart .delete").on("click",function(){
+                $fb.showModal({
+                    title:"提示",
+                    content:"是否删除该商品？"
+                },function(){
+                    var id = $(this).attr('attr-id');
+                    console.log( $(this));return;false;
+                    $.ajax({
+                        type: "POST",
+                        url:'flow.php?act=ajax_drop_goods',
+                        data:{'ajax':1},
+                        error: function(request) {
+                            alert("连接失败");
+                        },
+                        success: function(data) {
+                            console.log(data.message);
+                            if(data.error ==1)
+                            {
+                                $fb.fbNews({"content":"删除成功","type":"warning"})
+                            }
+                            else if(data.error == 0)
+                            {
+                                $(".address-item_"+id).remove();
+                                $fb.fbNews({"content":"删除成功","type":"success"})
+                            }
+                        }
+                    });
+                });
+            })*/
+            </script>
             <!-- {/if} -->
             <!-- {if $step eq "consignee"}  -->
             <div class="user clearfix">
@@ -280,8 +391,8 @@
                                 <!-- {/foreach} -->
                                 <!-- {else} -->
                                 <!-- 没有地址 -->
-                                <div class="noMap fb-font16 fb-color-aaa">
-                                    你还没有添加地址 <a class="fb-font15 opa_active" href="user.php?act=address_list">点击去添加</a>
+                                <div class="noMap fb-font16 fb-color-aaa" style="display:block;">
+                                    你还没有添加地址 <a class="fb-font15 opa_active" href="user.php?act=address_list&shopping=1">点击去添加</a>
                                 </div>
                                 <!-- {/if} -->
                             </div>
@@ -308,15 +419,15 @@
                         <div class="cart-item">
                             <div class="cart-cell fb-inlineBlock cart-cell02">
                                 <div class="product">
-                                    <div class="img fb-inlineBlock " style="background-image:url(images/2.png)"></div>
-                                    <div class="test fb-inlineBlock fb-font16" >商品</div>
+                                    <div class="img fb-inlineBlock " style="background-image:url({$goods.goods_thumb})"></div>
+                                    <div class="test fb-inlineBlock fb-font16" >{$goods.goods_name}</div>
                                 </div>
                             </div>
                             <div class="cart-cell fb-inlineBlock cart-cell03  fb-font16 fb-color-666">
-                                购买
+                                {if $goods.buy_type == 1}购买{else}租赁{/if}
                             </div>
                             <div class="cart-cell fb-inlineBlock cart-cell04 fb-font16 fb-color-666">{$goods.formated_goods_price}</div>
-                            <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">不需要押金</div>
+                            <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">{$goods.formated_deposit}</div>
                             <div class="cart-cell fb-inlineBlock cart-cell06">
                                 <div class="num">
                                     <div class="number fb-inlineBlock fb-font14 fb-color-666">x<span>{$goods.goods_number}</span></div>

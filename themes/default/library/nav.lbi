@@ -24,6 +24,7 @@
            <a href="user.php">
 
            </a>
+           {if !$_SESSION['user_id']}
            <div class="user-box fb-position-absolute">
                <div class="tagT fb-position-absolute"></div>
                <ul >
@@ -32,6 +33,7 @@
                   <li><a href="user.php?act=logout">退出</a></li>
                </ul>
             </div>
+            {/if}
         </div>
     </div>
     <div class="logo">
