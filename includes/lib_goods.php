@@ -549,7 +549,7 @@ function get_goods_info($goods_id)
         $row['market_price']        = price_format($row['market_price']);
         $row['shop_price_formated'] = price_format($row['shop_price']);
         $row['rent_formated'] = price_format($row['rent']);
-        $row['deposit_formated'] = price_format($row['deposit_price']);
+        $row['deposit_formated'] = price_format($row['deposit']);
         /* 修正促销价格 */
         if ($row['promote_price'] > 0)
         {
