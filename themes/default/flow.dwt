@@ -375,7 +375,7 @@
                                 寄往:
                             </div>
                             <div class="info-map-right  fb-inlineBlock">
-                                <!-- {if $consignee_list} -->
+
                                 <!-- {foreach from=$consignee_list item=consignee key=sn} -->
                                 <div class="info-map-item {if $consignee.is_default == 1} checked{/if}">
                                     <div class="info-cell fb-inlineBlock info-cell01 ">
@@ -389,12 +389,12 @@
                                     <div class="info-cell fb-inlineBlock info-cell04 fb-font16 ">{$consignee.mobile|escape}</div>
                                 </div>
                                 <!-- {/foreach} -->
-                                <!-- {else} -->
+
                                 <!-- 没有地址 -->
                                 <div class="noMap fb-font16 fb-color-aaa" style="display:block;">
-                                    你还没有添加地址 <a class="fb-font15 opa_active" href="user.php?act=address_list&shopping=1">点击去添加</a>
+                                    <a class="fb-font15 opa_active" href="user.php?act=address_list&shopping=1">点击去添加地址</a>
                                 </div>
-                                <!-- {/if} -->
+
                             </div>
                         </div>
                         <div class="info-remarks">

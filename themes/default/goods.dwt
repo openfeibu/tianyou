@@ -2,7 +2,24 @@
 <html lang="en">
 {include file='library/head.lbi '}
 {insert_scripts files='common.js,transport_jquery.js,jquery.json.js'}
+<style>
+    .worksInfo-money span{padding-left:10px;line-height: 35px;height: 30px;vertical-align: top;font-size: 14px;color: #f1c362;}
+    .worksInfo-money{display: none;}
+</style>
+<script>
+$(function(){
+       function showMoney(){
+            var index = $('[name="buy_type"]:checked').index('[name="buy_type"]');
+             console.log($(".worksInfo-money").eq(index))
+            $(".worksInfo-money").eq(index).fadeIn(100).siblings(".worksInfo-money").hide();
+       }
+       showMoney();
+    $('[name="buy_type"]').change(function(){
+        showMoney();
+    })
+})
 
+</script>
 <body>
     <!-- 头部 S -->
     <div class="header min1320">
@@ -41,23 +58,39 @@
                                 <p>长 50cm<span>x</span> 高 82cm</p>
                                 <p>{$goods.nature_desc}</p>
                             </div>
+                            {if $goods.nature == 1}
                             <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
+                            <div class="worksInfo-money fb-font20">{$goods.rent_formated}<span>(押金：{$goods.deposit_formated})</span> </div>
+                            {elseif $goods.nature == 3}
+                            <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
+                            {else}
+                            <div class="worksInfo-money fb-font20">{$goods.rent_formated}<span>(押金：{$goods.deposit_formated})</span> </div>
+                            {/if}
                         </div>
                         <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
                         <div class="worksOperation">
                             <div class="clearfix fb-position-relative form">
-                                {if $goods.nature == 1 || $goods.nature == 3}
+                                {if $goods.nature == 1}
                                 <div class="input-b fb-float-left fb-font14">
                                   <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="buy" value="1" checked>
                                   <label class="fb-inlineBlock fb-transition active" for="buy">购买</label>
                                 </div>
-                                {/if}
-                                {if $goods.nature == 1 || $goods.nature == 2}
                                 <div class="input-b fb-float-left fb-font14">
                                   <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="rent" value="2" >
-                                  <label class="fb-inlineBlock fb-transition" for="rent">租赁</label>
+                                  <label class="fb-inlineBlock fb-transition {if $goods.nature != 1}active{/if}" for="rent">租赁</label>
+                                </div>
+                                {elseif $goods.nature == 3}
+                                <div class="input-b fb-float-left fb-font14">
+                                  <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="buy" value="1" checked>
+                                  <label class="fb-inlineBlock fb-transition active" for="buy">购买</label>
+                                </div>
+                                {else}
+                                <div class="input-b fb-float-left fb-font14">
+                                  <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="rent" value="2" checked>
+                                  <label class="fb-inlineBlock fb-transition active" for="rent">租赁</label>
                                 </div>
                                 {/if}
+
                             </div>
                             <div class="worksCollection fb-transition collect {if $is_collect}active{/if}" onclick="javascript:worksCollection({$goods.goods_id});">
                                 收藏该艺术品
