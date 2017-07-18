@@ -17,9 +17,9 @@
 
             <div class="publishAct_choseEditCon">
                 <div class="">
-                    <form class="fb-clearfix" action="">
+                    <form class="fb-clearfix" action="javascript:searchAuthor()" name="searchForm">
                         <div  class="fb-float-left" >
-                            <input class="sear fb-float-left" type="text" placeholder="请输入要搜索的关键字">
+                            <input class="sear fb-float-left" type="text" placeholder="请输入要搜索的关键字" name="keyword">
                             <input type="submit" value="" class="fb-float-left submit-btn">
                         </div>
                     </form>
@@ -93,7 +93,20 @@
   <!--内容 end-->
 
 </body>
+{literal}
+<script language="JavaScript">
+    $(".to_search").change(function(){
+        searchGoods();
+    });
+    function searchAuthor()
+    {
+        listTable.filter['keyword'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+        listTable.filter['page'] = 1;
 
+        listTable.loadList();
+    }
+</script>
+{/literal}
 <script type="text/javascript">
     listTable.recordCount = {$record_count};
     listTable.pageCount = {$page_count};

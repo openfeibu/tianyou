@@ -19,6 +19,7 @@
     <style>
         .error-title{text-align: center;font-size: 18px;line-height: 48px;color: #f1c362;padding: 20px 0}
         .error-con{text-align: center;font-size: 16px;line-height: 48px;color: #d24747;padding: 100px 0 0 0}
+        .auto-redirect{text-align: center;font-size: 16px;line-height: 48px;color: #d24747;margin: 20px 0 0 0}
         .error-button {margin:20px auto;display: block;}
     </style>
 </head>
@@ -38,7 +39,7 @@
             <div class="con-list w1320 ">
                 <div class="padd120">
                     <div class="error-con">{$msg_detail}</div>
-                    {if $auto_redirect}<div class="error-con">{$lang.auto_redirection}</div>{/if}
+                    {if $auto_redirect}<div class="auto-redirect">{$lang.auto_redirection}</div>{/if}
                     {foreach from=$links item=link}
                     <button  class="error-button fb-buttonSize-medium fb-buttonFill-warning" onclick="javascript:window.location.href='{$link.href}'">{$link.text}</button>
                     {/foreach}
