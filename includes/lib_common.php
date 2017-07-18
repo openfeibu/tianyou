@@ -3170,7 +3170,9 @@ function get_banner_list()
     foreach ($data as $key => $value) {
         if($value['link'] == 'http://' || $value['link'] == 'https://' || !$value['link'])
         {
-            $value['link'] = 'javascript:;';
+            $data[$key]['url'] = 'javascript:;';
+        }else{
+            $data[$key]['url'] = $value['link'];
         }
     }
     return $data;

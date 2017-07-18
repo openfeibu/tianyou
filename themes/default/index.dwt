@@ -11,7 +11,7 @@
         <div class="fb-banner-fade fb-position-relative min1320" style="height:500px;">
             {foreach from=$banner_list item=banner name=name}
             <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href="{$banner.link}"><img class="fb-position-absolute" src="{$banner.file_url}" alt=""></a></div>
+                <div class="fb-banner-img"><a href="{$banner.url}"><img class="fb-position-absolute" src="{$banner.file_url}" alt=""></a></div>
             </div>
             {/foreach}
             <div class="fb-banner-spot fb-position-absolute">
