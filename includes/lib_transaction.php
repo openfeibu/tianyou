@@ -213,7 +213,7 @@ function get_profile($user_id)
 function get_consignee_list($user_id)
 {
     $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('user_address') .
-            " WHERE user_id = '$user_id' LIMIT 5";
+            " WHERE user_id = '$user_id'";
     $data = $GLOBALS['db']->getAll($sql);
     foreach ($data as $key => $value) {
         $data[$key]['region'] = get_consignee_region($value);
