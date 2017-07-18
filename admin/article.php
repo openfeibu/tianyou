@@ -205,7 +205,8 @@ if ($_REQUEST['act'] == 'insert')
 
     clear_cache_files(); // 清除相关的缓存文件
 
-    sys_msg($_LANG['articleadd_succeed'],0, $link);
+    ecs_header("Location:article.php?act=list&cat_id=$_POST[article_cat]");
+
 }
 
 /*------------------------------------------------------ */

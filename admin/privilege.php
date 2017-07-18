@@ -59,7 +59,7 @@ if ($_REQUEST['act'] == 'login')
         $smarty->assign('random',     mt_rand());
     }
 
-    $smarty->display('login.htm');
+    $smarty->display($_CFG['template_name'].'login.htm');
 }
 
 /*------------------------------------------------------ */

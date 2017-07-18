@@ -9,27 +9,15 @@
             {include file='library/nav.lbi '}
 
         <div class="fb-banner-fade fb-position-relative min1320" style="height:500px;">
+            {foreach from=$banner_list item=banner name=name}
             <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
+                <div class="fb-banner-img"><a href="{$banner.link}"><img class="fb-position-absolute" src="{$banner.file_url}" alt=""></a></div>
             </div>
-            <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
-            </div>
-            <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
-            </div>
-            <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
-            </div>
-            <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href=""><img class="fb-position-absolute" src="{$ec_themes}/images/top_bg.jpg" alt=""></a></div>
-            </div>
+            {/foreach}
             <div class="fb-banner-spot fb-position-absolute">
-                <div class="fb-spot-item fb-spot-item-active fb-inlineBlock"></div>
-                <div class="fb-spot-item fb-inlineBlock"></div>
-                <div class="fb-spot-item fb-inlineBlock"></div>
-                <div class="fb-spot-item fb-inlineBlock"></div>
-                <div class="fb-spot-item fb-inlineBlock"></div>
+                {foreach from=$banner_list item=banner name=name}
+                <div class="fb-spot-item  {if $smarty.foreach.name.iteration == 1}fb-spot-item-active{/if} fb-inlineBlock"></div>
+                {/foreach}
             </div>
            <!--  <div class="fb-banner-prev fb-position-absolute fb-transition"></div>
             <div class="fb-banner-next fb-position-absolute fb-transition"></div> -->

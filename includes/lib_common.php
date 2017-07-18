@@ -3137,4 +3137,42 @@ function get_shop_setting()
     $shop_setting = $GLOBALS['db']->getRow($sql);
     return $shop_setting;
 }
+/**
+ * 随机生成指定长度的数字
+ *
+ * @param number $length
+ * @return number
+ */
+function rand_number ($length = 6)
+{
+	if($length < 1)
+	{
+		$length = 6;
+	}
+
+	$min = 1;
+	for($i = 0; $i < $length - 1; $i ++)
+	{
+		$min = $min * 10;
+	}
+	$max = $min * 10 - 1;
+
+	return rand($min, $max);
+}
+function get_banner_list()
+{
+    $sql = 'SELECT a.* , ac.cat_name '.
+           'FROM ' .$GLOBALS['ecs']->table('article'). ' AS a '.
+           'LEFT JOIN ' .$GLOBALS['ecs']->table('article_cat'). ' AS ac ON ac.cat_id = a.cat_id '.
+           'WHERE a.cat_id = 16 ORDER by a.article_id ASC';
+
+    $data = $GLOBALS['db']->getAll($sql);
+    foreach ($data as $key => $value) {
+        if($value['link'] == 'http://' || $value['link'] == 'https://' || !$value['link'])
+        {
+            $value['link'] = 'javascript:;';
+        }
+    }
+    return $data;
+}
 ?>

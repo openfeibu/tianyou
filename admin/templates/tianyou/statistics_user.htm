@@ -1,0 +1,386 @@
+{include file="tianyou/head.htm"}
+    <script type="text/javascript" src="{$admin_themes}/js/echart/echarts.common.min.js"></script>
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea fb-clearfix">
+            <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                {include file="tianyou/statistics_nav.htm"}
+            </div>
+            <!--发布艺术品 left end-->
+            <!--内容 right-->
+            <div class=' rightDiv'>
+                <div class='artdata-kindBox'>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>新用户</p>
+                        <dd class='fb-fontWei-bolder'>
+                            200
+                        </dd>
+                    </div>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>下单人数</p>
+                        <dd class='fb-fontWei-bolder'>
+                            100
+                        </dd>
+                    </div>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>退款人数</p>
+                        <dd class='fb-fontWei-bolder'>
+                            2
+                        </dd>
+                    </div>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>累计客户</p>
+                        <dd class='fb-fontWei-bolder'>
+                            2121
+                        </dd>
+                    </div>
+                </div>
+                <div class='right2'>
+                    <div class='chart1 '>
+                        <div class='date fb-clearfix'>
+                            <a class="active" onclick="chartChange(7,this)">7天</a>
+                            <a onclick="chartChange(14,this)">14天</a>
+                            <a onclick="chartChange(30,this)">30天</a>
+                            <a class='win-200-w'>
+                                <input type="text" id="data" placeholder="自选日期"  style="width:100%;height:40px;;border:none;display:block;background:none;">
+                            </a>
+                        </div>
+                        <div class="datachart_div" id="datachart_div">
+                        </div>
+                        <script>
+                        var datachart_div = echarts.init(document.getElementById('datachart_div'));
+                        var base = +new Date(2017, 0, 0);
+                        var oneDay = 24 * 3600 * 1000;
+                        var date = [];
+
+                        var data = [Math.random() * 300];
+
+                        for (var i = 1; i < 57; i++) {
+                            var now = new Date(base += oneDay);
+                            date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+                            data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+                        }
+
+                        option = {
+                            tooltip: {
+                                trigger: 'axis',
+                                position: function(pt) {
+                                    return [pt[0], '10%'];
+                                }
+                            },
+                            title: {
+                                left: 0,
+                                top: 15,
+                                text: '新增用户（人）',
+                            },
+
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: date
+                            },
+                            yAxis: {
+                                type: 'value',
+                                boundaryGap: [0, '100%']
+                            },
+                            dataZoom: [{
+                                type: 'inside',
+                                start: 0,
+                                end: 100
+                            }, {
+                                show: false,
+                                start: 0,
+                                end: 10,
+                                handleSize: '80%',
+                                handleStyle: {
+                                    color: '#fff',
+                                    shadowBlur: 3,
+                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                                    shadowOffsetX: 2,
+                                    shadowOffsetY: 2
+                                }
+                            }],
+                            series: [{
+                                name: '人数',
+                                type: 'line',
+
+
+
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgb(255, 70, 131)'
+                                    }
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0,
+                                            color: 'rgb(255, 158, 68)'
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgb(255, 70, 131)'
+                                        }])
+                                    }
+                                },
+                                data: data
+                            }]
+                        };
+                        datachart_div.setOption(option);
+                        </script>
+                    </div>
+                    <!--图表 end-->
+                </div>
+                <div style="margin-top:40px;height:610px">
+                    <table class='consumer_rank_tabel data_table'>
+                        <colgroup class='user'>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <td>时间</td>
+                            <td>新增客户</td>
+                            <td>累计客户</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 2</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="pageDiv" style="margin-right:30px">
+                                    <a class="fb-inlineBlock page_btn1" href=""></a>
+                                    <a class="fb-inlineBlock page_btn2" href=""></a>
+                                    <span>1/10</span>
+                                    <a class="fb-inlineBlock page_btn3" href=""></a>
+                                    <a class="fb-inlineBlock page_btn4" href=""></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <h5 class='fb-h5 fb-color-333 author_title width820' >消费用户排名</h5>
+                <table class='consumer_rank_tabel'>
+                    <colgroup class='user'>
+                        <col style="width:195px">
+                        <col>
+                        <col>
+                    </colgroup>
+                    <tr>
+                        <td>名字</td>
+                        <td>单笔消费最高</td>
+                        <td>共消费金额</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class=" fb-inlineBlock rankItems_left">
+                                <img src="images/data_img1.png" alt="">
+                            </div>
+                            <div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
+                                <h2>名字</h2>
+                                <h3 class='fb-color-666'>地区</h2>
+								</div>
+							</td>
+							<td>￥2990</td>
+							<td>￥2380</td>
+
+						</tr>
+						<tr>
+							<td>
+								<div class=" fb-inlineBlock rankItems_left">
+									<img src="images/data_img2.png" alt="">
+								</div>
+								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
+									<h2>名字</h2>
+									<h3 class='fb-color-666'>共00件作品</h2>
+								</div>
+							</td>
+							<td>￥2990</td>
+							<td>￥2380</td>
+
+						</tr>
+						<tr>
+							<td>
+								<div class=" fb-inlineBlock rankItems_left">
+									<img src="images/data_img2.png" alt="">
+								</div>
+								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
+									<h2>名字</h2>
+									<h3 class='fb-color-666'>共00件作品</h2>
+								</div>
+							</td>
+							<td>￥2990</td>
+							<td>￥2380</td>
+
+						</tr>
+						<tr>
+							<td>
+								<div class=" fb-inlineBlock rankItems_left">
+									<img src="images/data_img2.png" alt="">
+								</div>
+								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
+									<h2>名字</h2>
+									<h3 class='fb-color-666'>共00件作品</h2>
+								</div>
+							</td>
+						<td>￥2990</td>
+							<td>￥2380</td>
+
+						</tr>
+						<tr>
+							<td>
+								<div class=" fb-inlineBlock rankItems_left">
+									<img src="images/data_img2.png" alt="">
+								</div>
+								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
+									<h2>名字</h2>
+									<h3 class='fb-color-666'>共00件作品</h2>
+								</div>
+							</td>
+						<td>￥2990</td>
+							<td>￥2380</td>
+						</tr>
+
+
+
+				</table>
+				<div style='height:80px;'>
+
+				</div>
+
+			</div>
+			<!--内容 right end-->
+		</div>
+	</div>
+	<!--内容 end-->
+
+</body>
+<script>
+
+$fb("#data").showDate({
+    monthControl: true, //月
+    dayControl: true, //日
+}, function(val) {
+    $(".date a").removeClass("active")
+    chartChange(1, this)
+})
+var chartChange = function(val, that) {
+    $(that).addClass("active").siblings("a").removeClass("active");
+    var date = [];
+    var data = [Math.random() * 300];
+    if(val == 7){
+        for (var i = 1; i <= 7; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }else if(val == 14){
+        for (var i = 1; i <= 14; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }else if(val == 30){
+        for (var i = 1; i <= 30; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }else{
+         for (var i = 1; i <= 2; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }
+
+
+
+
+    var option = {
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: date
+        },
+        series: [{
+            data: data
+        }]
+    }
+
+    datachart_div.setOption(option);
+
+}
+</script>
+</html>

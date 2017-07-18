@@ -692,4 +692,6 @@ $_LANG['passwd_questions']['interest']        = '我最大的爱好？';
 $_LANG['passwd_questions']['favorite_novel']  = '我最喜欢的小说？';
 $_LANG['passwd_questions']['favorite_equipe'] = '我最喜欢的运动队？';
 
+$_LANG['invalid_mobile_phone_code'] = '对不起，您输入的短信验证码不正确或已过期';
+$_LANG['mobile_phone_changed'] = '对不起，您输入的短信验证码不正确';
 ?>

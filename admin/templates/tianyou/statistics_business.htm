@@ -1,0 +1,472 @@
+{include file="tianyou/head.htm"}
+    <script type="text/javascript" src="{$admin_themes}/js/echart/echarts.common.min.js"></script>
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea fb-clearfix">
+            <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                {include file="tianyou/statistics_nav.htm"}
+            </div>
+            <!--发布艺术品 left end-->
+            <!--内容 right-->
+            <div class=' rightDiv'>
+                <div class='artdata-kindBox'>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>售卖金额</p>
+                        <dd class='fb-fontWei-bolder data_bussDd'>
+                            <span>￥</span>
+                            <br> 200
+                        </dd>
+                    </div>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>租用金额</p>
+                        <dd class='fb-fontWei-bolder data_bussDd'>
+                            <span>￥</span>
+                            <br> 90000.00
+                        </dd>
+                    </div>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>退款金额</p>
+                        <dd class='fb-fontWei-bolder data_bussDd'>
+                            <span>￥</span>
+                            <br> 20000.00
+                        </dd>
+                    </div>
+                    <div class='kindBox-items fb-inlineBlock'>
+                        <p>合计金额</p>
+                        <dd class='fb-fontWei-bolder data_bussDd'>
+                            <span>￥</span>
+                            <br> 200000.00
+                        </dd>
+                    </div>
+                </div>
+                <div class="data_summary fb-clearfix">
+                    <div class="data_summaryLeft fb-position-relative fb-float-left">
+                        <ul>
+                            <li class="active"><a>全年盈利最高月份</a></li>
+                            <li><a>全年盈利最高单日</a></li>
+                            <li><a>最佳销售价格范围</a></li>
+                        </ul>
+                        <!-- <span class='fb-position-absolute tri'><img src="images/triangle.png" alt=""></span> -->
+                    </div>
+                    <div>
+                        <div class="data_summaryRight">
+                            <div class="top">
+                                <div class="highter" id="highter"></div>
+                                <script>
+                                var highter = echarts.init(document.getElementById('highter'));
+
+                                option = {
+                                    series: [{
+                                        name: '',
+                                        type: 'pie',
+                                        radius: '100%',
+                                        data: [{
+                                            value: '100000',
+                                            name: '最高月份'
+                                        }, {
+                                            value: '50000',
+                                            name: '其他'
+                                        }, ],
+                                        hoverAnimation: false,
+                                        label: {
+                                            normal: {
+                                                show: false,
+                                            },
+                                        },
+                                        color: ['#dedede', '#74e8ad'],
+                                        radius: [0, 30]
+
+                                    }]
+                                };
+                                highter.setOption(option);
+                                </script>
+                                <p class="fb-font16 fb-margin-10">全年最高利润为 <span class='highter_mon'>7月</span></p>
+                                <dd class='fb-font16'>￥1000000</dd>
+                            </div>
+                            <ul class="data_list">
+                                <li>中国书画占20%<span>¥20000</span></li>
+                                <li>油画占10%<span>¥20000</span></li>
+                                <li>刺绣占10%<span>¥20000</span></li>
+                                <li>木品雕刻占10%<span>¥20000</span></li>
+                                <li>陶瓷占30%<span>¥20000</span></li>
+                                <li>文玩古玩占10%<span>¥20000</span></li>
+                                <li>奇石玉石占10%<span>¥20000</span></li>
+                            </ul>
+                        </div>
+                        <div class="data_summaryRight">
+                            <div class="top">
+                                <div class="highter" id="highter2"></div>
+                                <script>
+                                var highter = echarts.init(document.getElementById('highter2'));
+
+                                option = {
+                                    series: [{
+                                        name: '',
+                                        type: 'pie',
+                                        radius: '100%',
+                                        data: [{
+                                            value: '100000',
+                                            name: '最高日份'
+                                        }, {
+                                            value: '50000',
+                                            name: '其他'
+                                        }, ],
+                                        hoverAnimation: false,
+                                        label: {
+                                            normal: {
+                                                show: false,
+                                            },
+                                        },
+                                        color: ['#dedede', '#74e8ad'],
+                                        radius: [0, 30]
+
+                                    }]
+                                };
+                                highter.setOption(option);
+                                </script>
+                                <p class="fb-font16 fb-margin-10">全年最高利润为 <span class='highter_mon'>9月7日</span></p>
+                                <dd class='fb-font16'>￥1000000</dd>
+                            </div>
+                            <ul class="data_list">
+                                <li>中国书画占20%<span>¥20000</span></li>
+                                <li>油画占10%<span>¥20000</span></li>
+                                <li>刺绣占10%<span>¥20000</span></li>
+                                <li>木品雕刻占10%<span>¥20000</span></li>
+                                <li>陶瓷占30%<span>¥20000</span></li>
+                                <li>文玩古玩占10%<span>¥20000</span></li>
+                                <li>奇石玉石占10%<span>¥20000</span></li>
+                            </ul>
+                        </div>
+                        <div class="data_summaryRight">
+                            <div class="top">
+                                <div class="highter" id="highter3"></div>
+                                <script>
+                                var highter = echarts.init(document.getElementById('highter3'));
+
+                                option = {
+                                    series: [{
+                                        name: '',
+                                        type: 'pie',
+                                        radius: '100%',
+                                        data: [{
+                                            value: '100000',
+                                            name: '最佳销售价格范围'
+                                        }, {
+                                            value: '50000',
+                                            name: '其他'
+                                        }, ],
+                                        hoverAnimation: false,
+                                        label: {
+                                            normal: {
+                                                show: false,
+                                            },
+                                        },
+                                        color: ['#dedede', '#74e8ad'],
+                                        radius: [0, 30]
+
+                                    }]
+                                };
+                                highter.setOption(option);
+                                </script>
+                                <p class="fb-font16 fb-margin-10">全年最高利润为 <span class='highter_mon'>1000-2000</span></p>
+                                <dd class='fb-font16'>￥1000000</dd>
+                            </div>
+                            <ul class="data_list">
+                                <li>中国书画占20%<span>¥0</span></li>
+                                <li>油画占10%<span>¥40000</span></li>
+                                <li>刺绣占10%<span>¥20000</span></li>
+                                <li>木品雕刻占10%<span>¥20000</span></li>
+                                <li>陶瓷占30%<span>¥20000</span></li>
+                                <li>文玩古玩占10%<span>¥20000</span></li>
+                                <li>奇石玉石占10%<span>¥20000</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class='right2  fb-position-relative'>
+                    <div class='chart1 '>
+                        <div class='date fb-clearfix'>
+                            <a class="active" onclick="chartChange(7,this)">7天</a>
+                            <a onclick="chartChange(14,this)">14天</a>
+                            <a onclick="chartChange(30,this)">30天</a>
+                            <a class='win-200-w'>
+                                <input type="text" id="data" placeholder="自选日期" style="width:100%;height:40px;;border:none;display:block;background:none;">
+                            </a>
+                        </div>
+                        <div class="datachart_div" id="datachart_div">
+                        </div>
+                        <script>
+                        var datachart_div = echarts.init(document.getElementById('datachart_div'));
+                        var base = +new Date(2017, 0, 0);
+                        var oneDay = 24 * 3600 * 1000;
+                        var date = [];
+
+                        var data = [Math.random() * 300];
+
+                        for (var i = 1; i <= 7; i++) {
+                            var now = new Date(base += oneDay);
+                            date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+                            data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+                        }
+
+                        option = {
+                            tooltip: {
+                                trigger: 'axis',
+                                position: function(pt) {
+                                    return [pt[0], '10%'];
+                                }
+                            },
+                            title: {
+                                left: 0,
+                                top: 15,
+                                text: '金额（￥）',
+                            },
+
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: date
+                            },
+                            yAxis: {
+                                type: 'value',
+                                boundaryGap: [0, '100%']
+                            },
+                            dataZoom: [{
+                                type: 'inside',
+                                start: 0,
+                                end: 100
+                            }, {
+                                show: false,
+                                start: 0,
+                                end: 10,
+                                handleSize: '80%',
+                                handleStyle: {
+                                    color: '#fff',
+                                    shadowBlur: 3,
+                                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                                    shadowOffsetX: 2,
+                                    shadowOffsetY: 2
+                                }
+                            }],
+                            series: [{
+                                name: '',
+                                type: 'line',
+                                itemStyle: {
+                                    normal: {
+                                        color: 'rgb(255, 70, 131)'
+                                    }
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                            offset: 0,
+                                            color: 'rgb(255, 158, 68)'
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgb(255, 70, 131)'
+                                        }])
+                                    }
+                                },
+                                data: data
+                            }]
+                        };
+                        datachart_div.setOption(option);
+                        </script>
+                    </div>
+                    <div class="datachart_text ">
+                        <ul class="datachart_list width820">
+                            <li>中国书画占20%<span>¥20000</span></li>
+                            <li>油画占10%<span>¥20000</span></li>
+                            <li>刺绣占10%<span>¥20000</span></li>
+                            <li>木品雕刻占10%<span>¥20000</span></li>
+                            <li>陶瓷占30%<span>¥20000</span></li>
+                            <li>文玩古玩占10%<span>¥20000</span></li>
+                            <li>奇石玉石占10%<span>¥20000</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--图表 end-->
+                <div style="margin-top:40px;height:610px">
+                    <table class='consumer_rank_tabel data_table'>
+                        <colgroup class='user'>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <td>时间</td>
+                            <td>下单金额（￥）</td>
+                            <td>当天退款（￥）</td>
+                            <td>当天营业额（￥）</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2017.01.01
+                            </td>
+                            <td> 10000</td>
+                            <td> 0</td>
+                            <td>10000</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="pageDiv" style="margin-right:30px">
+                                    <a class="fb-inlineBlock page_btn1" href=""></a>
+                                    <a class="fb-inlineBlock page_btn2" href=""></a>
+                                    <span>1/10</span>
+                                    <a class="fb-inlineBlock page_btn3" href=""></a>
+                                    <a class="fb-inlineBlock page_btn4" href=""></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div style='height:80px;'>
+                </div>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+</body>
+<script>
+$(".data_summary .data_summaryLeft li").on("click", function() {
+    var index = $(this).index(".data_summary .data_summaryLeft li");
+    $(this).addClass("active").siblings().removeClass("active");
+    $(".data_summaryRight").hide().eq(index).fadeIn(100);
+})
+$fb("#data").showDate({
+    monthControl: true, //月
+    dayControl: true, //日
+}, function(val) {
+    $(".date a").removeClass("active")
+    chartChange(1, this)
+})
+var chartChange = function(val, that) {
+    $(that).addClass("active").siblings("a").removeClass("active");
+    var date = [];
+    var data = [Math.random() * 300];
+    if(val == 7){
+        for (var i = 1; i <= 7; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }else if(val == 14){
+        for (var i = 1; i <= 14; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }else if(val == 30){
+        for (var i = 1; i <= 30; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }else{
+         for (var i = 1; i <= 2; i++) {
+        var now = new Date(base += oneDay);
+        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
+
+        }
+    }
+
+
+
+
+
+    var option = {
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: date
+        },
+        series: [{
+            data: data
+        }]
+    }
+
+    datachart_div.setOption(option);
+
+}
+</script>
+
+</html>

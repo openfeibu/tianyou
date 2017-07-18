@@ -33,7 +33,7 @@ $back_act='';
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','ajax_act_login','register','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer','act_edit_address_default','ajax_drop_consignee','act_upload_avatar','act_upload_img');
+array('login','act_login','ajax_act_login','register','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer','act_edit_address_default','ajax_drop_consignee','act_upload_avatar','act_upload_img','send_mobile_code');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list','order_search', 'back_address_edit', 'sub_back', 'back_detail', 'back_submit', 'huanhuo', 'order_back', 'order_back_search', 'back_del', 'order_back_request', 'order_back_request_submit', 'back_message',  'order_detail', 'address_list', 'collection_list',
@@ -190,6 +190,7 @@ elseif ($action == 'act_register')
     else
     {
         include_once(ROOT_PATH . 'includes/lib_passport.php');
+        include_once (ROOT_PATH . 'includes/lib_validate_record.php');
 
         $username = isset($_POST['username']) ? trim($_POST['username']) : '';
         $password = isset($_POST['password']) ? trim($_POST['password']) : '';
@@ -243,6 +244,35 @@ elseif ($action == 'act_register')
             }
         }
 
+
+		$mobile_phone = $mobile;
+		$mobile_code = ! empty($_POST['mobile_code']) ? trim($_POST['mobile_code']) : '';
+
+		$record = get_validate_record($mobile_phone);
+
+		$session_mobile_phone = $_SESSION[VT_MOBILE_REGISTER];
+
+		/* 手机验证码检查 */
+
+		if(empty($mobile_code))
+		{
+			ajax_show_message("手机验证码不能为空");
+		}
+		// 检查发送短信验证码的手机号码和提交的手机号码是否匹配
+		else if($session_mobile_phone != $mobile_phone)
+		{
+			ajax_show_message($_LANG['mobile_phone_changed']);
+		}
+		// 检查验证码是否正确
+		else if($record['record_code'] != $mobile_code)
+		{
+			ajax_show_message($_LANG['invalid_mobile_phone_code']);
+		}
+		// 检查过期时间
+		else if($record['expired_time'] < time())
+		{
+			ajax_show_message($_LANG['invalid_mobile_phone_code']);
+		}
         if (register($username, $password, $mobile, $other) !== false)
         {
             /*把新注册用户的扩展信息插入数据库*/
@@ -3058,6 +3088,106 @@ elseif ($action == 'act_transform_ucenter_points')
 elseif ($action == 'clear_history')
 {
     setcookie('ECS[history]',   '', 1);
+}
+elseif($action == 'send_mobile_code')
+{
+    // 获取全局变量
+    $user = $GLOBALS['user'];
+    $_CFG = $GLOBALS['_CFG'];
+    $_LANG = $GLOBALS['_LANG'];
+    $smarty = $GLOBALS['smarty'];
+    $db = $GLOBALS['db'];
+    $ecs = $GLOBALS['ecs'];
+    $user_id = $_SESSION['user_id'];
+
+    /* 载入语言文件 */
+    require_once (ROOT_PATH . 'languages/' . $_CFG['lang'] . '/user.php');
+
+    require_once (ROOT_PATH . 'includes/lib_validate_record.php');
+
+    $mobile_phone = trim($_REQUEST['mobile']);
+
+	if(empty($mobile_phone))
+	{
+        echo json_encode(array('code' => 201,'message' => "手机号不能为空"));exit;
+	}
+	else if(! is_mobile($mobile_phone))
+	{
+        echo json_encode(array('code' => 201,'message' => "手机号格式不正确"));exit;
+	}
+	else if(check_validate_record_exist($mobile_phone))
+	{
+		// 获取数据库中的验证记录
+		$record = get_validate_record($mobile_phone);
+
+		/**
+		 * 检查是过了限制发送短信的时间
+		 */
+		$last_send_time = $record['last_send_time'];
+		$expired_time = $record['expired_time'];
+		$create_time = $record['create_time'];
+		$count = $record['count'];
+
+		// 每天每个手机号最多发送的验证码数量
+		$max_sms_count = 10;
+		// 发送最多验证码数量的限制时间，默认为24小时
+		$max_sms_count_time = 60 * 60 * 24;
+
+		if((time() - $last_send_time) < 60)
+		{
+            echo json_encode(array('code' => 201,'message' => "每60秒内只能发送一次短信验证码，请稍候重试"));exit;
+		}
+		else if(time() - $create_time < $max_sms_count_time && $record['count'] > $max_sms_count)
+		{
+            echo json_encode(array('code' => 201,'message' => "您发送验证码太过于频繁，请稍后重试！"));exit;
+		}
+		else
+		{
+			$count ++;
+		}
+	}
+
+	require_once (ROOT_PATH . 'includes/lib_passport.php');
+
+	// 设置为空
+	$_SESSION[VT_MOBILE_VALIDATE] = array();
+
+    require_once (ROOT_PATH . 'sms/sms.php');
+
+    // 生成6位短信验证码
+    $mobile_code = rand_number(6);
+
+    // 短信数组
+    $content = array($_CFG['sms_register_tpl'], "{\"code\":\"$mobile_code\",\"product\":\"天佑商城\"}",$_CFG['sms_sign']);
+
+	/* 发送激活验证短信 */
+    $result = sendSMS($mobile_phone, $content);
+
+    if($result)
+	{
+		if(! isset($count))
+		{
+			$ext_info = array(
+				"count" => 1
+			);
+		}
+		else
+		{
+			$ext_info = array(
+				"count" => $count
+			);
+		}
+		// 保存验证的手机号
+		$_SESSION[VT_MOBILE_REGISTER] = $mobile_phone;
+
+		// 保存验证信息
+		save_validate_record($mobile_phone, $mobile_code, VT_MOBILE_REGISTER, time(), time() + 30 * 60, $ext_info);
+		die(json_encode(array('code' => 200,'message' => "短信验证码发送成功")));
+	}
+	else
+	{
+        echo json_encode(array('code' => 201,'message' => "短信验证码发送失败"));exit;
+	}
 }
 
 /* 退换货插件 加强版 begin */

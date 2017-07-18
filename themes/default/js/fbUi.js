@@ -80,8 +80,13 @@
 	  var _this = this;
 	  fn();
 	  $.post(src, function(data){
+		data = JSON.parse(data);
+
 	   if(data.code == 200){
-		_this.fbNews({"type":"success","content":"获取验证码成功"});
+		   _this.fbNews({"type":"success","content":"获取验证码成功"});
+	   }
+	   else{
+		   _this.fbNews({"type":"warning","content":data.message});
 	   }
 	  }).error(function(){
 		_this.fbNews({"type":"danger","content":"获取验证码失败"});

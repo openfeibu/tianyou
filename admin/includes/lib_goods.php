@@ -974,7 +974,7 @@ function goods_list($is_delete, $real_goods=1, $conditions = '')
         /* 分页大小 */
         $filter = page_and_size($filter);
 
-        $sql = "SELECT goods_id, goods_name, goods_type, goods_sn,goods_thumb, virtual_sales, shop_price, is_on_sale, is_best, is_new, is_hot, sort_order, goods_number, integral,nature, rent,deposit," .
+        $sql = "SELECT goods_id, goods_name, goods_type, goods_sn,goods_thumb, virtual_sales, shop_price, is_on_sale, is_best, is_new, is_hot, sort_order, goods_number, integral,nature, rent,deposit,cat_id," .
                     " (promote_price > 0 AND promote_start_date <= '$today' AND promote_end_date >= '$today') AS is_promote ".
                     " FROM " . $GLOBALS['ecs']->table('goods') . " AS g WHERE is_delete='$is_delete' $where" .
                     " ORDER BY $filter[sort_by] $filter[sort_order] ".
@@ -992,6 +992,9 @@ function goods_list($is_delete, $real_goods=1, $conditions = '')
     foreach ($row as $key => $goods) {
         $row[$key]['goods_thumb'] = '/'.get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
         $row[$key]['nature_desc'] = $GLOBALS['_LANG']['goods_nature'][$goods['nature']];
+        $sql = "SELECT * FROM ". $GLOBALS['ecs']->table('category') . " WHERE cat_id = '".$goods['cat_id']."'";
+        $category = $GLOBALS['db']->getRow($sql);
+        $row[$key]['cat_name'] = $category['cat_name'];
     }
 
     return array('goods' => $row, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);

@@ -79,7 +79,7 @@ function sys_msg($msg_detail, $msg_type = 0, $links = array(), $auto_redirect = 
     $GLOBALS['smarty']->assign('default_url', $links[0]['href']);
     $GLOBALS['smarty']->assign('auto_redirect', $auto_redirect);
 
-    $GLOBALS['smarty']->display('message.htm');
+    $GLOBALS['smarty']->display($_CFG['template_name'].'message.htm');
 
     exit;
 }

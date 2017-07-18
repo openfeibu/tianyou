@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"  style="height:100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <title>天佑艺术馆</title>
+    <meta name="Keywords" content=""/>
+    <meta name="Description" content=""/>
+    <link rel="stylesheet" type="text/css" href="{$admin_themes}/css/fbUi.css">
+    <link rel="stylesheet" type="text/css" href="{$admin_themes}/css/css.css">
+    <script type="text/javascript" src="{$admin_themes}/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="{$admin_themes}/js/fbUi.js"></script>
+    <script type="text/javascript" src="{$admin_themes}/js/main.js"></script>
+</head>
+<body class="enterBg" style="height:100%">
+
+    <div class="w1320 enter">
+        <div class="reg">
+            <div class="enter-logo">
+                <p>天佑艺术馆管理后台</p>
+            </div>
+            <form id="login" action="privilege.php" method="post">
+                <div class="enter-input">
+                    <input type="text" placeholder="请输入管理员账号" name="username" />
+                </div>
+                <div class="enter-input">
+                    <input type="password" placeholder="请填写管理员密码" name="password" />
+                </div>
+                <div class="enter-input">
+                    <input type="text" placeholder="" name="captcha" class="code_input fb-float-left" />
+                    <div class="code fb-float-right"><img src="index.php?act=captcha&{$random}" alt="" onclick= this.src="index.php?act=captcha&"+Math.random()></div>
+                </div>
+                <div class="enter-input">
+                    <input type="hidden" name="act" value="signin">
+                    <input type="checkbox" value="1" name="remember" id="remember" style="display:none" checked>
+                    <input type="submit" value="登录" name="submit" class="opa_active"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    $fb("#login").formValidator([
+        {
+            name:"username",
+            rules:"required",
+            display:"管理员账号不可为空"
+        },
+        {
+            name:"password",
+            rules:"required",
+            display:"管理员密码不可为空"
+        },
+        {
+            name:"captcha",
+            rules:"required",
+            display:"验证码不可为空"
+        },
+    ])
+</script>
+</html>

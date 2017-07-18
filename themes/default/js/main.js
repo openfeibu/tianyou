@@ -72,7 +72,7 @@ $(function(){
 		$.ajax({
 			type: "POST",
 			url: "user.php?act=act_register",
-			data: {username:username,password:password,confirm_password:confirm_password,mobile:mobile,agreement:1},
+			data: {username:username,password:password,confirm_password:confirm_password,mobile:mobile,agreement:1,mobile_code:code},
 			dataType: "json",
 			success: function(data){
 				if(data.error == 0)
@@ -156,7 +156,7 @@ $(function(){
 		}
 		$(this).addClass("active")
 		var t = 60;
-		fbUi.getCode("http://192.168.0.19",function(){$(".getCode").html("60秒后可重新获取");});
+		fbUi.getCode("user.php?act=send_mobile_code&mobile="+tell,function(){$(".getCode").html("60秒后可重新获取");});
 		var time = setInterval(function(){
 			--t;
 			$(".getCode").html(t+"秒后可重新获取");

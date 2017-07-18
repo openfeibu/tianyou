@@ -164,6 +164,8 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
     $smarty->assign('activity_articles', $activity_articles);
     $smarty->assign('case_articles', $case_articles);
     $smarty->assign('exhibition_articles', $exhibition_articles);
+    $banner_list = get_banner_list();
+    $smarty->assign('banner_list', $banner_list);
     /* 页面中的动态内容 */
     assign_dynamic('index');
 }

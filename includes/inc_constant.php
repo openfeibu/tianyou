@@ -243,4 +243,17 @@ define('LICENSE_VERSION', '1.0');
 /* 配送方式 */
 define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express|yto|zto');
 
+
+//验证记录
+define('ERR_VALIDATE_KEY_NOT_EXIST', 0);// 验证信息不存在
+define('ERR_VALIDATE_EXPIRED_TIME', 1);// 验证码已过期
+define('ERR_VALIDATE_CODE_NOT_MATCH', 2);// 验证码错误
+
+//验证类型
+define('VT_EMAIL_REGISTER', 'email_register');// 邮箱注册
+define('VT_MOBILE_REGISTER', 'mobile_register');// 手机注册
+define('VT_EMAIL_FIND_PWD', 'email_find_password');// 邮箱找回密码
+define('VT_MOBILE_FIND_PWD', 'mobile_find_password');// 手机号找回密码
+define('VT_EMAIL_VALIDATE', 'email_validate');// 邮箱验证
+define('VT_MOBILE_VALIDATE', 'mobile_validate');// 手机验证
 ?>

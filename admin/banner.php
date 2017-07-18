@@ -7,6 +7,8 @@ require(dirname(__FILE__) . '/includes/init.php');
 include_once(ROOT_PATH . '/includes/cls_image.php');
 $image = new cls_image($_CFG['bgcolor']);
 $exc = new exchange($ecs->table('article'), $db, 'article_id', 'title');
+$_REQUEST['act'] = isset($_REQUEST['act']) ? $_REQUEST['act'] : 'list';
+$smarty->assign('act', $_REQUEST['act']);
 
 if ($_REQUEST['act'] == 'list' )
 {
@@ -98,14 +100,4 @@ elseif ($_REQUEST['act'] == 'remove')
 
     ecs_header("Location: $url\n");
     exit;
-}
-function get_banner_list()
-{
-    $sql = 'SELECT a.* , ac.cat_name '.
-           'FROM ' .$GLOBALS['ecs']->table('article'). ' AS a '.
-           'LEFT JOIN ' .$GLOBALS['ecs']->table('article_cat'). ' AS ac ON ac.cat_id = a.cat_id '.
-           'WHERE a.cat_id = 16 ORDER by a.article_id ASC';
-
-    $data = $GLOBALS['db']->getAll($sql);
-    return $data;
 }

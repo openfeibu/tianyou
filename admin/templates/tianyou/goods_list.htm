@@ -18,7 +18,7 @@
                 <div class="">
                     <form class="fb-clearfix" action="javascript:searchGoods()" name="searchForm">
                         <div  class="fb-float-left" >
-                            <select name="cat_id" id="" placeholder="类型" class="fb-float-left">
+                            <select name="cat_id" id="" placeholder="类型" class="fb-float-left to_search">
                                 <option value="0">全部类型</option>
                                 {$cat_list}
                             </select>
@@ -30,7 +30,7 @@
                                 <option value="1">刺绣</option>
                                 <option value="1">刺绣</option>
                             </select> -->
-                            <select name="nature" id="nature" placeholder="性质" class="fb-float-left">
+                            <select name="nature" id="nature" placeholder="性质" class="fb-float-left to_search">
                                 <option value="0">全部</option>
                                 <option value="1">可租可买</option>
                                 <option value="2">只租</option>
@@ -43,6 +43,9 @@
                 </div>
 {literal}
 <script language="JavaScript">
+    $(".to_search").change(function(){
+        searchGoods();
+    });
     function searchGoods()
     {
 {/literal}
@@ -97,11 +100,11 @@
                         押金（元）：{$goods.deposit}
                     </td>
                     <td>{$goods.goods_number}</td>
-                    <td>刺绣</td>
+                    <td>{$goods.cat_name}</td>
                     <td>{$goods.nature_desc}</td>
                     <td>
                         <a style="color:#007560;" href="goods.php?act=edit&goods_id={$goods.goods_id}">详情</a>
-                        <span class="delete-danger opa_active" onclick="artDelete(12)">删除</span>
+                        <span class="delete-danger opa_active" onclick="artDelete({$goods.goods_id})">删除</span>
                     </td>
                 </tr>
                 <tr></tr>
@@ -141,7 +144,8 @@
           title:"天佑艺术馆",
           content:"是否确定删除该艺术品"
         },function(){
-          $fb.fbNews({type:"success",content:"点击了删除"+id})
+          listTable.delete(id);
+          $fb.fbNews({type:"success",content:"删除成功"})
         })
     }
 </script>

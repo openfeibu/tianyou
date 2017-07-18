@@ -180,13 +180,16 @@ listTable.remove = function(id, cfm, opt)
 }
 listTable.delete = function(id, cfm, opt)
 {
+
   if (opt == null)
   {
     opt = "remove";
   }
-  var args = "act=" + opt + "&id=" + id + this.compileFilter();
-  Ajax.call(this.url, args, this.listCallback, "GET", "JSON");
 
+  var args = "act=" + opt + "&id=" + id + this.compileFilter();
+
+  Ajax.call(this.url, args, this.listCallback, "GET", "JSON");
+console.log(opt);
 }
 
 listTable.gotoPageFirst = function()

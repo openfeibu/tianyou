@@ -275,7 +275,7 @@ content: ""; display: inline-block;*display:inline;*zoom:1;width: 100%;height:0;
 }
 .btn_click {
 	width: 180px;
-	height: 40px;
+	height: 42px;
 	margin: 0 15px;
 	line-height: 40px;
 	text-align: center;
@@ -1234,14 +1234,14 @@ vertical-align: top;
 	color: #333333;
 }
 .right2 {
-		width: 940px;
-	padding:20px 30px;
-	height: 630px;
+		width: 1000px;
+/*	padding:20px 30px;
+	height: 630px;*/
 	margin: 0 auto;
 	background: #f9f9f9;
 }
 .chart1 {
-	width: 980px;
+	width: 1000px;
 	border:2px solid #dedede;
 	margin: 0 auto;
 	background: #f9f9f9;
@@ -1322,7 +1322,7 @@ vertical-align: middle;
 }
 .main-chart2{
 	position: relative;
-	width: 980px;
+	width: 1000px;
 	background: #fff;
 }
 .chart2_box1 {
@@ -1801,11 +1801,28 @@ margin-left: 88px;
 }
 .data_summaryLeft >ul li {
   margin-bottom: 20px;
+  position: relative;
  }
+ .data_summaryLeft >ul li.active{
+ 	color: #fff;
+ }
+ .data_summaryLeft >ul li.active:after{
+ 	content: "";
+	position: absolute;
+	width: 10px;
+	height: 16px;
+	right:-10px;
+	top:5px;
+	background: url("../images/triangle.png") no-repeat center;
+  }
 .data_summaryLeft >ul a{
 	color:#666666;
 	font-size: 16px;
+	cursor: pointer;
 }
+ .data_summaryLeft >ul li.active a{
+ 	color: #fff;
+ }
 .data_summaryLeft >ul a:hover {
 	color: #ffffff!important;
 }
@@ -1820,6 +1837,10 @@ margin-left: 88px;
 	width: 690px;
 	height: 100%;
 	margin-left: 280px;
+	display: none;
+}
+.data_summaryRight:first-child{
+	display: block;
 }
 .data_summaryRight >.top {
 	height: 160px;
@@ -1866,8 +1887,8 @@ margin-left: 88px;
 	background: #fff;
 	width: 1000px;
 	height: 160px;
-	bottom: 0;
-	left: 0;
+	border:2px solid #dedede;
+	border-top:none;
 }
 .hei-685 {
 	height: 685px!important;
@@ -1969,3 +1990,30 @@ vertical-align: top;
 .fb-showdate .fb-showdate-tab{border-bottom:2px solid #f1c362;}
 .fb-showdate{border:1px solid #f1c362;}
 .fb-showdate .fb-showdate-model-item span:hover{background: #f1c362;color: #fff;}
+
+.width820{width: 820px;}
+.author_title{width: 1000px;margin:10px auto;}
+
+/*登录*/
+.enterBg{background: url("../images/enter_bg.png") no-repeat center;min-height: 100%;}
+.reg{width: 400px;margin:0 auto;padding: 60px 0;}
+.reg .enter-logo{width: 250px;height: 220px;background: url("../images/enter_logo.png") no-repeat top center;margin:0 auto; }
+.reg .enter-logo p{padding: 166px 0 0 0;color: #f1c362;text-align: center;font-size:22px;line-height: 70px;}
+
+.reg form{}
+.reg form .enter-input{width: 100%;height: 46px;line-height: 46px;margin-top: 20px;}
+.reg form .enter-input input[type="text"],.reg form .enter-input input[type="password"]{width: 100%;height: 46px;line-height: 46px;border:none;background: none;background: rgba(0,0,0,0.2);border-radius: 10px;border:2px solid #8a8781;display: block;text-indent: 32px;color: #fff;font-size: 18px;}
+.reg form .enter-input input.input-error{border:2px solid #FF4949;}
+.reg form .enter-input input[type="submit"]{width: 100%;height: 50px;background: #f1c362;border-radius: 8px;border:none;color: #fff;font-size: 18px;}
+.reg form .enter-input .code_input{width: 250px !important;}
+.reg form .enter-input .code{width: 130px;height: 46px;background: #fff;border-radius: 5px;cursor: pointer;}
+.reg form .enter-input .code img{width: 100%;height: 100%;}
+
+.reg .getCode{width: 150px;border-radius: 5px;background: #c0c0c0;cursor: pointer;text-align: center;line-height:50px;color: #fff;}
+.reg .enter-checked {line-height: 70px;}
+.reg .enter-checked input{width: 20px;height: 20px;background: url("../images/enter_checked.png") no-repeat center;margin:0 30px 0 10px;}
+.reg .enter-checked input:checked{background:  url("../images/checked.png") no-repeat center;}
+.reg .enter-checked p{color: #fff;}
+.reg .enter-checked p a{color: #fff;}
+.reg .enter-checked p a:hover{color: #fff;text-decoration: underline;}
+.reg .enter-checked a{color: #fff;}
