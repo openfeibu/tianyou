@@ -153,7 +153,7 @@ if($ajax)
             $ext .= ' AND ' . db_create_in($ext_group_goods, 'g.goods_id');
         }
     }
-    if($nature){
+    if($nature >1){
         $ext .= " AND g.nature = ".$nature;
     }
 

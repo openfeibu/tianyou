@@ -1,5 +1,23 @@
 {include file="tianyou/head.htm"}
     <script type="text/javascript" src="{$admin_themes}/js/echart/echarts.common.min.js"></script>
+    <script>
+    get_cat_seller_data = function(val,is_date = 0){
+        $.ajax({
+            type: "POST",
+            url:'statistics.php?act=get_cat_seller_data',
+            data:{'ajax':1,'val':val,'is_date':is_date},
+            async:false,
+            error: function(request) {
+                alert("连接错误");
+                return false;
+            },
+            success: function(data) {
+                obj = JSON.parse(data);
+            }
+        });
+        return obj;
+    }
+    </script>
     <!--内容-->
     <div class='outArea addAuthor martop-62'>
         <div class="inArea fb-clearfix">
@@ -14,25 +32,25 @@
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>艺术品</p>
                         <dd>
-                            32000
+                            {$goods_count}
                         </dd>
                     </div>
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>被收藏数</p>
                         <dd>
-                            100
+                            {$collect_goods_count}
                         </dd>
                     </div>
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>已售数</p>
                         <dd>
-                            32000
+                            {$buy_count}
                         </dd>
                     </div>
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>已租数</p>
                         <dd>
-                            32000
+                            {$rent_count}
                         </dd>
                     </div>
                 </div>
@@ -49,6 +67,9 @@
                     </div>
                     <script>
                     var main_chart1 = echarts.init(document.getElementById('main_chart1'));
+                    var art_data = get_cat_seller_data(7);
+                    var cat_sellers = art_data.cat_sellers;
+                    var cat_names = art_data.cat_names;
                     // app.title = '坐标轴刻度与标签对齐';
                     option = {
                         color: ['#3398DB'],
@@ -81,7 +102,7 @@
                         },
                         xAxis: [{
                             type: 'category',
-                            data: ['中国书画', '陶瓷', '油画', '刺绣', '木品雕刻', '奇石玉石', '文玩古玩'],
+                            data: cat_names,
                             axisTick: {
                                 alignWithLabel: true
                             }
@@ -111,7 +132,7 @@
                                 }
                             },
                             barWidth: '40px',
-                            data: [400, 291, 440, 500, 100, 60, 166],
+                            data: cat_sellers,
                             markPoint: {
                                 tooltip: {
                                     trigger: 'item',
@@ -429,110 +450,21 @@
                 <div class='rank-list'>
                     <p>收藏量艺术品最高排行榜</p>
                     <div class='rank-list-content'>
+                        {foreach from=$goodses item=item}
                         <div class='rank-list-items fb-clearfix'>
                             <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
+                                <img src="/{$item.goods_thumb}" alt="{$item.goods_name}" class="w70">
                                 <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
+                                    <h3>{$item.goods_name}</h3>
+                                    <dd class='write_name'>{$item.author_name}</dd>
+                                    <dd class='classfiy '>{$item.cat_name}</dd>
                                 </div>
                             </div>
                             <div class='left fb-float-right'>
-                                被收藏数4300
+                                被收藏数{$item.count}
                             </div>
                         </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4300
-                            </div>
-                        </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4300
-                            </div>
-                        </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4 `300
-                            </div>
-                        </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4300
-                            </div>
-                        </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4300
-                            </div>
-                        </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4300
-                            </div>
-                        </div>
-                        <div class='rank-list-items fb-clearfix'>
-                            <div class='right fb-float-left'>
-                                <img src="images/img6.jpg" alt="">
-                                <div class='right_r fb-inlineBlock'>
-                                    <h3>艺术品名字</h3>
-                                    <dd class='write_name'>作者名字</dd>
-                                    <dd class='classfiy '>中国书画 丨 写意山水</dd>
-                                </div>
-                            </div>
-                            <div class='left fb-float-right'>
-                                被收藏数4300
-                            </div>
-                        </div>
+                        {/foreach}
                     </div>
                 </div>
             </div>
@@ -542,16 +474,11 @@
     <!--内容 end-->
 </body>
 <script>
-var chartChange = function(val, that) {
+var chartChange = function(val, that,is_date = 0) {
     $(that).addClass("active").siblings("a").removeClass("active");
-    var data;
-    if (val == 7) {
-        data = [500, 200, 100, 500, 800, 500, 500]
-    } else if (val == 14) {
-        data = [100, 500, 10, 500, 5555, 45, 20]
-    } else {
-        data = [21, 32, 100, 43, 54, 87, 09]
-    }
+    var art_data = get_cat_seller_data(val,is_date);
+    var data = art_data.cat_sellers;
+
     main_chart1.setOption({
         series: [{
             name: 'value',
@@ -565,18 +492,18 @@ var chartChange = function(val, that) {
                 name: ''
             }, {
                 value: 80,
-                name: '中国书画'
+                name: ''
             }, ]
         },
     });
     cir2.setOption({
         series: {
             data: [{
-                value: 20,
+                value: 5,
                 name: ''
             }, {
-                value: 80,
-                name: '中国书画'
+                value: 95,
+                name: ''
             }, ]
         },
     });
@@ -645,7 +572,7 @@ $fb("#data").showDate({
 
 }, function(val) {
     $(".date a").removeClass("active")
-    chartChange(7,this)
+    chartChange(val,this,1)
 })
 </script>
 

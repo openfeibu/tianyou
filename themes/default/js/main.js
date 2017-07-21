@@ -259,10 +259,11 @@ $(function(){
 	$(".artwork-class .artwork-class-item").on("click",function(){
 		$(".clock").fadeIn(200)
 		var i =$(this).index(".artwork-class-item");
-		if($(this).hasClass("on")){
+		console.log($(".screen-box").find(".screen-item").eq(i).is(":hidden"));
+		if(!$(".screen-box").find(".screen-item").eq(i).is(":hidden")){
 			$(".clock").fadeOut(200);
 			$(this).removeClass("on");
-			$(".screen-box").fadeOut(200)
+			$(".screen-box").fadeOut(200).find(".screen-item").eq(i).fadeOut(200);
 			return false;
 
 		}

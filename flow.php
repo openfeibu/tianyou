@@ -2055,6 +2055,7 @@ elseif ($_REQUEST['step']== 'ajax_update_cart')
         die($json->encode($result));
     }
 }
+
 /*------------------------------------------------------ */
 //-- 删除购物车中的商品
 /*------------------------------------------------------ */
@@ -2071,8 +2072,11 @@ elseif ($_REQUEST['step'] == 'ajax_drop_goods')
 {
     $rec_id = intval($_POST['id']);
     flow_drop_cart_goods($rec_id);
-
-    ajax_show_message('删除成功','success');
+    $cart_goods = get_cart_goods();
+    $data = array(
+        'shopping_money' => sprintf($_LANG['shopping_money'], $cart_goods['total']['goods_price']),
+    );
+    ajax_show_message('删除成功','success','',$data);
 }
 /* 把优惠活动加入购物车 */
 elseif ($_REQUEST['step'] == 'add_favourable')

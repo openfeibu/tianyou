@@ -142,6 +142,7 @@
                             else if(obj.error == 0)
                             {
                                 $(".cart-item-"+id).remove();
+                                $('#shopping_money').html(obj.data.shopping_money);//更新合计
                                 $fb.fbNews({"content":"删除成功","type":"success"});
                             }
                         }

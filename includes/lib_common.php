@@ -3177,4 +3177,19 @@ function get_banner_list()
     }
     return $data;
 }
+
+/**
+ * 获得所有扩展分类属于指定分类的所有商品ID
+ *
+ * @access  public
+ * @param   string $cat_id     分类查询字符串
+ * @return  string
+ */
+function get_extension_goods($cats)
+{
+    $extension_goods_array = '';
+    $sql = 'SELECT goods_id FROM ' . $GLOBALS['ecs']->table('goods_cat') . " AS g WHERE $cats";
+    $extension_goods_array = $GLOBALS['db']->getCol($sql);
+    return db_create_in($extension_goods_array, 'g.goods_id');
+}
 ?>

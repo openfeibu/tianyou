@@ -1,4 +1,4 @@
-<div><a href="statistics.php?act=business" class="aTitle-hover">营业额数据</a></div>
-<div><a href="statistics.php?act=user">用户数据</a></div>
-<div><a href="statistics.php?act=art">艺术品数据</a></div>
-<div><a href="statistics.php?act=author">作者数据</a></div>
+<div><a href="statistics.php?act=business" {if $act == 'business'}class="aTitle-hover"{/if}>营业额数据</a></div>
+<div><a href="statistics.php?act=user" {if $act == 'user'}class="aTitle-hover"{/if}>用户数据</a></div>
+<div><a href="statistics.php?act=art" {if $act == 'art'}class="aTitle-hover"{/if}>艺术品数据</a></div>
+<div><a href="statistics.php?act=author" {if $act == 'author'}class="aTitle-hover"{/if}>作者数据</a></div>

@@ -1,5 +1,25 @@
+{if $full_page}
 {include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
     <script type="text/javascript" src="{$admin_themes}/js/echart/echarts.common.min.js"></script>
+    <script>
+    get_data = function(val,is_date){
+        $.ajax({
+            type: "POST",
+            url:'statistics.php?act=get_user_data',
+            data:{'ajax':1,'val':val,'is_date':is_date},
+            async:false,
+            error: function(request) {
+                alert("连接错误");
+                return false;
+            },
+            success: function(data) {
+                obj = JSON.parse(data);
+            }
+        });
+        return obj;
+    }
+    </script>
     <!--内容-->
     <div class='outArea addAuthor martop-62'>
         <div class="inArea fb-clearfix">
@@ -14,13 +34,13 @@
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>新用户</p>
                         <dd class='fb-fontWei-bolder'>
-                            200
+                            {$new_usernum}
                         </dd>
                     </div>
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>下单人数</p>
                         <dd class='fb-fontWei-bolder'>
-                            100
+                            {$have_order_usernum}
                         </dd>
                     </div>
                     <div class='kindBox-items fb-inlineBlock'>
@@ -32,7 +52,7 @@
                     <div class='kindBox-items fb-inlineBlock'>
                         <p>累计客户</p>
                         <dd class='fb-fontWei-bolder'>
-                            2121
+                            {$all_usernum}
                         </dd>
                     </div>
                 </div>
@@ -50,17 +70,11 @@
                         </div>
                         <script>
                         var datachart_div = echarts.init(document.getElementById('datachart_div'));
-                        var base = +new Date(2017, 0, 0);
-                        var oneDay = 24 * 3600 * 1000;
-                        var date = [];
 
-                        var data = [Math.random() * 300];
-
-                        for (var i = 1; i < 57; i++) {
-                            var now = new Date(base += oneDay);
-                            date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-                            data.push(Math.round((Math.random()) * 120 + data[i - 1]));
-                        }
+                        user_data = get_data(7,0);
+                        console.log(user_data);
+                        var date = user_data.date;
+                        var data = user_data.data;
 
                         option = {
                             tooltip: {
@@ -131,6 +145,8 @@
                     </div>
                     <!--图表 end-->
                 </div>
+                <div class="list-div" id="listDiv">
+{/if}
                 <div style="margin-top:40px;height:610px">
                     <table class='consumer_rank_tabel data_table'>
                         <colgroup class='user'>
@@ -138,95 +154,34 @@
                             <col>
                             <col>
                         </colgroup>
+
                         <tr>
                             <td>时间</td>
                             <td>新增客户</td>
                             <td>累计客户</td>
                         </tr>
+                        {foreach from=$new_user_statistics item=item}
                         <tr>
                             <td>
-                                2017.01.01
+                                {$item.reg_time_desc}
                             </td>
-                            <td> 2</td>
-                            <td>4</td>
+                            <td>{$item.new_usernum}</td>
+                            <td>{$item.old_usernum}</td>
                         </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                2017.01.01
-                            </td>
-                            <td> 2</td>
-                            <td>4</td>
-                        </tr>
+                        {/foreach}
                         <tr>
                             <td colspan="3">
                                 <div class="pageDiv" style="margin-right:30px">
-                                    <a class="fb-inlineBlock page_btn1" href=""></a>
-                                    <a class="fb-inlineBlock page_btn2" href=""></a>
-                                    <span>1/10</span>
-                                    <a class="fb-inlineBlock page_btn3" href=""></a>
-                                    <a class="fb-inlineBlock page_btn4" href=""></a>
+                                    {include file="tianyou/page.htm"}
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
+{if $full_page}
+                </div>
                 <h5 class='fb-h5 fb-color-333 author_title width820' >消费用户排名</h5>
+
                 <table class='consumer_rank_tabel'>
                     <colgroup class='user'>
                         <col style="width:195px">
@@ -238,79 +193,24 @@
                         <td>单笔消费最高</td>
                         <td>共消费金额</td>
                     </tr>
+                    {foreach from=$user_orderinfo item=item}
                     <tr>
                         <td>
                             <div class=" fb-inlineBlock rankItems_left">
-                                <img src="images/data_img1.png" alt="">
+                                <img src="/{$item.avatar}" alt="" class="avatar">
                             </div>
                             <div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
-                                <h2>名字</h2>
-                                <h3 class='fb-color-666'>地区</h2>
-								</div>
-							</td>
-							<td>￥2990</td>
-							<td>￥2380</td>
-
-						</tr>
-						<tr>
-							<td>
-								<div class=" fb-inlineBlock rankItems_left">
-									<img src="images/data_img2.png" alt="">
-								</div>
-								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
-									<h2>名字</h2>
-									<h3 class='fb-color-666'>共00件作品</h2>
-								</div>
-							</td>
-							<td>￥2990</td>
-							<td>￥2380</td>
-
-						</tr>
-						<tr>
-							<td>
-								<div class=" fb-inlineBlock rankItems_left">
-									<img src="images/data_img2.png" alt="">
-								</div>
-								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
-									<h2>名字</h2>
-									<h3 class='fb-color-666'>共00件作品</h2>
-								</div>
-							</td>
-							<td>￥2990</td>
-							<td>￥2380</td>
-
-						</tr>
-						<tr>
-							<td>
-								<div class=" fb-inlineBlock rankItems_left">
-									<img src="images/data_img2.png" alt="">
-								</div>
-								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
-									<h2>名字</h2>
-									<h3 class='fb-color-666'>共00件作品</h2>
-								</div>
-							</td>
-						<td>￥2990</td>
-							<td>￥2380</td>
-
-						</tr>
-						<tr>
-							<td>
-								<div class=" fb-inlineBlock rankItems_left">
-									<img src="images/data_img2.png" alt="">
-								</div>
-								<div class='fb-inlineBlock hei-80 rankItems_right' style="width:95px;">
-									<h2>名字</h2>
-									<h3 class='fb-color-666'>共00件作品</h2>
-								</div>
-							</td>
-						<td>￥2990</td>
-							<td>￥2380</td>
-						</tr>
-
-
+                            <h2>{$item.user_name}</h2>
+                            <h3 class='fb-color-666'>地区</h3>
+							</div>
+						</td>
+						<td>{$item.max_turnover}</td>
+						<td>{$item.turnover}</td>
+					</tr>
+                    {/foreach}
 
 				</table>
+
 				<div style='height:80px;'>
 
 				</div>
@@ -323,50 +223,30 @@
 
 </body>
 <script>
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+</script>
+<script>
 
 $fb("#data").showDate({
     monthControl: true, //月
     dayControl: true, //日
 }, function(val) {
     $(".date a").removeClass("active")
-    chartChange(1, this)
+    chartChange(val, this,1)
 })
-var chartChange = function(val, that) {
+
+var chartChange = function(val, that,is_date = 0) {
     $(that).addClass("active").siblings("a").removeClass("active");
-    var date = [];
-    var data = [Math.random() * 300];
-    if(val == 7){
-        for (var i = 1; i <= 7; i++) {
-        var now = new Date(base += oneDay);
-        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
 
-        }
-    }else if(val == 14){
-        for (var i = 1; i <= 14; i++) {
-        var now = new Date(base += oneDay);
-        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
-
-        }
-    }else if(val == 30){
-        for (var i = 1; i <= 30; i++) {
-        var now = new Date(base += oneDay);
-        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
-
-        }
-    }else{
-         for (var i = 1; i <= 2; i++) {
-        var now = new Date(base += oneDay);
-        date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-        data.push(Math.round((Math.random()) * 120 + data[i - 1]));
-
-        }
-    }
-
-
-
+    user_data = get_data(val,is_date);
+    console.log(user_data);
+    var date = user_data.date;
+    var data = user_data.data;
 
     var option = {
         xAxis: {
@@ -382,5 +262,8 @@ var chartChange = function(val, that) {
     datachart_div.setOption(option);
 
 }
+
+
 </script>
 </html>
+{/if}
