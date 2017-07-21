@@ -31,8 +31,8 @@ foreach($goodses as $key => $value)
     $goodses[$key]['goods_img']    =  get_image_path($value['goods_id'], $value['goods_img']);
     $goodses[$key]['url']  = build_uri('goods', array('gid'=>$value['goods_id']), $value['goods_name']);
     list($width, $height, $type, $attr) = getimagesize($goodses[$key]['goods_thumb']);
-    $goodses[$key]['width'] = $width;
-    $goodses[$key]['height'] = $height;
+    $goodses[$key]['width'] = '265';
+    $goodses[$key]['height'] = $height/($width/265);
     $goodses[$key]['popularity'] = $value['click_count'].'人气';
 }
 
