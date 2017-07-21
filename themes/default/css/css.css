@@ -75,7 +75,7 @@ header{height: 500px;width: 100%;background:#eee;position: relative;}
 .contact .contact-con .img{padding: 80px 0}
 .contact .contact-con img{}
 /*reg login*/
-.enterBg{background: url("../images/enter_bg.png") no-repeat center;min-height: 100%;}
+.enterBg{background: url("../images/enter_bg.png") no-repeat center;min-height: 100%;min-width: 1320px;}
 .enterBg .enter-home{line-height: 68px;color: #ffffff;margin-left: 50px;background: url("../images/enter-home.png") no-repeat left center;padding-left: 30px;}
 .enterBg .enter-home a{color: #fff;}
 .enterBg .enter-tag{line-height: 68px;color: #ffffff;margin-right: 50px;}
