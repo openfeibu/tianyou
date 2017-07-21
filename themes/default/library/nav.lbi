@@ -13,9 +13,14 @@
     </div>
     <!-- 导航 E-->
     <div class="mine fb-float-right">
-        <div class="search fb-float-left">
-               <a href=""></a>
-        </div>
+        <form action="" class=" fb-float-left">
+            <div class="search_input  fb-float-left">
+                <input type="text" placeholder="输入你要搜索得艺术品">
+            </div>
+            <div class="search fb-float-left">
+                   <a href=""></a>
+            </div>
+        </form>
         <div class="cart fb-float-left" id="ECS_CARTINFO">
             {insert name='cart_info'}
         </div>

@@ -711,3 +711,6 @@ input:checked{background: #000}
 .qqBox .qqBox-item:hover a{color: #f1c362 !important;display: block;}
 .contactM{cursor: pointer;}
 .pad-bot-80{padding-bottom:80px;}
+
+.search_input{width: 200px;height: 30px;margin:17px 15px 0 0;}
+.search_input input{background: rgba(255,255,255,0.3);width: 100%;height:30px;border:1px solid #c6ae7c;border-radius: 5px;color: #fff;text-indent: 1em}
