@@ -11,7 +11,7 @@ $act= isset($_REQUEST['act']) ? $_REQUEST['act'] : 'detail';
 
 
 $_REQUEST['id'] = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
-$author_id     = $_REQUEST['id'];
+$author_id     = intval($_REQUEST['id']);
 $position = assign_ur_here(0, '艺术家');
 $smarty->assign('page_title',       $position['title']);    // 页面标题
 $smarty->assign('ur_here',          $position['ur_here']);  // 当前位置
@@ -22,7 +22,7 @@ $smarty->assign('author',       $author);
 $activities = get_author_activities($author_id);
 $smarty->assign('activities',       $activities);
 
-$sql = "SELECT * FROM ".$GLOBALS['ecs']->table('goods')." WHERE author_id = $author_id";
+$sql = "SELECT * FROM ".$GLOBALS['ecs']->table('goods')." WHERE author_id = '$author_id'";
 $goodses = $GLOBALS['db']->getAll($sql);
 foreach($goodses as $key => $value)
 {
