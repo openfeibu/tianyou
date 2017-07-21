@@ -181,10 +181,10 @@ if ($_REQUEST['act'] == 'insert')
     $city          = isset($_POST['city'])      ? intval($_POST['city'])     : '';
     $district      = isset($_POST['district'])  ? intval($_POST['district']) : '';
     $vedio_url     = isset($_POST['vedio_url']) ? $_POST['vedio_url'] : '';
-
+    $is_open = isset($_POST['is_open']) ? $_POST['is_open'] : 1;
     $sql = "INSERT INTO ".$ecs->table('article')."(title, cat_id, article_type, is_open, author, ".
                 "author_email, keywords, content, add_time, file_url, open_type, link, description,activity_type,activity_address,activity_time,province,city,district,vedio_url) ".
-            "VALUES ('$_POST[title]', '$_POST[article_cat]', '$_POST[article_type]', '$_POST[is_open]', ".
+            "VALUES ('$_POST[title]', '$_POST[article_cat]', '$_POST[article_type]', '$is_open', ".
                 "'$_POST[author]', '$_POST[author_email]', '$_POST[keywords]', '$_POST[FCKeditor1]', ".
                 "'$add_time', '$file_url', '$open_type', '$_POST[link_url]', '$_POST[description]','$activity_type','$activity_address','$activity_time','$province','$city','$district','$vedio_url')";
 
@@ -324,8 +324,8 @@ if ($_REQUEST['act'] =='update')
     $city          = isset($_POST['city'])      ? intval($_POST['city'])     : '';
     $district      = isset($_POST['district'])  ? intval($_POST['district']) : '';
     $vedio_url     = isset($_POST['vedio_url']) ? $_POST['vedio_url'] : '';
-
-    if ($exc->edit("title='$_POST[title]', cat_id='$_POST[article_cat]', article_type='$_POST[article_type]', is_open='$_POST[is_open]', author='$_POST[author]', author_email='$_POST[author_email]', keywords ='$_POST[keywords]', file_url ='$file_url', open_type='$open_type', content='$_POST[FCKeditor1]', link='$_POST[link_url]', description = '$_POST[description]',activity_type = '$activity_type',activity_time = '$activity_time',province = '$province',city = '$city',district = '$district',vedio_url = '$vedio_url',activity_address = '$activity_address'", $_POST['id']))
+    $is_open = isset($_POST['is_open']) ? $_POST['is_open'] : 1;
+    if ($exc->edit("title='$_POST[title]', article_type='$_POST[article_type]', is_open='$is_open', author='$_POST[author]', author_email='$_POST[author_email]', keywords ='$_POST[keywords]', file_url ='$file_url', open_type='$open_type', content='$_POST[FCKeditor1]', link='$_POST[link_url]', description = '$_POST[description]',activity_type = '$activity_type',activity_time = '$activity_time',province = '$province',city = '$city',district = '$district',vedio_url = '$vedio_url',activity_address = '$activity_address'", $_POST['id']))
     {
         $link[0]['text'] = $_LANG['back_list'];
         $link[0]['href'] = 'article.php?act=list&' . list_link_postfix();

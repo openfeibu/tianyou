@@ -13,7 +13,7 @@
                     <a class="marL-30 " href="javascript:window.history.go(-1);"> 返回上一页</a>
                 </div>
                 <div class='refund_notDealmessDetail'>
-                    <form action="order.php" method="post">
+                    <form action="order.php" method="post" id="order_form">
                     <div class='bor-bot hei-80 fb-clearfix'>
                         <div class='top_left fb-float-left'>
                             <div class="img_right">
@@ -74,6 +74,15 @@
                             </div>
                         </div>
                     </div>
+                    <script>
+                    $fb("#order_form").formValidator([
+                         {
+                           name:"invoice_no",
+                           rules:"required",
+                           display:"物流单号不可为空",
+                         },
+                     ]);
+                    </script>
                     {else if $order.order_status == 5}
                     <div class="proDiv pro_detail bor-bot">
                         <p class='pro_detail_p1'> 物流信息</p>

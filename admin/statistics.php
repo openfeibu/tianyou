@@ -10,7 +10,12 @@ $smarty->assign('act',$_REQUEST['act']);
 
 if ($_REQUEST['act'] == 'business')
 {
-
+    $sql = "SELECT SUM(g.goods_price * g.goods_number) FROM ".$ecs->table('order_goods')." AS g JOIN ".$ecs->table('order_info')." AS o ON g.order_id = o.order_id WHERE g.buy_type = 1 AND o.order_status = 5";
+    $buy_count = $db->getOne($sql);
+    $smarty->assign('buy_count',       max($buy_count,0));
+    $sql = "SELECT SUM((g.goods_price + g.deposit) * g.goods_number) FROM ".$ecs->table('order_goods')." AS g JOIN ".$ecs->table('order_info')." AS o ON g.order_id = o.order_id WHERE buy_type = 2 AND o.order_status = 5";
+    $seller_count = $db->getOne($sql);
+    $smarty->assign('seller_count',       max($seller_count,0));
 
     $smarty->display($_CFG['template_name'].'statistics_business.htm');
 }

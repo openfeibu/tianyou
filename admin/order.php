@@ -1542,7 +1542,9 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
     $shipping_status = ($order_finish == 1) ? SS_SHIPPED : SS_SHIPPED_PART;
     $arr['shipping_status']     = $shipping_status;
     $arr['shipping_time']       = GMTIME_UTC; // 发货时间
-    $arr['invoice_no']          = trim($order['invoice_no'] . '<br>' . $invoice_no, '<br>');
+    $arr['invoice_no']          =  $invoice_no;
+    $arr['shipping_name']       = $delivery['shipping_name'];
+    $arr['shipping_id']         = $delivery['shipping_id'];
     update_order($order_id, $arr);
 
     /* 发货单发货记录log */
