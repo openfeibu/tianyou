@@ -568,7 +568,8 @@
                           "el":".fb-waterfall-con",
                           "margin":20,
                           "column" : 5,//unit:列数
-                          'data':goods_list
+                          'data':goods_list,
+                          'width':192
                       });
                 </script>
                 <!-- {/if} -->

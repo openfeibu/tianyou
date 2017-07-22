@@ -64,8 +64,8 @@ function get_collection_goods($user_id, $num = 10, $start = 0,$keyword ='')
         $goods_list[$row['goods_id']]['goods_thumb']      = $goods_list[$row['goods_id']]['img'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $goods_list[$row['goods_id']]['goods_img']        = get_image_path($row['goods_id'], $row['goods_img']);
         list($width, $height, $type, $attr) = getimagesize($row['goods_thumb']);
-        $goods_list[$row['goods_id']]['width'] = $width;
-        $goods_list[$row['goods_id']]['height'] = $height;
+        $goods_list[$row['goods_id']]['width'] = 192;
+        $goods_list[$row['goods_id']]['height'] = $height/($width/192);
         $goods_list[$row['goods_id']]['popularity'] = $row['click_count'].'人气';
     }
 
