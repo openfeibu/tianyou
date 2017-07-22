@@ -275,6 +275,7 @@
         var height_attr_id = 0;
         var price_min = 0;
         var price_max = 0;
+        var keyword = $("input[name='keyword']").val();
         if(prices){
             var price_arr = prices.split('_');
             var price_min = price_arr[0];
@@ -291,7 +292,7 @@
         {
             id = $('.artwork-class-item.on').attr('cat_id');
         }
-        var url = 'category.php?id='+id+'&price_min='+price_min+'&price_max='+price_max+'&filter_attr='+filter_attr+'&author_id='+author_id+'&slong='+slong+'&llong='+llong+'&sheight='+sheight+'&lheight='+lheight+'&long_attr_id='+long_attr_id+'&height_attr_id='+height_attr_id+'&nature='+nature;
+        var url = 'category.php?id='+id+'&price_min='+price_min+'&price_max='+price_max+'&filter_attr='+filter_attr+'&author_id='+author_id+'&slong='+slong+'&llong='+llong+'&sheight='+sheight+'&lheight='+lheight+'&long_attr_id='+long_attr_id+'&height_attr_id='+height_attr_id+'&nature='+nature+'&keyword='+keyword;
 
         $.ajax({
             cache: true,

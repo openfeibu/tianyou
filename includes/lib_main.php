@@ -653,7 +653,7 @@ function get_app_pager($app, $cat, $record_count, $size, $sort, $order, $page = 
     switch ($app)
     {
         case 'category':
-            $uri_args = array('cid' => $cat, 'bid' => $brand, 'price_min'=>$price_min, 'price_max'=>$price_max, 'filter_attr'=>$filter_attr, 'sort' => $sort, 'order' => $order, 'display' => $display_type);
+            $uri_args = array('cid' => $cat, 'bid' => $brand, 'price_min'=>$price_min, 'price_max'=>$price_max, 'filter_attr'=>$filter_attr, 'sort' => $sort, 'order' => $order, 'display' => $display_type,'keyword' => $keywords);
             break;
         case 'article_cat':
             $uri_args = array('acid' => $cat, 'sort' => $sort, 'order' => $order);
@@ -673,6 +673,7 @@ function get_app_pager($app, $cat, $record_count, $size, $sort, $order, $page = 
 
     $page_prev  = ($page > 1) ? $page - 1 : 1;
     $page_next  = ($page < $page_count) ? $page + 1 : $page_count;
+
     if ($pager['styleid'] == 0)
     {
         if (!empty($url_format))
@@ -695,6 +696,7 @@ function get_app_pager($app, $cat, $record_count, $size, $sort, $order, $page = 
         {
             $pager['array'][$i] = $i;
         }
+
     }
     else
     {
@@ -737,6 +739,7 @@ function get_app_pager($app, $cat, $record_count, $size, $sort, $order, $page = 
             {
                 $pager['page_number'][$i] = $url_format . $i;
             }
+
         }
         else
         {
@@ -750,8 +753,11 @@ function get_app_pager($app, $cat, $record_count, $size, $sort, $order, $page = 
             {
                 $pager['page_number'][$i] = build_uri($app, $uri_args, '', $i, $keywords);
             }
+
         }
+
     }
+
     if (!empty($sch_array))
     {
         $pager['search'] = $sch_array;

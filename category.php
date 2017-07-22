@@ -37,10 +37,14 @@ elseif (isset($_REQUEST['category']))
 }
 else
 {
+    $cat_id = 0;
+
     /* 如果分类ID为0，则返回首页 */
+    /*
     ecs_header("Location: ./\n");
 
     exit;
+    */
 }
 
 
@@ -66,6 +70,8 @@ $filter_attr_str = trim(urldecode($filter_attr_str));
 $filter_attr_str = preg_match('/^[\d\.]+$/',$filter_attr_str) ? $filter_attr_str : '';
 $filter_attr = empty($filter_attr_str) ? '' : explode('.', $filter_attr_str);
 
+/* 初始化分页信息 */
+$keyword = isset($_REQUEST['keyword']) ? trim($_REQUEST['keyword'])  : '';
 
 /* 排序、显示方式以及类型 */
 $default_display_type = $_CFG['show_order_type'] == '0' ? 'list' : ($_CFG['show_order_type'] == '1' ? 'grid' : 'text');
@@ -83,7 +89,7 @@ setcookie('ECS[display]', $display, gmtime() + 86400 * 7);
 
 /* 页面的缓存ID */
 $cache_id = sprintf('%X', crc32($cat_id . '-' . $display . '-' . $sort  .'-' . $order  .'-' . $page . '-' . $size . '-' . $_SESSION['user_rank'] . '-' .
-    $_CFG['lang'] .'-'. $brand. '-' . $price_max . '-' .$price_min . '-' . $filter_attr_str));
+    $_CFG['lang'] .'-'. $brand. '-' . $price_max . '-' .$price_min . '-' . $filter_attr_str.'-'.$keyword));
 
 if($ajax)
 {
@@ -163,9 +169,9 @@ if($ajax)
     {
         $page = $max_page;
     }
-    $goodslist = category_get_goods($children, $brand, $price_min, $price_max, $ext, $size, $page, $sort, $order);
+    $goodslist = category_get_goods($children, $brand, $price_min, $price_max, $ext, $size, $page, $sort, $order,$keyword);
 
-    $app_pager = get_app_pager('category',$cat_id, $count, $size, $sort, $order, $page, '', $brand, $price_min, $price_max, $display, $filter_attr_str);
+    $app_pager = get_app_pager('category',$cat_id, $count, $size, $sort, $order, $page, $keyword, $brand, $price_min, $price_max, $display, $filter_attr_str);
 
     include('includes/cls_json.php');
 
@@ -204,9 +210,9 @@ if (!$smarty->is_cached('category.dwt', $cache_id))
     else
     {
         /* 如果分类不存在则返回首页 */
-        ecs_header("Location: ./\n");
-
-        exit;
+        // ecs_header("Location: ./\n");
+        //
+        // exit;
     }
 
     /* 赋值固定内容 */
@@ -458,6 +464,8 @@ if (!$smarty->is_cached('category.dwt', $cache_id))
 
     assign_template('c', array($cat_id));
 
+
+
     $position = assign_ur_here($cat_id, $brand_name);
     $smarty->assign('page_title',       $position['title']);    // 页面标题
     $smarty->assign('ur_here',          $position['ur_here']);  // 当前位置
@@ -473,6 +481,7 @@ if (!$smarty->is_cached('category.dwt', $cache_id))
     $smarty->assign('price_min',        $price_min);
     $smarty->assign('filter_attr',      $filter_attr_str);
     $smarty->assign('feed_url',         ($_CFG['rewrite'] == 1) ? "feed-c$cat_id.xml" : 'feed.php?cat=' . $cat_id); // RSS URL
+    $smarty->assign('keyword',          $keyword);
 
     if ($brand > 0)
     {
@@ -507,15 +516,15 @@ if (!$smarty->is_cached('category.dwt', $cache_id))
     $smarty->assign('promotion_goods', get_category_recommend_goods('promote', $children, $brand, $price_min, $price_max, $ext));
     $smarty->assign('hot_goods',       get_category_recommend_goods('hot', $children, $brand, $price_min, $price_max, $ext));
 
-    $count = get_cagtegory_goods_count($children, $brand, $price_min, $price_max, $ext);
+    $count = get_cagtegory_goods_count($children, $brand, $price_min, $price_max, $ext,$keyword);
     $max_page = ($count> 0) ? ceil($count / $size) : 1;
     if ($page > $max_page)
     {
         $page = $max_page;
     }
-    $goodslist = category_get_goods($children, $brand, $price_min, $price_max, $ext, $size, $page, $sort, $order);
+    $goodslist = category_get_goods($children, $brand, $price_min, $price_max, $ext, $size, $page, $sort, $order,$keyword);
 
-    $app_pager = get_app_pager('category',$cat_id, $count, $size, $sort, $order, $page, '', $brand, $price_min, $price_max, $display, $filter_attr_str);
+    $app_pager = get_app_pager('category',$cat_id, $count, $size, $sort, $order, $page, $keyword, $brand, $price_min, $price_max, $display, $filter_attr_str);
 
     include('includes/cls_json.php');
 
@@ -770,7 +779,7 @@ function get_price_grades($cats)
  * @param   string  $children
  * @return  array
  */
-function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $sort, $order)
+function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $sort, $order,$keyword)
 {
     $display = $GLOBALS['display'];
     $where = "g.is_on_sale = 1 AND g.is_alone_sale = 1 AND ".
@@ -790,7 +799,10 @@ function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $
     {
         $where .= " AND g.shop_price <= $max ";
     }
-
+    if($keyword)
+    {
+        $where .=  " AND g.goods_name LIKE '%".$keyword."%'";
+    }
     /* 获得商品列表 */
     $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, g.market_price, g.is_new, g.is_best, g.is_hot, g.shop_price AS org_price, ' .
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, g.promote_price, g.goods_type, " .
@@ -875,7 +887,7 @@ function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $
  * @param   string     $cat_id
  * @return  integer
  */
-function get_cagtegory_goods_count($children, $brand = 0, $min = 0, $max = 0, $ext='')
+function get_cagtegory_goods_count($children, $brand = 0, $min = 0, $max = 0, $ext='',$keyword = '')
 {
     $where  = "g.is_on_sale = 1 AND g.is_alone_sale = 1 AND g.is_delete = 0 AND ($children OR " . get_extension_goods($children) . ')';
 
@@ -893,7 +905,10 @@ function get_cagtegory_goods_count($children, $brand = 0, $min = 0, $max = 0, $e
     {
         $where .= " AND g.shop_price <= $max ";
     }
-
+    if($keyword)
+    {
+        $where .=  " AND g.goods_name LIKE '%".$keyword."%'";
+    }
     /* 返回商品总数 */
     return $GLOBALS['db']->getOne('SELECT COUNT(*) FROM ' . $GLOBALS['ecs']->table('goods') . " AS g WHERE $where $ext");
 }

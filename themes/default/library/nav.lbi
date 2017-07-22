@@ -13,12 +13,12 @@
     </div>
     <!-- 导航 E-->
     <div class="mine fb-float-right">
-        <form action="" class=" fb-float-left">
+        <form action="category.php" class="fb-float-left" method="get" id="search_keyword_form">
             <div class="search_input  fb-float-left">
-                <input type="text" placeholder="输入你要搜索得艺术品">
+                <input type="text" name="keyword" placeholder="输入你要搜索得艺术品" value="{if isset($keyword)}{$keyword}{/if}" />
             </div>
             <div class="search fb-float-left">
-                   <a href=""></a>
+                   <a href="javascript:;" onclick="javascript:$('#search_keyword_form').submit();"></a>
             </div>
         </form>
         <div class="cart fb-float-left" id="ECS_CARTINFO">

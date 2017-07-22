@@ -1537,12 +1537,12 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
     switch ($app)
     {
         case 'category':
-            if (empty($cid))
-            {
-                return false;
-            }
-            else
-            {
+            // if (empty($cid))
+            // {
+            //     return false;
+            // }
+            // else
+            // {
                 if ($rewrite)
                 {
                     $uri = 'category-' . $cid;
@@ -1573,6 +1573,10 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
                     if (!empty($order))
                     {
                         $uri .= '-' . $order;
+                    }
+                    if (!empty($keywords))
+                    {
+                        $uri .= '-' . $keywords;
                     }
                 }
                 else
@@ -1607,8 +1611,12 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
                     {
                         $uri .= '&amp;order=' . $order;
                     }
+                    if (!empty($keywords))
+                    {
+                        $uri .= '&amp;keyword=' . $keywords;
+                    }
                 }
-            }
+            //}
 
             break;
         case 'goods':
