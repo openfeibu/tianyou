@@ -1,6 +1,6 @@
 <div class="user-left fb-float-left">
-    <div class="user-image">
-        <img src="{if $profile.avatar}{$profile.avatar}{else}{$ec_themes}/images/tx.png{/if}" alt="" />
+    <div class="user-image" style="background:url({if $profile.avatar}{$profile.avatar}{else}{$ec_themes}/images/tx.png{/if})no-repeat center\cover;">
+
     </div>
     <ul class="user-nav">
         <li {if $action eq 'default' || $action eq 'profile'}class="active"{/if}><a href="user.php" class="fb-color-aaa fb-font16">个人资料</a></li>
