@@ -243,7 +243,7 @@ overflow: hidden; }
 .fb-figureCarousel .fb-figureCarousel-right{background: url("../images/fb-figureCarousel-right.png") no-repeat center;margin-top: -10px;}
 .fb-figureCarousel-item{border:1px solid #fff;}
 .fb-figureCarousel-item:hover{border:1px solid #c6ae7c;}
-.artwork-list-con {margin: 60px auto;width: 1200px}
+.artwork-list-con {margin: 60px auto 0 auto;width: 1200px;padding: 0 0 60px 0}
 .fb-waterfall-con .fb-text:before{content: "";position: absolute;width: 116px;height: 33px;background: url("../images/yellow_03.png") no-repeat center;top:35%;left:0;}
 .fb-waterfall-con .fb-text:after{content: "";position: absolute;width: 116px;height: 33px;background: url("../images/yellow_03.png") no-repeat center;bottom:35%;right:0;}
 .fb-waterfall-con .fb-text span{color:#f1c362;line-height: 24px;}
