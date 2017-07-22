@@ -29,7 +29,7 @@
            <a href="user.php">
 
            </a>
-           {if !$_SESSION['user_id']}
+           {if $smarty.session.user_id gt 0}
            <div class="user-box fb-position-absolute">
                <div class="tagT fb-position-absolute"></div>
                <ul >

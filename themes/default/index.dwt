@@ -197,7 +197,7 @@
                             <div class="text fb-font14">
                                 {$article.description}
                             </div>
-                            <a href="javascript:;" class="fb-font14 fb-float-right">详情</a>
+                            <!-- <a href="javascript:;" class="fb-font14 fb-float-right">详情</a> -->
                         </div>
                     </div>
                 </div><!-- exService-item end-->
