@@ -1,5 +1,5 @@
 <div class="user-left fb-float-left">
-    <div class="user-image" style="background:url({if $profile.avatar}{$profile.avatar}{else}{$ec_themes}/images/tx.png{/if})no-repeat center\cover;">
+    <div class="user-image" style="background:url({if $profile.avatar}{$profile.avatar}{else}{$ec_themes}/images/tx.png{/if})no-repeat center/cover;">
 
     </div>
     <ul class="user-nav">
