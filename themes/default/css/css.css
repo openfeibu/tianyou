@@ -545,7 +545,8 @@ input:checked{background: #000}
 
 /*个人中心*/
 .user-left{width: 248px;min-height:830px;background: #fbfbfb;height: 100%;}
-.user-left .user-image{width: 140px;height: 140px;margin:50px auto 0 auto;}
+.user-left .user-image{width: 140px;height: 140px;margin:50px auto 0 auto;overflow: hidden;border-radius: 50%;}
+.user-left .user-image img{min-width: 140px;min-height: 140px;}
 .user-left .user-nav{text-align: center;line-height: 42px;padding: 20px 0;}
 .user-left .user-nav li{height: 42px;margin:20px 0;}
 .user-left .user-nav li.active a{color: #f1c362;font-weight: bold;}
