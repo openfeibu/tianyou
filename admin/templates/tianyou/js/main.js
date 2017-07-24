@@ -320,7 +320,7 @@ $(function(){
 			var val = $(this).text();
 			var sid = $(this).attr("sid");
 			$(this).addClass("on").siblings("li").removeClass("on");
-			$(this).parents(".selectBox_all").find(".selectBox_input").val(val).attr("sid",sid).trigger("change");
+			$(this).parents(".selectBox_all").find(".selectBox_input").attr('value',val).attr("sid",sid).trigger("change");
 			$(this).parents(".selectBox_all").find(".selectBox_input_val").val(sid);
 			$(this).parents(".selectBox").fadeOut(100);
 		})

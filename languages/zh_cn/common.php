@@ -732,4 +732,13 @@ $_LANG['divided_into'] = '分成规则';
 $_LANG['nature'][1] = '可租可用';
 $_LANG['nature'][2] = '只租';
 $_LANG['nature'][3] = '只买';
+
+$_LANG['nav_type']['to_deal'] = '未处理';
+$_LANG['nav_type']['dealing'] = '正在处理';
+$_LANG['nav_type']['dealed'] = '已处理';
+/*
+$_LANG['order_back_nav_type']['to_deal'] = '未处理';
+$_LANG['order_back_nav_type']['dealing'] = '未处理';
+$_LANG['order_back_nav_type']['dealed'] = '已处理';
+*/
 ?>

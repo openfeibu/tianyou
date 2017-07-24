@@ -79,6 +79,9 @@ elseif ($_REQUEST['act'] == 'list')
     $smarty->assign('sort_order_time', '<img src="images/sort_desc.gif">');
     $type = isset($_REQUEST['type']) ? trim($_REQUEST['type']) : 'to_deal';
     $smarty->assign('type',         $type);
+
+    $type_desc = $_LANG['nav_type'][$type];
+    $smarty->assign('type_desc',    $type_desc);
     /* 显示模板 */
     assign_query_info();
     $smarty->display($_CFG['template_name'].'order_list.htm');
@@ -90,35 +93,22 @@ elseif ($_REQUEST['act'] == 'list_back')
 {
     /* 检查权限 */
     admin_priv('back_view');
-    $back_sn = $_REQUEST['back_sn'];
-    $order_sn = $_REQUEST['order_sn'];
-    $invoice_no = $_REQUEST['invoice_no'];
+
     //$status = $_REQUEST['status'];
     $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'to_deal';
     $smarty->assign('type', $type);
-    switch ($type) {
-        case 'to_deal':
-            $status = array(1);
-            break;
-        case 'dealing':
-            $status = array(2,3,4);
-            break;
-        default:
-            $status = array(5,6,7);
-            break;
-    }
+
+    $type_desc = $_LANG['nav_type'][$type];
+    $smarty->assign('type_desc', $type_desc);
     /* 查询 */
-    $result = list_back($back_sn,$order_sn,$invoice_no,$status);
+    $result = list_back();
     /* 模板赋值 */
     $smarty->assign('ur_here', $_LANG['10_back_order']);
     $smarty->assign('os_unconfirmed', OS_UNCONFIRMED);
     $smarty->assign('cs_await_pay', CS_AWAIT_PAY);
     $smarty->assign('cs_await_ship', CS_AWAIT_SHIP);
     $smarty->assign('full_page', 1);
-    $smarty->assign('back_sn', $back_sn);
-    $smarty->assign('order_sn', $order_sn);
-    $smarty->assign('invoice_no', $invoice_no);
-    $smarty->assign('status', $status);
+
     $filter = $result['filter'];
     $smarty->assign('list_back', $result['back']);
     $smarty->assign('filter', $result['filter']);
@@ -350,15 +340,26 @@ elseif ($_REQUEST['act'] == 'query')
     /* 检查权限 */
     admin_priv('order_view');
 
-    $order_list = order_list();
+    if(isset($_REQUEST['list_back']) && $_REQUEST['list_back'] == 1)
+    {
+        $result = list_back();
+        $smarty->assign('list_back', $result['back']);
+        $smarty->assign('filter', $result['filter']);
+        $smarty->assign('record_count', $result['record_count']);
+        $smarty->assign('page_count', $result['page_count']);
+        make_json_result($smarty->fetch('list_back.htm'), '', array('filter' => $result['filter'], 'page_count' => $result['page_count']));
+    }else{
+        $order_list = order_list();
 
-    $smarty->assign('order_list',   $order_list['orders']);
-    $smarty->assign('filter',       $order_list['filter']);
-    $smarty->assign('record_count', $order_list['record_count']);
-    $smarty->assign('page_count',   $order_list['page_count']);
-    $sort_flag  = sort_flag($order_list['filter']);
-    $smarty->assign($sort_flag['tag'], $sort_flag['img']);
-    make_json_result($smarty->fetch('order_list.htm'), '', array('filter' => $order_list['filter'], 'page_count' => $order_list['page_count']));
+        $smarty->assign('order_list',   $order_list['orders']);
+        $smarty->assign('filter',       $order_list['filter']);
+        $smarty->assign('record_count', $order_list['record_count']);
+        $smarty->assign('page_count',   $order_list['page_count']);
+        $sort_flag  = sort_flag($order_list['filter']);
+        $smarty->assign($sort_flag['tag'], $sort_flag['img']);
+        make_json_result($smarty->fetch('order_list.htm'), '', array('filter' => $order_list['filter'], 'page_count' => $order_list['page_count']));
+    }
+
 }
 
 /*------------------------------------------------------ */
@@ -981,6 +982,10 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
 
     $action_note    = isset($_REQUEST['action_note']) ? trim($_REQUEST['action_note']) : '';
     $order_id = intval(trim($_REQUEST['order_id']));
+    $shipping_id = intval(trim($_REQUEST['shipping_id']));
+
+    $shipping = shipping_info($shipping_id);
+
     $action_note = trim($action_note);
 
     /* 查询：根据订单id查询订单信息 */
@@ -1061,6 +1066,8 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
     $delivery['agency_id']    = intval($delivery['agency_id']);
     $delivery['insure_fee']   = floatval($delivery['insure_fee']);
     $delivery['shipping_fee'] = floatval($delivery['shipping_fee']);
+    $delivery['shipping_id'] = $shipping_id;
+    $delivery['shipping_name'] = $shipping['shipping_name'];
 
     /* 订单是否已全部分单检查 */
     if ($order['order_status'] == OS_SPLITED)
@@ -1278,6 +1285,7 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
                            'suppliers_id', 'status', 'order_id', 'shipping_name'
                            );
     $_delivery = array();
+
     foreach ($filter_fileds as $value)
     {
         $_delivery[$value] = $delivery[$value];
@@ -1543,8 +1551,8 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
     $arr['shipping_status']     = $shipping_status;
     $arr['shipping_time']       = GMTIME_UTC; // 发货时间
     $arr['invoice_no']          =  $invoice_no;
-    $arr['shipping_name']       = $delivery['shipping_name'];
-    $arr['shipping_id']         = $delivery['shipping_id'];
+    $arr['shipping_name']       = $shipping['shipping_name'];
+    $arr['shipping_id']         = $shipping['shipping_id'];
     update_order($order_id, $arr);
 
     /* 发货单发货记录log */
@@ -7058,23 +7066,38 @@ function get_site_root_url()
     return 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/' . ADMIN_PATH . '/order.php', '', PHP_SELF);
 
 }
-function list_back($back_sn,$order_sn,$invoice_no,$status)
+function list_back()
 {
+    $back_sn = $_REQUEST['back_sn'];
+    $order_sn = $_REQUEST['order_sn'];
+    $invoice_no = $_REQUEST['invoice_no'];
     $result = get_filter();
     if ($result === false)
     {
         $where = 'WHERE 1 ';
         if ($back_sn)
         {
-            $where .= " AND ob.back_sn = '" . $back_sn . "'";
+            $where .= " AND ob.back_sn LIKE '%" . $back_sn . "%'";
         }
         if ($order_sn)
         {
-            $where .= " AND ob.order_sn = '" . $order_sn . "'";
+            $where .= " AND ob.order_sn LIKE '%" . $order_sn . "%'";
         }
         if ($invoice_no)
         {
-            $where .= " AND ob.invoice_no = '" . $invoice_no . "'";
+            $where .= " AND ob.invoice_no LIKE '%" . $invoice_no . "%'";
+        }
+        $filter['type'] = empty($_REQUEST['type']) ? 'to_deal' : $_REQUEST['type'];
+        switch ($filter['type']) {
+            case 'to_deal':
+                $status = array(1);
+                break;
+            case 'dealing':
+                $status = array(2,3,4);
+                break;
+            default:
+                $status = array(5,6,7);
+                break;
         }
         if ($status)
         {
@@ -7098,6 +7121,7 @@ function list_back($back_sn,$order_sn,$invoice_no,$status)
         $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_back') ." AS ob ". $where;
         $filter['record_count'] = $GLOBALS['db']->getOne($sql);
         $filter['page_count'] = $filter['record_count'] > 0 ? ceil($filter['record_count'] / $filter['page_size']) : 1;
+        $filter['type'] = empty($_REQUEST['type']) ? 'to_deal' : $_REQUEST['type'];
         /* 查询 */
         $sql = "SELECT ob.*, u.user_name ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "." $where ORDER BY ob.add_time desc LIMIT " . ($filter['page'] - 1) * $filter['page_size'] . ", " . $filter['page_size'] . " ";
         set_filter($filter, $sql);

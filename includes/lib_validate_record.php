@@ -18,25 +18,25 @@ function save_validate_record ($key, $code, $type, $last_send_time, $expired_tim
 {
 	$record = array(
 		// 验证代码
-		"record_code" => $code, 
+		"record_code" => $code,
 		// 业务类型
-		"record_type" => $type, 
+		"record_type" => $type,
 		// 业务类型
-		"last_send_time" => $last_send_time, 
+		"last_send_time" => $last_send_time,
 		// 过期时间
-		"expired_time" => $expired_time, 
+		"expired_time" => $expired_time,
 		// 扩展信息
 		"ext_info" => serialize($ext_info)
 	);
-	
+
 	$exist = check_validate_record_exist($key);
-	
+
 	if(! $exist)
 	{
 		$record['record_key'] = $key;
 		// 记录创建时间
 		$record["create_time"] = time();
-		
+
 		/* insert */
 		$GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('validate_record'), $record, 'INSERT');
 	}
@@ -50,14 +50,14 @@ function save_validate_record ($key, $code, $type, $last_send_time, $expired_tim
 /**
  * 检查验证记录在数据库中是否已经存在
  *
- * @param string $key        	
+ * @param string $key
  * @return boolean
  */
 function check_validate_record_exist ($key)
 {
 	$sql = "select count(*) from " . $GLOBALS['ecs']->table('validate_record') . " where record_key = '" . $key . "'";
 	$count = $GLOBALS['db']->getOne($sql);
-	
+
 	if($count > 0)
 	{
 		return true;
@@ -71,7 +71,7 @@ function check_validate_record_exist ($key)
 /**
  * 根据键删除验证记录
  *
- * @param string $key        	
+ * @param string $key
  */
 function remove_validate_record ($key)
 {
@@ -82,7 +82,7 @@ function remove_validate_record ($key)
 /**
  * 移除过期的验证记录
  *
- * @param string $key        	
+ * @param string $key
  */
 function remove_expired_validate_record ()
 {
@@ -94,14 +94,14 @@ function remove_expired_validate_record ()
 /**
  * 基本验证
  *
- * @param string $key        	
- * @param string $value        	
+ * @param string $key
+ * @param string $value
  * @return int 0-验证信息不存在，1-验证码已过期, 2-验证码错误
  */
 function validate_code ($key, $code)
 {
 	$record = get_validate_record($key);
-	
+
 	if($record == false)
 	{
 		return ERR_VALIDATE_KEY_NOT_EXIST;
@@ -123,41 +123,41 @@ function validate_code ($key, $code)
 /**
  * 从数据库中获取验证记录信息，会将ext_info数组解析与结果合并
  *
- * @param string $key        	
+ * @param string $key
  * @return boolean|array:
  */
-function get_validate_record ($key)
+function get_validate_record ($key,$type = VT_MOBILE_REGISTER)
 {
 	// 移除过期的验证记录
 	remove_expired_validate_record();
-	
-	$sql = "select * from " . $GLOBALS['ecs']->table('validate_record') . " where record_key = '$key'";
+
+	$sql = "select * from " . $GLOBALS['ecs']->table('validate_record') . " where record_key = '$key' AND record_type = '$type'";
 	$row = $GLOBALS['db']->getRow($sql);
-	
+
 	if($row == false)
 	{
 		return false;
 	}
-	
+
 	$row['ext_info'] = unserialize($row['ext_info']);
-	
+
 	$record = array(
 		// 验证代码
-		"record_key" => $row['record_key'], 
+		"record_key" => $row['record_key'],
 		// 验证代码
-		"record_code" => $row['record_code'], 
+		"record_code" => $row['record_code'],
 		// 业务类型
-		"record_type" => $row['record_type'], 
+		"record_type" => $row['record_type'],
 		// 开始时间
-		"last_send_time" => $row['last_send_time'], 
+		"last_send_time" => $row['last_send_time'],
 		// 过期时间
-		"expired_time" => $row['expired_time'], 
+		"expired_time" => $row['expired_time'],
 		// 创建时间
 		"create_time" => $row['create_time']
 	);
-	
+
 	$record = array_merge($record, $row['ext_info']);
-	
+
 	return $record;
 }
 

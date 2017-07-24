@@ -154,7 +154,7 @@ $(function(){
 		if($(this).hasClass("active")){
 			return false;
 		}
-		$(this).addClass("active")
+		$(this).addClass("active");
 		var t = 60;
 		fbUi.getCode("user.php?act=send_mobile_code&mobile="+tell,function(){$(".getCode").html("60秒后可重新获取");});
 		var time = setInterval(function(){
@@ -164,9 +164,30 @@ $(function(){
 				$(".getCode").removeClass("active").html("获取验证码");
 				clearInterval(time)
 			}
-		},1000)
+		},1000);
 
-	})
+	});
+	$("#backpass .getCode").on("click",function(){
+		var tell = $("[name='mobile']").val();
+		if(!$fb.expPhone(tell)){
+			$fb.fbNews({"type":"danger","content":"手机号码格式错误"});
+			return false;
+		}
+		if($(this).hasClass("active")){
+			return false;
+		}
+		$(this).addClass("active");
+		var t = 60;
+		fbUi.getCode("user.php?act=send_mobile_code&mobile="+tell,function(){$(".getCode").html("60秒后可重新获取");});
+		var time = setInterval(function(){
+			--t;
+			$(".getCode").html(t+"秒后可重新获取");
+			if(t == 0){
+				$(".getCode").removeClass("active").html("获取验证码");
+				clearInterval(time)
+			}
+		},1000);
+	});
 	//修改密码获取验证码
 	$(".security .getCode").on("click",function(){
 		var tell = $(".security .tell").val();
@@ -179,7 +200,7 @@ $(function(){
 		}
 		$(this).addClass("active")
 		var t = 60;
-		fbUi.getCode("http://192.168.0.19",function(){$(".getCode").html("60秒后可重新获取");});
+		fbUi.getCode("user.php?act=send_mobile_editpwd_code&mobile="+tell,function(){$(".getCode").html("60秒后可重新获取");});
 		var time = setInterval(function(){
 			--t;
 			$(".getCode").html(t+"秒后可重新获取");

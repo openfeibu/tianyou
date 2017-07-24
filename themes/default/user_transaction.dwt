@@ -454,14 +454,14 @@
                           <div class="security-item">
                               <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">账号手机号码</label>
                               <div class="input-b  fb-inlineBlock">
-                                  <input class="tell" type="text" style="width:236px">
+                                  <input class="tell" type="text" value="{$profile.mobile}" style="width:236px" disabled>
                               </div>
                                <div class="getCode fb-float-right fb-font14">发送验证码</div>
                           </div>
                           <div class="security-item">
                               <label for="" class="fb-font14 fb-color-666 fb-inlineBlock">输入验证码</label>
                               <div class="input-b  fb-inlineBlock">
-                                  <input type="text" style="width:380px">
+                                  <input type="text" name="mobile_code" style="width:380px">
                               </div>
                           </div>
                           <div class="security-item">
@@ -491,13 +491,18 @@
                   var old_password     = frm.elements['old_password'].value;
                   var new_password     = frm.elements['new_password'].value;
                   var confirm_password = frm.elements['comfirm_password'].value;
-
+                  var mobile_code      = frm.elements['mobile_code'].value;
                   var msg = '';
                   var reg = null;
 
                   if (old_password.length == 0)
                   {
                     msg += '旧密码不能为空' + '\n';
+                  }
+
+                  if (mobile_code.length == 0)
+                  {
+                    msg += '验证码不能为空' + '\n';
                   }
 
                   if (new_password.length == 0)
@@ -528,7 +533,7 @@
                       $.ajax({
                            type: "POST",
                            url: "user.php?act=act_edit_password",
-                           data: {old_password:old_password,new_password:new_password,confirm_password:confirm_password},
+                           data: {old_password:old_password,new_password:new_password,confirm_password:confirm_password,mobile_code:mobile_code},
                            dataType: "json",
                            success: function(data){
                                if(data.error == 403)
@@ -536,6 +541,7 @@
                                    window.location.href='user.php';
                                }else if(data.error == 0){
                                     $fb.fbNews({"content":data.message,"type":"success"});
+                                    window.location.href='user.php';
                                }else{
                                    $fb.fbNews({"content":data.message,"type":"warning"});
                                }

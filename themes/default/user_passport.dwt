@@ -7,7 +7,6 @@
     <div class="enter-home fb-float-left fb-font18"><a href="index.php">首页</a></div>
     <div class="enter-tag fb-float-right fb-font18"><a href="user.php?act=register">注册</a></div>
 
-    </div>
     <div class="w1320 enter">
         <div class="reg">
             <div class="enter-logo"></div>
@@ -37,7 +36,6 @@
     <div class="enter-home fb-float-left fb-font18"><a href="index.php">首页</a></div>
     <div class="enter-tag fb-float-right fb-font18"><a href="user.php?act=login">登录</a></div>
 
-    </div>
     <div class="w1320 enter">
         <div class="reg">
             <div class="enter-logo"></div>
@@ -72,250 +70,64 @@
     </div>
 
     <!--{/if}-->
-    <!--{if $action eq 'address_list'} -->
-    <!-- 头部 S -->
-        <div class="header min1320">
-            <div class="header_top">
-                {include file='library/nav.lbi '}
-            </div>
-        </div>
-        <!-- 头部 E -->
-        <!-- 主体内容 S -->
-        <div class="content">
-            <div class="con-list w1320 m-200">
-                <div class="user clearfix">
-                    <div class="user-left fb-float-left">
-                        <div class="user-image">
-                            <img src="images/tx.png" alt="" />
-                        </div>
-                        <ul class="user-nav">
-                            <li class="active"><a href="" class="fb-color-aaa fb-font16">设置地址</a></li>
-                            <li><a href="" class="fb-color-aaa fb-font16">个人资料</a></li>
-                            <li><a href="" class="fb-color-aaa fb-font16">安全设置</a></li>
-                            <li><a href="" class="fb-color-aaa fb-font16">收藏项目</a></li>
-                        </ul>
-                    </div><!-- user-left end-->
-                    <div class="user-right fb-float-left">
-                       <div class="padd60">
-                           <div class="address-list fb-color-ccc fb-font14">
-                               <div class="address-item address-title clearfix fb-color-666">
-                                   <div class="address-cell address-cell01 fb-float-left">收货人</div>
-                                   <div class="address-cell address-cell02 fb-float-left">收货地址</div>
-                                   <div class="address-cell address-cell03 fb-float-left">联系电话</div>
-                                   <div class="address-cell address-cell04 fb-float-left">操作</div>
-                                   <div class="address-cell address-cell05 fb-float-left"></div>
-                               </div>
-                               <div class="address-item clearfix default">
-                                   <div class="address-cell address-cell01 fb-float-left">收货人</div>
-                                   <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
-                                   <div class="address-cell address-cell03 fb-float-left">13000000000</div>
-                                   <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon()">修改</a> / <a  class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
-                                   <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
-                               </div>
-                               <div class="address-item clearfix">
-                                   <div class="address-cell address-cell01 fb-float-left">收货人</div>
-                                   <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
-                                   <div class="address-cell address-cell03 fb-float-left">13000000000</div>
-                                   <div class="address-cell address-cell04 fb-float-left"><a class="fb-color-ccc" onclick="update_icon()">修改</a> / <a  class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
-                                   <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
-                               </div>
-                               <div class="address-item clearfix">
-                                   <div class="address-cell address-cell01 fb-float-left">收货人</div>
-                                   <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
-                                   <div class="address-cell address-cell03 fb-float-left">13000000000</div>
-                                   <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon()">修改</a> / <a class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
-                                   <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
-                               </div>
-                               <div class="address-item clearfix">
-                                   <div class="address-cell address-cell01 fb-float-left">收货人</div>
-                                   <div class="address-cell address-cell02 fb-float-left">收货地址收货地址收货址收货地址收货地址</div>
-                                   <div class="address-cell address-cell03 fb-float-left">13000000000</div>
-                                   <div class="address-cell address-cell04 fb-float-left"><a  class="fb-color-ccc" onclick="update_icon()">修改</a> / <a class="fb-color-ccc" onclick="deleteAddress(1)">删除</a></div>
-                                   <div class="address-cell address-cell05 fb-float-left"><span>默认地址</span></div>
-                               </div>
-                           </div><!-- address-list end-->
-                            <div class="add-address">
-                                <div class="add-address-title fb-color-333 fb-font16">
-                                    新增地址+
-                                </div>
-                                <form id="addAddress" action="" onsubmit="return addAddress()">
-                                     <div class="input-item">
-                                         <label class="fb-inlineBlock fb-color-666 fb-font14">详细收货地址</label>
-                                         <div class="input-b fb-inlineBlock">
-                                             <select name="" id="" class="fb-inlineBlock">
-                                                 <option value="">中国大陆</option>
-                                             </select>
-                                             <input type="text" id="city" name="" class="fb-inlineBlock city" style="width:300px;margin-left:18px;"/>
-                                         </div>
-                                     </div>
-                                     <div class="input-item">
-                                         <label class="fb-inlineBlock fb-color-666 fb-font14"></label>
-                                         <div class="input-b fb-inlineBlock">
-                                            <textarea name="" id="" class="dec"></textarea>
-                                         </div>
-                                     </div>
-                                     <div class="input-item">
-                                         <label class="fb-inlineBlock fb-color-666 fb-font14">收货人</label>
-                                         <div class="input-b fb-inlineBlock">
-                                            <input type="text" class="fb-inlineBlock name" style="width:300px;"/>
-                                         </div>
-                                     </div>
-                                     <div class="input-item">
-                                         <label class="fb-inlineBlock fb-color-666 fb-font14">手机号码</label>
-                                         <div class="input-b fb-inlineBlock">
-                                            <input type="text"  class="fb-inlineBlock tell" style="width:300px;"/>
-                                         </div>
-                                     </div>
-                                     <div class="input-check">
-                                        <input type="checkbox" name='123' id="checkbox" />
-                                        <label class="fb-color-aaa fb-font14" for="checkbox">设置为默认收货地址</label>
+    <!--{if $action eq 'get_password'} -->
+    <div class="enter-home fb-float-left fb-font18"><a href="">首页</a></div>
+    <div class="enter-tag fb-float-right fb-font18"><a href="user.php?act=login">登录</a></div>
 
-                                     </div>
-                                     <button class="opa_active" >保存</button>
-                                </form>
-                            </div>
-                       </div>
-                    </div><!-- user-right end-->
-
+    <div class="w1320 enter">
+        <div class="reg">
+            <div class="enter-logo"></div>
+            <form id="backpass" action="">
+                <div class="enter-input">
+                    <input type="text" placeholder="请输入注册用手机" name="mobile" />
                 </div>
-            </div>
-        </div>
-        <div class="update-address">
-            <form id="upAddress" action="" onsubmit="return upAddress()">
-                    <div class="add-address-title fb-color-333 fb-font16">
-                        修改地址
-                    </div>
-                         <div class="input-item">
-                             <label class="fb-inlineBlock fb-color-666 fb-font14">详细收货地址</label>
-                             <div class="input-b fb-inlineBlock">
-                                 <select name="" id="" class="fb-inlineBlock">
-                                     <option value="">中国大陆</option>
-                                 </select>
-                                 <input type="text" id="city2" name="" class="fb-inlineBlock city" style="width:300px;margin-left:18px;"/>
-                             </div>
-                         </div>
-                         <div class="input-item">
-                             <label class="fb-inlineBlock fb-color-666 fb-font14"></label>
-                             <div class="input-b fb-inlineBlock">
-                                <textarea name="" id="" class="dec"></textarea>
-                             </div>
-                         </div>
-                         <div class="input-item">
-                             <label class="fb-inlineBlock fb-color-666 fb-font14">收货人</label>
-                             <div class="input-b fb-inlineBlock">
-                                <input type="text" class="fb-inlineBlock name" style="width:300px;"/>
-                             </div>
-                         </div>
-                         <div class="input-item">
-                             <label class="fb-inlineBlock fb-color-666 fb-font14">手机号码</label>
-                             <div class="input-b fb-inlineBlock">
-                                <input type="text"  class="fb-inlineBlock tell" style="width:300px;"/>
-                             </div>
-                         </div>
-                         <button class="opa_active" >保存</button>
-                         <div class="close" >关闭</div>
-                    </form>
-
-        </div>
-        <!-- 主体内容 E -->
-       <!-- footer S -->
-        <div class="min1320 footer">
-            <div class="w1320">
-                <div class="fb-float-left footer-text">
-                    <div class="footer-mine"><a href="" class="fb-font12">关于我们</a><a href="" class="fb-font12">联系我们</a></div>
-                    <div class="footer-address fb-font12" >
-                        <p>天佑馆址：佛山南海桂城桂平西路一号南海新天地广场四楼</p>
-                        <p>天佑艺术（http://www.tianyouart.com）由天佑艺术有限公司运营及版权所有</p>
-                        <p>*****备*******号</p>
-                    </div>
+                <div class="enter-input">
+                    <input type="text" placeholder="请填写验证码" name="code" style="width:215px" class="fb-float-left"/>
+                    <div class="getCode fb-float-right fb-font16">发送验证码</div>
                 </div>
-                <div class="fb-float-right footer-logo"></div>
-            </div>
+                <div class="enter-input">
+                    <input type="password" placeholder="请填写新密码" name="pass" />
+                </div>
+                <div class="enter-input">
+                    <input type="submit" value="确定" name="submit" class="opa_active"/>
+                </div>
+            </form>
         </div>
-        <!-- footer E -->
-    <script src="js/Popt.js"></script>
-    <script src="js/cityJson.js"></script>
-    <script src="js/citySet.js"></script>
-
+    </div>
     <script>
-    function update_icon(){
-        var top = $(window).scrollTop();
-        $("body").css({"overflow":"hidden"})
-        $(".update-address").fadeIn(200).css({"top":top});
-    }
-    $(".update-address .close").on("click",function(){
-        $(".update-address").fadeOut(200);
-        $("body").css({"overflow":"auto"})
-    })
-    function addAddress(){
-        var city = $("#city").val(),
-        dec=$("#addAddress").find(".dec").val(),
-        name=$("#addAddress").find(".name").val(),
-        tell=$("#addAddress").find(".tell").val();
-        if(city.split("-").length < 3){
-            $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
-        }else if(dec.length <= 0){
-            $fb.fbNews({"content":"请完善你的详情地址","type":"warning"});
-        }else if(name.length <= 0){
-            $fb.fbNews({"content":"收货人不可为空","type":"warning"});
-        }else if(!$fb.expPhone(tell)){
-            $fb.fbNews({"content":"手机号码格式错误","type":"warning"});
-        }else{
-            $fb.fbNews({"content":"增加地址成功","type":"success"});
-        }
-        return false;
-    }
-    function upAddress(){
-        var city = $("#city2").val(),
-        dec=$("#upAddress").find(".dec").val(),
-        name=$("#upAddress").find(".name").val(),
-        tell=$("#upAddress").find(".tell").val();
-        if(city.split("-").length < 3){
-            $fb.fbNews({"content":"请完善你的收货地址","type":"warning"});
-        }else if(dec.length <= 0){
-            $fb.fbNews({"content":"请完善你的详情地址","type":"warning"});
-        }else if(name.length <= 0){
-            $fb.fbNews({"content":"收货人不可为空","type":"warning"});
-        }else if(!$fb.expPhone(tell)){
-            $fb.fbNews({"content":"手机号码格式错误","type":"warning"});
-        }else{
-            $fb.fbNews({"content":"修改地址成功","type":"success"});
-            $(".update-address").fadeOut(200);
-            $("body").css({"overflow":"auto"})
-
-        }
-        return false;
-    }
-    $("#city").click(function (e) {
-        $(this).blur();
-        SelCity(this,e);
-    });
-    $("#city2").click(function (e) {
-        $(this).blur();
-        SelCity(this,e);
-    });
-    $(".address-cell05 span").on("click",function(){
-         $fb.fbNews({"content":"设置默认地址成功","type":"success"});
-         $(this).parents(".address-item ").addClass("default").siblings(".address-item ").removeClass("default")
-    })
-    $("#checkbox").change(function(){
-        if($(this).is(":checked")){
-            $(this).parents(".input-check").addClass("checked")
-        }else{
-            $(this).parents(".input-check").removeClass("checked")
-
-        }
-    })
-    function deleteAddress (id) {
-        $fb.showModal({
-            title:"提示",
-            content:"是否删除该地址？"
-        },function(){
-           $fb.fbNews({"content":"删除成功","type":"success"})
-        })
-
-    }
-
+        $("#backpass").on("submit",function(){
+            mobile = $('[ name="mobile"]').val();
+            code = $('[ name="code"]').val();
+            password = $('[ name="pass"]').val();
+            if(!fbUi.expPhone(mobile)){
+                $('[ name="mobile"]').addClass("input-error");
+                return false;
+            }
+            if(!fbUi.expEmpty(code)){
+                $('[ name="code"]').addClass("input-error");
+                return false;
+            }
+            if(password.length < 6){
+                $('[ name="pass"]').addClass("input-error");
+                return false;
+            }
+            $.ajax({
+    			type: "POST",
+    			url: "user.php?act=act_new_password",
+    			data: {mobile:mobile,mobile_code:code,password:password},
+    			dataType: "json",
+    			success: function(data){
+    				if(data.error == 0)
+    				{
+                        $fb.fbNews({"content":data.message,"type":"success"});
+    					window.location.href="user.php";
+    				}else{
+    					$fb.fbNews({"content":data.message,"type":"warning"});
+    				}
+    			 }
+    		});
+            return false;
+        });
     </script>
     <!--{/if}-->
 </body>

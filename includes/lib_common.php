@@ -3200,4 +3200,94 @@ function get_extension_goods($cats)
     $extension_goods_array = $GLOBALS['db']->getCol($sql);
     return db_create_in($extension_goods_array, 'g.goods_id');
 }
+function send_mobile_code($mobile_phone,$type = VT_MOBILE_REGISTER)
+{
+    require_once (ROOT_PATH . 'sms/sms.php');
+    require_once (ROOT_PATH . 'includes/lib_passport.php');
+    require_once (ROOT_PATH . 'includes/lib_validate_record.php');
+
+    if(empty($mobile_phone))
+	{
+        return array('error' => 1,'message' => "手机号不能为空");
+	}
+	else if(! is_mobile($mobile_phone))
+	{
+        return array('error' => 1,'message' => "手机号格式不正确");
+	}
+	else if(check_validate_record_exist($mobile_phone))
+	{
+		// 获取数据库中的验证记录
+		$record = get_validate_record($mobile_phone);
+		/**
+		 * 检查是过了限制发送短信的时间
+		 */
+		$last_send_time = $record['last_send_time'];
+		$expired_time = $record['expired_time'];
+		$create_time = $record['create_time'];
+		$count = $record['count'];
+
+		// 每天每个手机号最多发送的验证码数量
+		$max_sms_count = 10;
+		// 发送最多验证码数量的限制时间，默认为24小时
+		$max_sms_count_time = 60 * 60 * 24;
+
+		if((time() - $last_send_time) < 60)
+		{
+            return array('error' => 1,'message' => "每60秒内只能发送一次短信验证码，请稍候重试");
+		}
+		else if(time() - $create_time < $max_sms_count_time && $record['count'] > $max_sms_count)
+		{
+            return array('error' => 1,'message' => "您发送验证码太过于频繁，请稍后重试！");
+		}
+		else
+		{
+			$count ++;
+		}
+	}
+    // 设置为空
+   $_SESSION[$type] = array();
+    // 生成6位短信验证码
+    $mobile_code = rand_number(6);
+    switch ($type) {
+        case VT_MOBILE_FIND_PWD:
+
+            $content = array($GLOBALS['_CFG']['sms_register_tpl'], "{\"code\":\"$mobile_code\",\"product\":\"天佑商城\"}",$GLOBALS['_CFG']['sms_sign']);
+            break;
+
+        default:
+
+            $content = array($GLOBALS['_CFG']['sms_register_tpl'], "{\"code\":\"$mobile_code\",\"product\":\"天佑商城\"}",$GLOBALS['_CFG']['sms_sign']);
+            break;
+    }
+
+
+	/* 发送激活验证短信 */
+    $result = sendSMS($mobile_phone, $content);
+    //$result = true;
+    if($result)
+	{
+		if(! isset($count))
+		{
+			$ext_info = array(
+				"count" => 1
+			);
+		}
+		else
+		{
+			$ext_info = array(
+				"count" => $count
+			);
+		}
+		// 保存验证的手机号
+		$_SESSION[$type] = $mobile_phone;
+
+		// 保存验证信息
+		save_validate_record($mobile_phone, $mobile_code, $type, time(), time() + 30 * 60, $ext_info);
+		return array('error' => 0,'message' => "短信验证码发送成功");
+	}
+	else
+	{
+        return array('error' => 1,'message' => "短信验证码发送失败");
+	}
+}
 ?>

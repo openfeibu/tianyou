@@ -53,7 +53,7 @@
                         </div>
                         <div class='proformDiv'>
                             <label for="">物流公司</label>
-                            <select name="" id="" style="background:url('images/icon2.png') no-repeat 280px center">
+                            <select name="shipping_id" id="shipping_id" style="background:url('images/icon2.png') no-repeat 280px center">
                                 {foreach from=$shipping_list item=shipping}
                                 <option value="{$shipping.shipping_id}">{$shipping.shipping_name}</option>
                                 {/foreach}

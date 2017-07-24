@@ -421,5 +421,40 @@ function get_user_by_mobile($mobile)
     $res = $GLOBALS['db']->getRow("SELECT * FROM ". $GLOBALS['ecs']->table('users') ." WHERE mobile = '$mobile'");
     return $res;
 }
+function validate_mobile_code ($mobile_phone, $mobile_code)
+{
+	require_once (ROOT_PATH . 'includes/lib_validate_record.php');
 
+	if(empty($mobile_phone))
+	{
+		return 1;
+	}
+	else if(!is_mobile($mobile_phone))
+	{
+		return 2;
+	}
+
+	$record = get_validate_record($mobile_phone);
+
+	/* 手机验证码检查 */
+	if(empty($mobile_code))
+	{
+		return 3;
+	}
+	//检查验证码是否正确
+	else if($record['record_code'] != $mobile_code)
+	{
+		return 4;
+	}
+	//检查过期时间
+	else if($record['expired_time'] < time())
+	{
+		return 5;
+	}
+
+	/* 删除注册的验证记录 */
+	remove_validate_record($mobile_phone);
+
+	return 0;
+}
 ?>

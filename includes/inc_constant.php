@@ -256,4 +256,5 @@ define('VT_EMAIL_FIND_PWD', 'email_find_password');// 邮箱找回密码
 define('VT_MOBILE_FIND_PWD', 'mobile_find_password');// 手机号找回密码
 define('VT_EMAIL_VALIDATE', 'email_validate');// 邮箱验证
 define('VT_MOBILE_VALIDATE', 'mobile_validate');// 手机验证
+define('VT_MOBILE_EDIT_PWD', 'mobile_edit_password');
 ?>

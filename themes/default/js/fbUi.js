@@ -82,7 +82,7 @@
 	  $.post(src, function(data){
 		data = JSON.parse(data);
 
-	   if(data.code == 200){
+	   if(data.error == 0){
 		   _this.fbNews({"type":"success","content":"获取验证码成功"});
 	   }
 	   else{

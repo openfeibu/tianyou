@@ -13,16 +13,16 @@
             <div class=' rightDiv fb-position-relative publishAct_right'>
                 <div class="publishAct_choseEditCon">
                     <div class="">
-                        <form class="fb-clearfix" action="">
+                        <form class="fb-clearfix" action="javascript:searchOrder()" name="searchForm">
                             <div class="fb-float-left">
-                                <input class="sear fb-float-left" type="text" placeholder="请输入要搜索的关键字">
+                                <input name="order_sn" class="sear fb-float-left" id="order_sn" type="text" placeholder="请输入要搜索的订单号">
                                 <input type="submit" value="" class="fb-float-left submit-btn">
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class='refund-title'>
-                    <a href="#"> 未处理退款消息共{$record_count}条</a>
+                    <a href="javascript:;">{$type_desc}退款消息共{$record_count}条</a>
                 </div>
 {/if}
                 <div class="list-div" id="listDiv">
@@ -89,6 +89,14 @@
     {foreach from=$filter item=item key=key}
     listTable.filter.{$key} = '{$item}';
     {/foreach}
+    function searchOrder()
+    {
+        listTable.filter['order_sn'] = Utils.trim(document.forms['searchForm'].elements['order_sn'].value);
+        listTable.filter['page'] = 1;
+        listTable.filter['list_back'] = 1;
+        listTable.loadList();
+    }
+    </script>
 </body>
 </html>
 {/if}

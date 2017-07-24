@@ -358,4 +358,8 @@ $_LANG['04_sms_sign'] = '短信签名';
 
 /* 移动版开通引导页 */
 $_LANG['lead'] = '移动版';
+
+$_LANG['nav_type']['to_deal'] = '未处理';
+$_LANG['nav_type']['dealing'] = '正在处理';
+$_LANG['nav_type']['dealed'] = '已处理';
 ?>

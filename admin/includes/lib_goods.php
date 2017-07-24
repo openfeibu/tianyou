@@ -760,7 +760,7 @@ function get_build_attr_html($cat_id, $goods_id = 0)
             $html .= "<div class='fb-position-relative input_all selectBox_all'>";
             $html .= '<label for="">题材</label>';
 
-            $html .= '<input type="text" class="selectBox_input icon2" value="'.$val['attr_value'].'">';
+            $html .= '<input type="text" class="selectBox_input icon2" name="attr_value_list[]" value="'.$val['attr_value'].'">';
 
             $html .= "<div class='fb-position-absolute pos selectBox' >";
             $html .= "<div><ul>";
