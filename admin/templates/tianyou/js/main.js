@@ -341,7 +341,8 @@ $(function(){
 			$(".author-box-con-item").removeClass("on");
 			$(this).addClass("on");
 			$(".author_input").val(val);
-			;
+
+			$("input[name='author_id']").val($(this).attr('author-id'));
 			$(".author-box").fadeOut(100);
 
 		})

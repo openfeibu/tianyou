@@ -236,8 +236,8 @@ $(function(){
     $(".commonProblem-bottom button,.commonProblem .commonProblem-close").on("click",function(){
         $(this).parents(".commonProblem").fadeOut(200);
         $("body").css("overflow","auto")
-    })
-
+    });
+    
 
 
 </script>

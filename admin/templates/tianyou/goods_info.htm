@@ -24,7 +24,7 @@
 	             <div class='return-page  mar-10'>
 	               <a class="marL-30 " href="javascript:window.history.go(-1);"> 返回上一页</a>
 	            </div>
-				<form action="" method="post" enctype="multipart/form-data">
+				<form action="" method="post" enctype="multipart/form-data" id="goodsForm">
 					<div class='input_all'>
 						<label for="">艺术品名称</label>
 						<input type="text" name="goods_name" value="{$goods.goods_name|escape}">
@@ -91,16 +91,15 @@
 					<div class='fb-clearfix input_all nature-con'>
 						<label class='fb-float-left' for="">价格（￥）</label>
 						<div class='wi430 fb-float-left'>
-
-								<div class='div-390'>
+								<div class='div-390' {if $goods.nature == 1 || $goods.nature == 3}style="display:block"{else}style="display:none;"{/if}>
 									<label class='fb-inlineBlock' for="">购买</label>
 									<input type="text" name="shop_price" value="{$goods.shop_price}">
 								</div>
-								<div class='div-390'>
+								<div class='div-390' {if $goods.nature == 1 || $goods.nature == 2}style="display:block"{else}style="display:none;"{/if}>
 									<label class='fb-inlineBlock' for="">租金</label>
 									<input type="text" name="rent" value="{$goods.rent}">
 								</div>
-								<div class='div-390'>
+								<div class='div-390' {if $goods.nature == 1 || $goods.nature == 2}style="display:block"{else}style="display:none;"{/if}>
 									<label class='fb-inlineBlock' for="">押金</label>
 									<input type="text" name="deposit" value="{$goods.deposit}">
 								</div>
@@ -159,6 +158,49 @@
     <script type="text/javascript" src="{$admin_themes}/js/jquery.mCustomScrollbar.js"></script>
     <script type="text/javascript" src="{$admin_themes}/js/jquery.mousewheel.min.js"></script>
 <script>
+ $fb("#goodsForm").formValidator([
+     {
+       name:"goods_name",
+       rules:"required",
+       display:"艺术品名称不可为空",
+     },
+     {
+       name:"author_id",
+       rules:"is_number",
+       minLength:1,
+       display:"作者选择出错",
+       mindisplay:"请选择作者",
+     },
+     {
+       name:"year",
+       rules:"required",
+       display:"出产年份不可为空",
+     },
+     {
+       name:"cat_id",
+       rules:"is_number",
+       minLength:1,
+       display:"类型选择出错",
+       mindisplay:"请选择类型",
+     },
+     {
+       name:"goods_number",
+       rules:"required",
+       display:"库存不可为空",
+     },
+     {
+       name:"goods_thumb",
+       rules:"required",
+       display:"请选择图片",
+     },
+     {
+       name:"nature",
+       rules:"is_number",
+       minLength:1,
+       display:"性质选择出错",
+       mindisplay:"请选择性质",
+     },
+ ]);
 //删除艺术品
   $(".btn_danger").on("click",function(){
     $fb.showModal({
@@ -310,95 +352,5 @@ function setAttrList(result, text_result)
     $('#tbody-goodsAttr').html(result.content);
 }
 
-// var uploader2 = WebUploader.create({
-
-//     // 选完文件后，是否自动上传。
-//     auto: true,
-
-//     // swf文件路径
-//     swf: 'js/Uploader.swf',
-//     // 文件接收服务端。
-//     server: 'http://img2.cdn.wzdala.com:8088/upload_json_2016.asp',
-//     // 选择文件的按钮。可选。
-//     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-//     pick: '#updetail',
-//     // 只允许选择图片文件。
-//     fileVal:"file",
-//     fileNumLimit:5,
-//     accept: {
-//         title: 'Images',
-//         extensions: 'gif,jpg,jpeg,bmp,png',
-//         mimeTypes: 'image/*'
-//     }
-// });
-// // 当有文件添加进来的时候
-// var  $list2 = $(".uploader-de-list");
-// uploader2.on( 'fileQueued', function( file ) {
-
-//     var $li = $(
-//             '<div  id="' + file.id + '" class="file-item thumbnail fb-inlineBlock fb-position-relative">' +
-//                 '<img>' +
-//                 '<div class="close fb-position-absolute">x</div>' +
-//             '</div>'
-//             ),
-//         $img = $li.find('img');
-
-
-//     // $list为容器jQuery实例
-//     $list2.append( $li );
-
-//     // 创建缩略图
-//     // 如果为非图片文件，可以不用调用此方法。
-//     // thumbnailWidth x thumbnailHeight 为 100 x 100
-//     uploader2.makeThumb( file, function( error, src ) {
-//         if ( error ) {
-//             $img.replaceWith('<span>不能预览</span>');
-//             return;
-//         }
-//         $img.attr( 'src', src );
-//     }, 160, 160);
-// });
-// // 文件上传过程中创建进度条实时显示。
-// uploader2.on( 'uploadProgress', function( file, percentage ) {
-//     var $li = $( '#'+file.id ),
-//         $percent = $li.find('.progress span');
-
-//     // 避免重复创建
-//     if ( !$percent.length ) {
-//         $percent = $('<p class="progress"><span></span></p>')
-//                 .appendTo( $li )
-//                 .find('span');
-//     }
-
-//     $percent.css( 'width', percentage * 100 + '%' );
-// });
-
-// // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-// uploader2.on( 'uploadSuccess', function( file ) {
-//     $( '#'+file.id ).addClass('upload-state-done');
-// });
-
-// // 文件上传失败，显示上传出错。
-// uploader2.on( 'uploadError', function( file ) {
-//     var $li = $( '#'+file.id ),
-//         $error = $li.find('div.error');
-
-//     // 避免重复创建
-//     if ( !$error.length ) {
-//         $error = $('<div class="error"></div>').appendTo( $li );
-//     }
-
-//     $error.text('上传失败');
-// });
-
-// // 完成上传完了，成功或者失败，先删除进度条。
-// uploader2.on( 'uploadComplete', function( file ) {
-//     $( '#'+file.id ).find('.progress').remove();
-// });
-// $("body").on("click",".file-item .close",function(){
-// 	var id = $(this).parents(".file-item").attr("id");
-// 	uploader2.removeFile(id,true);
-// 	$(this).parents(".file-item").remove();
-// })
 </script>
 </html>

@@ -56,22 +56,22 @@
     };
 
 	//********* 静态方法  **************
-	
+
 	//正则:验证手机号码
 	fbUi.expPhone = function(test){
 		var test = test;
-	    if(!(/^1[34578]\d{9}$/.test(test))){ 
-	        // alert("手机号码有误，请重填");  
-	        return false; 
+	    if(!(/^1[34578]\d{9}$/.test(test))){
+	        // alert("手机号码有误，请重填");
+	        return false;
 	    }
 	    return true;
 	};
 	//正则：验证是否为空
-	fbUi.expEmpty = function(test){  
+	fbUi.expEmpty = function(test){
 		var test = test;
-	    if(test.length == 0){ 
-	        // alert("手机号码有误，请重填");  
-	        return false; 
+	    if(test.length == 0){
+	        // alert("手机号码有误，请重填");
+	        return false;
 	    }
 	    return true;
 	};
@@ -99,16 +99,16 @@
 		$(window).on("scroll",addEvent);
 		function addEvent(){
 			var t = $(window).scrollTop();
-			var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）    
-		    var bScrollH = document.body.scrollHeight; // 滚动条总高度        
-		    if (t + wInnerH >= bScrollH-fb.bottom) { 
+			var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
+		    var bScrollH = document.body.scrollHeight; // 滚动条总高度
+		    if (t + wInnerH >= bScrollH-fb.bottom) {
 		    	fb.arriveFun();
 				$(window).off("scroll",addEvent);
 		    }
 		}
 	}
 	fbUi.monitorBottom.again = function(){
-		fbUi.monitorBottom(fbOptions["monitorBottom"]); 
+		fbUi.monitorBottom(fbOptions["monitorBottom"]);
 	}
 	//瀑布流布局
     fbUi.waterfall = function(options){
@@ -197,7 +197,7 @@
 				        </div>\
 				    </div>';
 		}
-		
+
 		$("body").append(html);
 		$(".fb-showModal").fadeIn(200).find(".fb-showModal-group").removeClass("startTop");
 
@@ -222,7 +222,7 @@
 			$(".fb-showModal").fadeOut(200);
 			// 解除确定
 			$("body").off("click",".fb-showModal-true",succFunction);
-			
+
 		});
 	};
 	//​关闭模态弹窗 showModal
@@ -271,7 +271,7 @@
 
 
 	//********* 实例方法  **************
-	
+
 
 
 
@@ -303,7 +303,7 @@
 			bannerIndex = i;
 			go(i);
 		});
-		
+
 		$el.find(".fb-banner-prev").on("click",{dir:0},pageGo);
 		$el.find(".fb-banner-next").on("click",{dir:1},pageGo);
 		//上一页 下一页
@@ -333,7 +333,7 @@
 			$el.hover(function(){clearInterval(run)},function(){bannerRun()});
 			bannerRun();
 		}
-		
+
 		function bannerRun(){
 			run = setInterval(function(){
 				i = ++bannerIndex > imgLength-1 ? 0 : bannerIndex;
@@ -488,7 +488,7 @@
 		    	var i = $(this).index();
 		        var r = calculate(this, e);
 		        opts.leave($el, dirs[r],i);
-		    });		
+		    });
 	};
 	//在线客服   fbUi.online();
 	fbUi.prototype.online = function(){
@@ -522,7 +522,7 @@
 		$el.on("mousemove",function(e){
 			$(".fb-imgHover,.fb-bigImg").show();
 			var e = e || window.event;
-			var left = e.pageX - osmall.offset().left - 90 ; 
+			var left = e.pageX - osmall.offset().left - 90 ;
 			var top =  e.pageY - osmall.offset().top - 90 ;
 			left = left < 0 ? 0 : left;
 			left = left > fb.width-180 ? fb.width-180 : left;
@@ -585,7 +585,7 @@
 					$(".fb-showdate .fb-showdate-tab").append('<div class="fb-showdate-tab-item fb-showdate-tab-year fb-float-left fb-font14 fb-color-222 ">年份<span class="fb-font12"></span></div>');
 					$(".fb-showdate .fb-showdate-model").append('<div class="fb-showdate-model-item fb-showdate-model-year fb-clearfix" style="display:block"></div>');
 	 				this.getYear()
-					
+
 					if(fb.monthControl){
 						//存在日期控件控件
 						$(".fb-showdate .fb-showdate-tab").append('<div class="fb-showdate-tab-item fb-showdate-tab-month fb-float-left fb-font14 fb-color-222 ">月份<span class="fb-font12"></span></div>')
@@ -619,7 +619,7 @@
 				monthDom = ''; //清空前面的数据
 				for(var i = 1 ; i <= 12 ; i++){
 					var value = i < 10 ? "0"+i : i;
-					
+
 					monthDom += '<span class="fb-float-left fb-font14 " value="'+value+'">'+value+'</span>';
 				}
 				$(".fb-showdate-model-month").html(monthDom).fadeIn(200);
@@ -696,7 +696,7 @@
 			}else{
 				bindevent.getValue();
 			}
-			
+
 		})
 		//关闭
 		$("body").on("click",".fb-showdate-close",function(){
@@ -707,8 +707,8 @@
 			$(this).blur();
 		})
 
-		
-		
+
+
 	};
 	//模拟下拉
 	fbUi.prototype.select = function(){
@@ -722,7 +722,7 @@
 			$('#type').blur();
 		});
 	};
-	// 表单验证 
+	// 表单验证
 	fbUi.prototype.formValidator = function(options,func){
 		var $el = element[0];
 		var fb_testHook = {
@@ -761,10 +761,10 @@
 		    },
 		    // 验证是否为数字
 		    is_number: function(field){return regexs.numericRegex.test(field);}
-		    
+
 		}
 		var defaults = {
-            
+
         };
 		var fb = $.extend(defaults, options || {});
 		$el.on("submit",function(){
@@ -773,7 +773,7 @@
 				if(b.rules){
 					//有规则
 					switch(b.rules) {
-						case 'required': 
+						case 'required':
 							var val = $el.find("[name=\""+b.name+"\"]");
 							if(!fb_testHook.required(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -781,7 +781,7 @@
 								return false;
 							}
 							break;
-						case 'is_email': 
+						case 'is_email':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(fb_testHook.is_email(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -789,7 +789,7 @@
 								return false;
 							}
 							break;
-						case 'is_ip': 
+						case 'is_ip':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(fb_testHook.is_ip(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -797,7 +797,7 @@
 								return false;
 							}
 							break;
-						case 'is_tel': 
+						case 'is_tel':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(fb_testHook.is_tel(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -805,7 +805,7 @@
 								return false;
 							}
 							break;
-						case 'is_phone': 
+						case 'is_phone':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(fb_testHook.is_phone(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -813,7 +813,7 @@
 								return false;
 							}
 							break;
-						case 'is_url': 
+						case 'is_url':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(fb_testHook.is_url(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -821,7 +821,7 @@
 								return false;
 							}
 							break;
-						case 'is_fax': 
+						case 'is_fax':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(fb_testHook.is_fax(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
@@ -829,10 +829,16 @@
 								return false;
 							}
 							break;
-						case 'is_number': 
+						case 'is_number':
 							var val = $el.find("[name=\""+b.name+"\"]").val();
 							if(!fb_testHook.is_number(val)){
 								$fb.fbNews({"type":"danger","content":b.display});
+								form_flag = true;
+								return false;
+							}
+							if(b.minLength && val < b.minLength)
+							{
+								$fb.fbNews({"type":"danger","content":b.mindisplay});
 								form_flag = true;
 								return false;
 							}
@@ -876,7 +882,7 @@
 			return false; //阻止form提交
 
 		})
-		
+
 	};
 
    window.$fb = window.fbUi = fbUi;
