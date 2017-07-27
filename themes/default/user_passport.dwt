@@ -36,7 +36,6 @@
     <!--{/if}-->
     <!--{if $action eq 'register'}-->
     <div class="enter-home fb-float-left fb-font18"><a href="index.php">首页</a></div>
-    <div class="enter-tag fb-float-right fb-font18"><a href="user.php?act=login">登录</a></div>
 
     <div class="w1320 enter">
         <div class="reg">
@@ -66,6 +65,7 @@
                     <input name="act" type="hidden" value="act_register" >
                     <input type="hidden" name="back_act" value="{$back_act}" />
                     <input type="submit" value="注册" name="submit" class="opa_active"/>
+                    <a class="enter-gologin" href="user.php?act=login">已有账号，去登录</a>
                 </div>
             </form>
         </div>
