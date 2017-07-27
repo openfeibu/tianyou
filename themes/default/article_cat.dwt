@@ -38,8 +38,8 @@
                     <!-- {foreach from=$artciles_list item=article} -->
                     <!--{if $cat_id == 15}-->
                     <div class="list-item-first">
-                            <div class="img fb-float-left">
-                                <img src="{$article.file_url}" alt="">
+                            <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
+                                <!-- <img src="{$article.file_url}" alt=""> -->
                             </div>
                             <div class="test">
                                 <h3 class="fb-font18 fb-transition">{$article.title|escape:html}</h3>
