@@ -715,3 +715,6 @@ input:checked{background: #000}
 
 .search_input{width: 200px;height: 30px;margin:17px 15px 0 0;}
 .search_input input{background: rgba(255,255,255,0.3);width: 100%;height:30px;border:1px solid #c6ae7c;border-radius: 5px;color: #fff;text-indent: 1em}
+
+
+.enter-text a{color:#fff;}
