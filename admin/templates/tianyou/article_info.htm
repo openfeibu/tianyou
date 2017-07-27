@@ -110,6 +110,7 @@ region.isAdmin=true;
         </form>
         {elseif $article.cat_id == 14}
         <form action="article.php" method="post" id="activeForm">
+            <input type="hidden" placeholder='' name="article_cat" value="{$article.cat_id}">
           <div class='input_all'>
             <label for="">案例名称</label>
             <input type="text" placeholder='' name="title" value="{$article.title}">
@@ -164,6 +165,7 @@ region.isAdmin=true;
         </form>
         {elseif $article.cat_id == 15}
         <form action="article.php" method="post" id="activeForm">
+            <input type="hidden" placeholder='' name="article_cat" value="{$article.cat_id}">
           <div class='input_all'>
             <label for="">展览服务名称</label>
             <input type="text" placeholder='' name="title" value="{$article.title}">
