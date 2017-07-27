@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {include file='library/head.lbi '}
-<body class="bgf">
+<body>
     <!-- 头部 S -->
     <div class="header min1320">
         <div class="header_top">

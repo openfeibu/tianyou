@@ -5,7 +5,6 @@
     <!--#登录界面 start-->
     <!-- {if $action eq 'login'} -->
     <div class="enter-home fb-float-left fb-font18"><a href="index.php">首页</a></div>
-    <div class="enter-tag fb-float-right fb-font18"><a href="user.php?act=register">注册</a></div>
 
     <div class="w1320 enter">
         <div class="reg">
@@ -20,7 +19,10 @@
                  <div class="enter-checked">
                     <input type="checkbox" name="remember" value="1" id="remember" class="fb-inlineBlock" style="margin-right:10px;">
                     <p class="fb-inlineBlock fb-font16" >记住账号</p>
-                    <a href="user.php?act=get_password" class="fb-float-right fb-font16">忘记密码</a>
+                </div>
+                <div class="fb-clearfix">
+                    <a href="user.php?act=get_password" class="fb-float-left fb-font16">忘记密码</a>
+                    <a href="user.php?act=register" class="fb-float-right fb-font16">注册</a>
                 </div>
                 <div class="enter-input">
                     <input type="hidden" name="act" value="ajax_act_login" />
