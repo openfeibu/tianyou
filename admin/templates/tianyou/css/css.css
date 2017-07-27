@@ -758,8 +758,8 @@ margin-right: 40px;
 }
 .publishAct_choseEditCon .itemDiv .item_txt {
     height: 100px;
-		padding: 10px;
-	padding-right: 0;
+	padding: 10px;
+	overflow: hidden;
 }
 .publishAct_choseEditCon .itemDiv .item_txt p {
  color: #333333;
