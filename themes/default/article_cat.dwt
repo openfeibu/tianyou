@@ -39,7 +39,7 @@
                     <!--{if $cat_id == 15}-->
                     <div class="list-item-first">
                             <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
-                                <!-- <img src="{$article.file_url}" alt=""> -->
+                                
                             </div>
                             <div class="test">
                                 <h3 class="fb-font18 fb-transition">{$article.title|escape:html}</h3>
@@ -52,8 +52,8 @@
                     </div>
                     <!--{else}-->
                     <div class="list-item-second">
-                        <div class="img fb-float-left">
-                            <img src="{$article.file_url}" alt="">
+                        <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
+                            
                         </div>
                         <div class="test">
                             <h3 class="fb-font18 fb-transition">{$article.title|escape:html}<a href="{$article.url}" class=" fb-font14">详情</a></h3>
