@@ -112,9 +112,10 @@ $(function(){
 	//验证密码
 	$('[ name="pass"]').on("blur",function(){
 		if($(this).val().length <= 6){
-			if(!$(this).hasClass("input-error"))
+			if(!$(this).hasClass("input-error")){
 				fbUi.fbNews({"type":"warning","content":"请填写密码，不可小于6位数"});
-			$(this).addClass("input-error");
+				$(this).addClass("input-error");
+			}
 
 		}else{
 			$(this).removeClass("input-error");
