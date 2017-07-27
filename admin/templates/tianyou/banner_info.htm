@@ -1,4 +1,5 @@
 {include file="tianyou/head.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
 <link rel="stylesheet" type="text/css" href="{$admin_themes}/css/webuploader.css">
 <script type="text/javascript" src="{$admin_themes}/js/webuploader.js"></script>
 	<!--内容-->
@@ -15,7 +16,7 @@
 			<form action="banner.php" method="post">
                 {foreach from=$banner_list item=banner name=name}
 				<!--BANNER BOX-->
-				<div class="bannerBox fb-position-relative bannerBox{$smarty.foreach.name.iteration}">
+				<div class="bannerBox fb-position-relative bannerBox{$smarty.foreach.name.iteration}" id="bannerBox{$banner.article_id}">
 					<p class="hei-40">banner {$smarty.foreach.name.iteration}</p>
 					<div class="bannerItem1 ">
 						<div class="Bannerchose_cover">
@@ -124,7 +125,7 @@
 	                    <input type="text" placeholder='' name="link[]" value="{$banner.link}">
 	                  </div>
 					</div>
-					<span class='banner_close fb-position-absolute' onclick="bannerDelete(12)"><img src="{$admin_themes}/images/delet_03.png" alt=""></span>
+					<span class='banner_close fb-position-absolute' onclick="bannerDelete({$banner.article_id})"><img src="{$admin_themes}/images/delet_03.png" alt=""></span>
                     <input name="file_url[]" type="hidden" value="{$banner.file_url}" class="file_url{$smarty.foreach.name.iteration}"/>
                     <input name="article_id[]" type="hidden" value="{$banner.article_id}" />
 				</div>
@@ -150,12 +151,14 @@
 </body>
 <script>
 	  //删除
-var bannerDelete = function(){
+var bannerDelete = function(id){
     $fb.showModal({
       title:"天佑艺术馆",
       content:"是否确定删除该banner"
     },function(){
-      $fb.fbNews({type:"success",content:"点击了删除"})
+		listTable.delete(id);
+		$("#bannerBox"+id)
+      	$fb.fbNews({type:"success",content:"点击了删除"})
     })
   }
 </script>

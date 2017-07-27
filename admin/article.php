@@ -157,6 +157,7 @@ if ($_REQUEST['act'] == 'insert')
         $file_url = $_POST['file_url'];
     }
     */
+    $file_url = $_POST['file_url'];
     /* 计算文章打开方式 */
     if ($file_url == '')
     {

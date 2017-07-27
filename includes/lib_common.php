@@ -2924,8 +2924,13 @@ function get_authors()
 }
 function get_authors_rank()
 {
+
     $sql = 'SELECT * FROM '. $GLOBALS['ecs']->table('author') . ' ORDER BY goods_count DESC';
     $authors = $GLOBALS['db']->getAll($sql);
+
+    // $sql = "SELECT COUNT(DISTINCT g.goods_id) AS be_collected_goods_count,COUNT(g.goods_id) AS be_collected_count, a.author_name,a.goods_count,a.author_avatar FROM ".$GLOBALS['ecs']->table('author')." AS a RIGHT JOIN ".$GLOBALS['ecs']->table('goods')." as g ON g.author_id = a.author_id  RIGHT JOIN ".$GLOBALS['ecs']->table('collect_goods')." AS cg ON cg.goods_id = g.goods_id GROUP BY a.author_id ORDER BY be_collected_count DESC";
+    $authors = $GLOBALS['db']->getAll($sql);
+
     return $authors;
 }
 function get_author($id)

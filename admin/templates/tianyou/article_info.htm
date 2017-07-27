@@ -66,7 +66,10 @@ region.isAdmin=true;
             <input name="activity_address" class='win-500' type="text" placeholder='填写详细地址' value="{$article.activity_address}" />
           </div>
 
-
+          <div class='input_all'>
+            <label for="">视频url地址</label>
+            <input type="text" placeholder='' name="vedio_url" value="{$article.vedio_url}">
+          </div>
           <!--编写正文-->
 
           <div class='fb-clearfix input_all'>
@@ -83,10 +86,7 @@ region.isAdmin=true;
               </div>
           </div>
            <!--编写正文 end-->
-          <div class='input_all'>
-            <label for="">视频url地址</label>
-            <input type="text" placeholder='' name="vedio_url" value="{$article.vedio_url}">
-          </div>
+
 
          <div style="height:60px"></div>
           <div class="input_all ">
@@ -125,7 +125,10 @@ region.isAdmin=true;
             {html_select_date field_order="YMD" prefix="birthday" time=$article.activity_time start_year="-60" end_year="+1" display_days=true month_format="%m"}
 
           </div>
-
+          <div class='input_all'>
+            <label for="">视频url地址</label>
+            <input type="text" placeholder='' name="vedio_url" value="{$article.vedio_url}">
+          </div>
           <!--编写正文-->
 
           <div class='fb-clearfix input_all'>
@@ -137,10 +140,7 @@ region.isAdmin=true;
               </div>
           </div>
            <!--编写正文 end-->
-          <div class='input_all'>
-            <label for="">视频url地址</label>
-            <input type="text" placeholder='' name="vedio_url" value="{$article.vedio_url}">
-          </div>
+
 
          <div style="height:60px"></div>
           <div class="input_all ">
@@ -174,8 +174,8 @@ region.isAdmin=true;
           </div>
           <div class='fb-clearfix input_all'>
               <label  class='fb-float-left' for="">简介 </label>
-              <div class='intro-fra win-500 hei-200  fb-float-left scroll'>
-                <textarea name="description" >{$article.content}</textarea>
+              <div class='intro-fra win-720 hei-580 fb-float-left scroll'>
+                <textarea name="description" id="editor_id">{$article.content}</textarea>
               </div>
           </div>
 

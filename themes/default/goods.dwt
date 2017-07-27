@@ -110,9 +110,6 @@ $(function(){
                 </div><!--artDe-header end-->
                 <div class="artCon fb-font16">
                     <p>{$goods.goods_desc} </p>
-                    <img src="{$ec_themes}/images/activeDe.jpg" alt="">
-                    <img src="{$ec_themes}/images/activeDe.jpg" alt="">
-                    <img src="{$ec_themes}/images/activeDe.jpg" alt="">
                 </div><!--artCon end-->
                 <div class="authorRecommend">
                     <div class="author-img fb-inlineBlock">
@@ -237,7 +234,7 @@ $(function(){
         $(this).parents(".commonProblem").fadeOut(200);
         $("body").css("overflow","auto")
     });
-    
+
 
 
 </script>

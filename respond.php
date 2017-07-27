@@ -84,6 +84,8 @@ else
     }
 }
 
+show_message($msg, '返回订单页', 'user.php?act=order_list','info');
+exit;
 assign_template();
 $position = assign_ur_here();
 $smarty->assign('page_title', $position['title']);   // 页面标题
@@ -94,6 +96,7 @@ $smarty->assign('helps',      get_shop_help());      // 网店帮助
 
 $smarty->assign('message',    $msg);
 $smarty->assign('shop_url',   $ecs->url());
+
 
 $smarty->display('respond.dwt');
 

@@ -3190,7 +3190,7 @@ elseif($action == 'send_mobile_editpwd_code')
         ajax_show_message($_LANG['login_please'],'no_login');
     }
     $user_id = $_SESSION['user_id'];
-    $mobile_phone = trim($$user_info['mobile']);
+    $mobile_phone = trim($user_info['mobile']);
 
     $result = send_mobile_code($mobile_phone,VT_MOBILE_EDIT_PWD);
 
