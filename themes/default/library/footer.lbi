@@ -1,7 +1,7 @@
 <div class="min1320 footer">
     <div class="w1320">
         <div class="fb-float-left footer-text">
-            <div class="footer-mine"><a href="/article.php?id=49" class="fb-font12">关于我们</a><a href="/article.php?id=50" class="fb-font12">联系我们</a></div>
+            <div class="footer-mine"><a href="/system_article.php?act=about" class="fb-font12">关于我们</a><a href="/system_article.php?act=link" class="fb-font12">联系我们</a></div>
             <div class="footer-address fb-font12" >
                 {$foot_info.content}
             </div>

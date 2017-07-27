@@ -32,7 +32,7 @@
                                     <div class="title fb-font18">{$cat.name}</div>
                                     <div class="theme-item fb-position-relative fb-float-left fb-font16">
                                         <label >全部</label>
-                                        <input type="radio" name="theme" value="{$cat.id}"checked/>
+                                        <input type="radio" name="cat_id" value="{$cat.id}"checked/>
                                     </div>
                                     <!--{foreach from=$cat.cat_id item=cat_child}-->
                                     <div class="theme-item fb-position-relative fb-float-left fb-font16">

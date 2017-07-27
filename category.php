@@ -615,6 +615,7 @@ function get_cats_attrs($cats)
                         $temp_arrt_url_arr[$key] = 0;                           //“全部”的信息生成
                         $temp_arrt_url = implode('.', $temp_arrt_url_arr);
                         $all_attr_list[$key]['attr_list'][0]['attr_value'] = '全部';
+                        $all_attr_list[$key]['attr_list'][0]['value'] = 0;
                         $all_attr_list[$key]['attr_list'][0]['url'] = build_uri('category', array('cid'=>$cat_id, 'bid'=>$brand, 'price_min'=>$price_min, 'price_max'=>$price_max, 'filter_attr'=>$temp_arrt_url), $cat['cat_name']);
                         $all_attr_list[$key]['attr_list'][0]['selected'] = empty($filter_attr[$key]) ? 1 : 0;
 
@@ -625,7 +626,7 @@ function get_cats_attrs($cats)
                             $temp_arrt_url = implode('.', $temp_arrt_url_arr);
 
                             $all_attr_list[$key]['attr_list'][$temp_key]['attr_value'] = $v['attr_value'];
-                            $all_attr_list[$key]['attr_list'][$temp_key]['attr_id'] = $attr_arr['attr_id'];
+                            $all_attr_list[$key]['attr_list'][$temp_key]['value'] = $v['goods_attr_id'];
                             $all_attr_list[$key]['attr_list'][$temp_key]['url'] = build_uri('category', array('cid'=>$cat_id, 'bid'=>$brand, 'price_min'=>$price_min, 'price_max'=>$price_max, 'filter_attr'=>$temp_arrt_url), $cat['cat_name']);
 
                             if (!empty($filter_attr[$key]) AND $filter_attr[$key] == $v['goods_id'])

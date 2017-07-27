@@ -323,7 +323,7 @@ uploader.on( 'uploadError', function( file ) {
 uploader.on( 'uploadComplete', function( file ) {
     $( '#'+file.id ).find('.progress').remove();
 });
-
+getAttrList({$goods.goods_id});
 function getAttrList(goodsId)
 {
     var cat_id = $("#cat_id").find("option:selected").val();
