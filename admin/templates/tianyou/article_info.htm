@@ -166,16 +166,16 @@ region.isAdmin=true;
         <form action="article.php" method="post" id="activeForm">
           <div class='input_all'>
             <label for="">展览服务名称</label>
-            <input type="text" placeholder='' name="active-name" >
+            <input type="text" placeholder='' name="title" value="{$article.title}">
           </div>
            <div class='input_all'>
             <label for="">场地大小</label>
-              <input type="text" name="size" placeholder='1099' style="background:url('{$admin_themes}/images/pushact_icon9.png') no-repeat 270px center;" >
+              <input type="text" name="area_size" placeholder='1099' style="background:url('{$admin_themes}/images/pushact_icon9.png') no-repeat 270px center;" value="{$article.area_size}">
           </div>
           <div class='fb-clearfix input_all'>
               <label  class='fb-float-left' for="">简介 </label>
               <div class='intro-fra win-720 hei-580 fb-float-left scroll'>
-                <textarea name="description" id="editor_id">{$article.content}</textarea>
+                <textarea name="FCKeditor1" id="editor_id">{$article.content}</textarea>
               </div>
           </div>
 
