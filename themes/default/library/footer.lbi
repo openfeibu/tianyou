@@ -12,13 +12,15 @@
 
 <!-- 右下角悬浮 -->
 <div class="rb-fixed fb-position-fixed fb-z999">
-	<div class="rb-qqlist fb-position-absolute">
-		<div class="rb-qqlist-item">天佑客服001</div>
-		<div class="rb-qqlist-item">天佑客服002</div>
-		<div class="rb-qqlist-item">天佑客服003</div>
-	</div>
-	<div class="rb-qq ">
+	<div class="qqBox">	
+		<div class="rb-qqlist fb-position-absolute">
+			<div class="rb-qqlist-item">天佑客服001</div>
+			<div class="rb-qqlist-item">天佑客服002</div>
+			<div class="rb-qqlist-item">天佑客服003</div>
+		</div>
+		<div class="rb-qq ">
 
+		</div>
 	</div>
 	<div class="rb-goTop ">
 
@@ -33,10 +35,10 @@
 		        $('body,html').animate({ scrollTop: 0 }, speed);
 		        return false;
 		 });
-		$('.rb-qq').hover(function(){
+
+		$('.qqBox').hover(function(){
 			var num = $(".rb-qqlist").find(".rb-qqlist-item").length;
 			$(".rb-qqlist").css("top",num*-35+'px').fadeIn(200);
-
 		},function(){
 			$(".rb-qqlist").fadeOut(200);
 		})
