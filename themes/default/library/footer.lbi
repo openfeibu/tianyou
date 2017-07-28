@@ -12,15 +12,15 @@
 
 <!-- 右下角悬浮 -->
 <div class="rb-fixed fb-position-fixed fb-z999">
-	<div class="rb-qqlist">
+	<div class="rb-qqlist fb-position-absolute">
 		<div class="rb-qqlist-item">天佑客服001</div>
 		<div class="rb-qqlist-item">天佑客服002</div>
 		<div class="rb-qqlist-item">天佑客服003</div>
 	</div>
-	<div class="rb-qq fb-transition">
+	<div class="rb-qq ">
 
 	</div>
-	<div class="rb-goTop fb-transition">
-	
+	<div class="rb-goTop ">
+
 	</div>
 </div> 
