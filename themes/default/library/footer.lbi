@@ -27,15 +27,15 @@
 
 <script>
 	$(function(){
-		$(".rb-goTop").click(function(){
-			$(window).animate({
-				scrollTop:"0"
-			})
-		})
 
+		$(".rb-goTop").click(function () {
+	  	      var speed=200;//滑动的速度
+		        $('body,html').animate({ scrollTop: 0 }, speed);
+		        return false;
+		 });
 		$('.rb-qq').hover(function(){
 			var num = $(".rb-qqlist").find(".rb-qqlist-item").length;
-			$(".rb-qqlist").css("top",num*35+'px').fadeIn(200);
+			$(".rb-qqlist").css("top",num*-35+'px').fadeIn(200);
 
 		},function(){
 			$(".rb-qqlist").fadeOut(200);
