@@ -11,7 +11,7 @@
 </div>
 
 <!-- 右下角悬浮 -->
-<div class="rb-fixed fb-positopn-fixed fb-z999">
+<div class="rb-fixed fb-position-fixed fb-z999">
 	<div class="rb-qqlist">
 		<div class="rb-qqlist-item">天佑客服001</div>
 		<div class="rb-qqlist-item">天佑客服002</div>
