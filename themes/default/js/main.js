@@ -223,7 +223,9 @@ $(function(){
 				connt = 2;
 			}
 			var index = parseInt(parent.attr("index"));
+			console.log(index)
 			index = --index < 0 ? 0 : index;
+			console.log(index)
 			parent.find(".exService-page-box").stop().animate({"left":-522*index},200);
 			parent.attr("index",index);
 		}else{
