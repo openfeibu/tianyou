@@ -721,11 +721,11 @@ input:checked{background: #000}
 .enter-gologin{color:#fff;font-size: 14px;text-align: center; display: block;}
 
 .rb-fixed{right: 10px;bottom: 20px;}
-.rb-fixed .rb-qq{opacity: 0.7;width: 60px;height: 60px;border-radius: 50% 50% 0 50%; background: #f1c362 url("../images/qq.png") no-repeat center;background-size: 35px auto;margin:5px 0;cursor:pointer;}
+.rb-fixed .rb-qq{opacity: 0.7;width: 60px;height: 60px;border-radius: 50% 50% 0 50%; background: #f1c362 url("../images/qq.png") no-repeat center;background-size: 35px auto;margin:0 0 5px 0;cursor:pointer;}
 .rb-fixed .rb-goTop{opacity: 0.7;width: 60px;height: 60px;border-radius:50% 0 50% 50%; background: #f1c362 url("../images/top.png") no-repeat center;background-size: 40px auto;margin:5px 0;cursor:pointer;}
 .rb-fixed .rb-qq:hover,.rb-fixed .rb-goTop:hover{opacity: 1}
 .rb-fixed .rb-qqlist{width: 135px;height: auto;top:0;right:0px;background: #f1c362;border-radius: 5px;display: none;}
 .rb-fixed .rb-qqlist .rb-qqlist-item{width: 100%;height: 35px;line-height: 35px;background:url("../images/qq.png") no-repeat 10px center;background-size: auto 25px;font-size: 14px;color: #fff;text-indent: 40px;}
-.rb-fixed .rb-qqlist .rb-qqlist-item:hover{background-color: : #c6ae7c }
+.rb-fixed .rb-qqlist .rb-qqlist-item:hover{background-color: #c6ae7c }
 .rb-fixed .rb-qqlist .rb-qqlist-item a{display: block;color: #fff;}
-.rb-fixed .rb-qqlist .rb-qqlist-item a:hover{color: #fff;}
+.rb-fixed .rb-qqlist .rb-qqlist-item a:hover{color: #fff !important;}
