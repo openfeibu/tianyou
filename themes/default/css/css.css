@@ -719,3 +719,6 @@ input:checked{background: #000}
 
 .enter-text a{color:#fff;}
 .enter-gologin{color:#fff;font-size: 14px;text-align: center; display: block;}
+
+.rb-fixed{right: 10px;bottom: 10px;}
+.fb-fixed .rb-qq{width: 60px;height: 60px;border-radius: 50% 50% 0 50%; background: #f1c362;margin:10px 0;}
