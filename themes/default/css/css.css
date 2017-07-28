@@ -720,6 +720,7 @@ input:checked{background: #000}
 .enter-text a{color:#fff;}
 .enter-gologin{color:#fff;font-size: 14px;text-align: center; display: block;}
 
-.rb-fixed{right: 10px;bottom: 10px;}
-.rb-fixed .rb-qq{width: 60px;height: 60px;border-radius: 50% 50% 0 50%; background: #f1c362 url("../images/qq.png") no-repeat center;background-size: 40px auto;margin:10px 0;cursor:pointer;}
-.rb-fixed .rb-goTop{width: 60px;height: 60px;border-radius:0 50% 50% 50%; background: #f1c362 url("../images/top.png") no-repeat center;background-size: 40px auto;margin:10px 0;cursor:pointer;}
+.rb-fixed{right: 10px;bottom: 20px;}
+.rb-fixed .rb-qq{opacity: 0.8;width: 60px;height: 60px;border-radius: 50% 50% 0 50%; background: #f1c362 url("../images/qq.png") no-repeat center;background-size: 35px auto;margin:5px 0;cursor:pointer;}
+.rb-fixed .rb-goTop{opacity: 0.8;width: 60px;height: 60px;border-radius:50% 0 50% 50%; background: #f1c362 url("../images/top.png") no-repeat center;background-size: 40px auto;margin:5px 0;cursor:pointer;}
+.rb-fixed .rb-qq,.rb-fixed .rb-goTop:hover{opacity: 1}
