@@ -125,8 +125,9 @@ elseif ($_REQUEST['act'] == 'author')
     $be_collected_count = $db->getOne($sql);
     $smarty->assign('be_collected_count',       $be_collected_count);
 
-    $sql = "SELECT COUNT(DISTINCT g.goods_id) AS be_collected_goods_count,COUNT(g.goods_id) AS be_collected_count, a.author_name,a.goods_count,a.author_avatar FROM ".$ecs->table('author')." AS a JOIN ".$ecs->table('goods')." as g ON g.author_id = a.author_id  JOIN ".$ecs->table('collect_goods')." AS cg ON cg.goods_id = g.goods_id GROUP BY a.author_id ORDER BY be_collected_count DESC LIMIT 10";
-    $author_ranking = $db->getAll($sql);
+    $sql = 'SELECT * FROM '. $GLOBALS['ecs']->table('author') . ' ORDER BY collected_goods_count DESC ,collected_count DESC';
+    $author_ranking = $GLOBALS['db']->getAll($sql);
+
     $smarty->assign('author_ranking',       $author_ranking);
     $smarty->display($_CFG['template_name'].'statistics_author.htm');
 }

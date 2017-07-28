@@ -36,7 +36,7 @@
                 </a>
             </div>
             <div class="en02 fb-position-absolute entrance-item">
-                <a href="category.php?id=1">
+                <a href="category.php">
                     <img src="{$ec_themes}/images/icon_06.png" alt="">
                     <div class="en-box ">
                         <span class="fb-position-absolute fb-font14">进入艺术馆</span>
@@ -236,7 +236,7 @@
                             <div class="big-author-bg fb-position-absolute fb-font14">
                                 <p>
                                     {$author.author_name}<br />
-                                    已有{$author.goods_count}件作品
+                                    已有{$author.collected_goods_count}件被收藏作品
                                 </p>
                             </div>
                         </a>
@@ -254,7 +254,7 @@
                             </div>
                             <div class="test">
                                 <p class="name fb-font14">{$author.author_name}</p>
-                                <p class="pro-num fb-font14">共{$author.goods_count}件作品</p>
+                                <p class="pro-num fb-font14">共{$author.collected_goods_count}件被收藏作品</p>
                             </div>
                         </a>
                     </div><!-- small-author end-->

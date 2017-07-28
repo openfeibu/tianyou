@@ -2261,6 +2261,11 @@ function get_image_path($goods_id, $image='', $thumb=false, $call='goods', $del=
     $url = empty($image) ? $GLOBALS['_CFG']['no_picture'] : $image;
     return $url;
 }
+function get_common_image_path($image='')
+{
+    $url = empty($image) ? $GLOBALS['_CFG']['no_picture'] : $image;
+    return $url;
+}
 
 /**
  * 调用使用UCenter插件时的函数
@@ -2925,12 +2930,12 @@ function get_authors()
 function get_authors_rank()
 {
 
-    $sql = 'SELECT * FROM '. $GLOBALS['ecs']->table('author') . ' ORDER BY goods_count DESC';
-    $authors = $GLOBALS['db']->getAll($sql);
+    $sql = 'SELECT * FROM '. $GLOBALS['ecs']->table('author') . ' ORDER BY collected_goods_count DESC ,goods_count DESC';
 
-    // $sql = "SELECT COUNT(DISTINCT g.goods_id) AS be_collected_goods_count,COUNT(g.goods_id) AS be_collected_count, a.author_name,a.goods_count,a.author_avatar FROM ".$GLOBALS['ecs']->table('author')." AS a RIGHT JOIN ".$GLOBALS['ecs']->table('goods')." as g ON g.author_id = a.author_id  RIGHT JOIN ".$GLOBALS['ecs']->table('collect_goods')." AS cg ON cg.goods_id = g.goods_id GROUP BY a.author_id ORDER BY be_collected_count DESC";
     $authors = $GLOBALS['db']->getAll($sql);
-
+    foreach ($authors as $key => $author) {
+        $authors[$key]['author_avatar'] = get_common_image_path($author['author_avatar']);
+    }
     return $authors;
 }
 function get_author($id)
@@ -2949,7 +2954,26 @@ function get_author_activities($author_id)
     }
     return $acivities;
 }
-
+function change_author_collected_count($author_id,$add = 1)
+{
+    if($add == 1)
+    {
+        $sql = "UPDATE ".$GLOBALS['ecs']->table('author')." SET `collected_count` = `collected_count`+1 WHERE author_id = '$author_id'";
+    }else{
+        $sql = "UPDATE ".$GLOBALS['ecs']->table('author')." SET `collected_count` = `collected_count`-1 WHERE author_id = '$author_id'";
+    }
+    $GLOBALS['db']->query($sql);
+}
+function change_author_collected_goods_count($author_id,$add = 1)
+{
+    if($add == 1)
+    {
+        $sql = "UPDATE ".$GLOBALS['ecs']->table('author')." SET `collected_goods_count` = `collected_goods_count`+1 WHERE author_id = '$author_id'";
+    }else{
+        $sql = "UPDATE ".$GLOBALS['ecs']->table('author')." SET `collected_goods_count` = `collected_goods_count`-1 WHERE author_id = '$author_id'";
+    }
+    $GLOBALS['db']->query($sql);
+}
 function get_history()
 {
     $res = array();

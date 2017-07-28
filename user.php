@@ -2087,6 +2087,7 @@ elseif ($action == 'collect')
         $sql = "SELECT rec_id FROM " .$GLOBALS['ecs']->table('collect_goods') .
             " WHERE user_id='$_SESSION[user_id]' AND goods_id = '$goods_id'";
         $rec_id = $GLOBALS['db']->GetOne($sql);
+        $author_id = $db->getOne("SELECT author_id FROM ".$ecs->table('goods')." WHERE goods_id = $goods_id");
         if ($rec_id)
         {
 
@@ -2095,10 +2096,21 @@ elseif ($action == 'collect')
             $result['active'] = 0;
             $result['rec_id'] = $rec_id;
             $result['message'] = $GLOBALS['_LANG']['collect_existed'];
+
+            change_author_collected_count($author_id,0);
+            $sql = "SELECT rec_id FROM " .$GLOBALS['ecs']->table('collect_goods') .
+                " WHERE goods_id = '$goods_id'";
+            if(!$GLOBALS['db']->GetOne($sql))
+            {
+                change_author_collected_goods_count($author_id,0);
+            }
             die($json->encode($result));
         }
         else
         {
+            $sql = "SELECT rec_id FROM " .$GLOBALS['ecs']->table('collect_goods') .
+                " WHERE goods_id = '$goods_id'";
+            $is_exist = $GLOBALS['db']->GetOne($sql);
             $time = gmtime();
             $sql = "INSERT INTO " .$GLOBALS['ecs']->table('collect_goods'). " (user_id, goods_id, add_time)" .
                     "VALUES ('$_SESSION[user_id]', '$goods_id', '$time')";
@@ -2114,6 +2126,13 @@ elseif ($action == 'collect')
                 $result['active'] = 1;
                 $result['error'] = 0;
                 $result['message'] = $GLOBALS['_LANG']['collect_success'];
+                change_author_collected_count($author_id,1);
+                $sql = "SELECT rec_id FROM " .$GLOBALS['ecs']->table('collect_goods') .
+                    " WHERE AND goods_id = '$goods_id'";
+                if(!$is_exist)
+                {
+                    change_author_collected_goods_count($author_id,1);
+                }
                 die($json->encode($result));
             }
         }
