@@ -44,7 +44,7 @@ $(function(){
                     </div>
                     <div class="artDe-right">
                         <div class="ar-author-name">
-                            <a href="" class="fb-float-left">
+                            <a href="author.php?id={$author.author_id}" class="fb-float-left">
                                 <div class="author-img fb-float-left"><img src="{$author.author_avatar}" alt="{$author.author_name}"></div>
                                 <span class="fb-font16">{$author.author_name}</span>
                             </a>
