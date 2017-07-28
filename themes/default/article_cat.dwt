@@ -19,7 +19,7 @@
                         <!--{foreach from=$article_categories item=cat}-->
                         <li class="fb-inlineBlock fb-position-relative {if $cat.id == $cat_id}active{/if} ">
                             <a href="{$cat.url}">
-                                <p class="fb-font16">{$cat.name|escape:html} <span class="fb-font14" >(25)</span></p>
+                                <p class="fb-font16">{$cat.name|escape:html} <span class="fb-font14" >({$cat.article_count})</span></p>
                                 <b class="fb-font16">{$cat.en_name|escape:html}</b>
                             </a>
                         </li>
@@ -39,11 +39,11 @@
                     <!--{if $cat_id == 15}-->
                     <div class="list-item-first">
                             <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
-                                
+
                             </div>
                             <div class="test">
                                 <h3 class="fb-font18 fb-transition">{$article.title|escape:html}</h3>
-                                <p class="fb-font16">{$article.description}</p>
+                                <p class="fb-font16">{$article.content|strip_tags|mb_substr:600}</p>
                                 <div class="test-bottom fb-font14">
                                     <div class="fb-float-left">场地大小：{$article.area_size}m²</div>
                                     <div class="fb-float-right">发布时间：{$article.add_time}</div>
@@ -53,11 +53,11 @@
                     <!--{else}-->
                     <div class="list-item-second">
                         <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
-                            
+
                         </div>
                         <div class="test">
                             <h3 class="fb-font18 fb-transition">{$article.title|escape:html}<a href="{$article.url}" class=" fb-font14">详情</a></h3>
-                            <p class="fb-font16">{$article.description}</p>
+                            <p class="fb-font16">{$article.content|strip_tags|mb_substr:600}</p>
                             <div class="test-bottom fb-font14">
                                 <div class="fb-float-left">活动类型：{$article.activity_type}</div>
                                 <div class="fb-float-right">发布时间：{$article.add_time}</div>

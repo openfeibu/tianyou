@@ -1988,6 +1988,9 @@ function article_categories_tree($cat_id = 0)
             $cat_arr[$row['cat_id']]['children'][$row['child_id']]['name'] = $row['child_name'];
             $cat_arr[$row['cat_id']]['children'][$row['child_id']]['url']  = build_uri('article_cat', array('acid' => $row['child_id']), $row['child_name']);
         }
+        $sql = "SELECT COUNT(article_id) FROM ".$GLOBALS['ecs']->table('article')." WHERE cat_id = '".$row['cat_id']."'";
+        $count = $GLOBALS['db']->getOne($sql);
+        $cat_arr[$row['cat_id']]['article_count']   = $count;
     }
 
     return $cat_arr;
