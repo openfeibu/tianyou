@@ -31,7 +31,7 @@
                         </div>
 
                     </div>
-                    <div class=" fb-position-absolute college colleged"></div>
+                    <!-- <div class=" fb-position-absolute college colleged"></div> -->
                 </div><!--artDe-header end-->
                 <div class="activeCon fb-font16 fb-color-aaa">
                     {$article.content}
