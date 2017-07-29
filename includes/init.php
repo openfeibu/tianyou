@@ -201,6 +201,8 @@ if (!defined('INIT_NO_SMARTY'))
     $smarty->assign('foot_info', $foot_info);
     $smarty->assign('ec_themes', 'themes/' . $_CFG['template'] );
     $smarty->assign('url', 'http://tianyou.gouweiba.com/');
+    $qq_list = get_qq_list();
+    $smarty->assign('qq_list',$qq_list);
 }
 
 if (!defined('INIT_NO_USERS'))

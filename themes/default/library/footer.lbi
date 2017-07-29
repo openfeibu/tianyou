@@ -12,12 +12,12 @@
 
 <!-- 右下角悬浮 -->
 <div class="rb-fixed fb-position-fixed fb-z999">
-	<div class="rb-qqBox">	
+	<div class="rb-qqBox">
 		<div class="rb-qqlist fb-position-absolute">
-			<div class="rb-qqlist-item"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=595642191&site=qq&menu=yes">天佑客服001</a></div>
-			<div class="rb-qqlist-item"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=595642191&site=qq&menu=yes">天佑客服002</a></div>
-			<div class="rb-qqlist-item"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=595642191&site=qq&menu=yes">天佑客服003</a></div>
-			<div class="rb-qqlist-item"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=595642191&site=qq&menu=yes">天佑客服003</a></div>
+            {foreach from=$qq_list item=qq_item name=qq}
+            <div class="rb-qqlist-item"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$qq_item.account}&site=qq&menu=yes">天佑客服{$smarty.foreach.qq.iteration}</a></div>
+            {/foreach}
+
 		</div>
 		<div class="rb-qq ">
 
@@ -26,7 +26,7 @@
 	<div class="rb-goTop ">
 
 	</div>
-</div> 
+</div>
 
 <script>
 	$(function(){

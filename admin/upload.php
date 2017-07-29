@@ -270,7 +270,30 @@ if($_REQUEST['act'] == 'upload_article_file')
         }
 
         // 复制文件
-        $res = upload_article_file($_FILES['file']);
+        $res = upload_common_file($_FILES['file'],'article');
+        if ($res != false)
+        {
+            $file_url = $res;
+        }
+    }
+    $data = [
+        'url' => $file_url
+    ];
+    echo json_encode($data);
+}
+if($_REQUEST['act'] == 'upload_author_avatar')
+{
+    $file_url = '';
+    if (empty($_FILES['file']['error']) || (!isset($_FILES['file']['error']) && isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != 'none'))
+    {
+        // 检查文件格式
+        if (!check_file_type($_FILES['file']['tmp_name'], $_FILES['file']['name'], $allow_file_types))
+        {
+            ajax_show_message($_LANG['invalid_file']);
+        }
+
+        // 复制文件
+        $res = upload_common_file($_FILES['file'],'author');
         if ($res != false)
         {
             $file_url = $res;
@@ -282,7 +305,7 @@ if($_REQUEST['act'] == 'upload_article_file')
     echo json_encode($data);
 }
 /* 上传文件 */
-function upload_article_file($upload)
+function upload_common_file($upload,$name)
 {
     if (!make_dir("../" . DATA_DIR . "/article"))
     {
@@ -291,11 +314,11 @@ function upload_article_file($upload)
     }
 
     $filename = cls_image::random_filename() . substr($upload['name'], strpos($upload['name'], '.'));
-    $path     = ROOT_PATH. DATA_DIR . "/article/" . $filename;
+    $path     = ROOT_PATH. DATA_DIR . "/".$name."/" . $filename;
 
     if (move_upload_file($upload['tmp_name'], $path))
     {
-        return DATA_DIR . "/article/" . $filename;
+        return DATA_DIR . "/".$name."/" . $filename;
     }
     else
     {

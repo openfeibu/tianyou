@@ -30,14 +30,14 @@
                         <div class="orderList-item-header fb-position-relative">
                             <div class="date fb-float-left fb-color-aaa fb-font14">订单时间：{$item.order_time}</div>
                             <div class="orderNum fb-float-left fb-color-aaa fb-font14">订单号码：{$item.order_sn}</div>
-                            <div class="contactM fb-float-right fb-color-333 fb-font14"><a  class=" fb-color-333 fb-font14">联系客服</a></div>
+                            <!-- <div class="contactM fb-float-right fb-color-333 fb-font14"><a  class=" fb-color-333 fb-font14">联系客服</a></div>
                             <div class="qqBox fb-position-absolute">
                                 {foreach from=$qq_list item=qq_item name=qq}
                                 <div class="qqBox-item fb-transition">
                                     <a target="_black" href="http://wpa.qq.com/msgrd?v=3&uin={$qq_item.account}&site=qq&menu=yes">QQ客服{$smarty.foreach.qq.iteration}</a>
                                 </div>
                                 {/foreach}
-                            </div>
+                            </div> -->
                         </div>
                         <div class="orderList-content">
                             <!-- {foreach from=$item.goods_list item=goods} -->
@@ -111,12 +111,12 @@
                 <div class="logisticsOrderNew fb-color-333 fb-font14">
                     <div class="logisticsOrderNew-item">
                         <span>订单号码：{$order.order_sn}</span>
-                        <span>物流公司</span>
-                        <span>物流客服电话：0000-00000000</span>
+                        <span>{$order.shipping_name}</span>
+                        <!-- <span>物流客服电话：0000-00000000</span> -->
                     </div>
                     <div class="logisticsOrderNew-item">
-                        <span>发货地址：XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
-                        <span>天佑客服电话：0000-00000000</span>
+                        <span>发货地址：{$shop_setting.address}</span>
+                        <span>天佑客服电话：{$shop_setting.tell}</span>
                     </div>
                     <div class="logisticsOrderNew-item">
                         <span>收货地址：{$order.region|escape} {$order.address|escape}</span>
@@ -126,9 +126,10 @@
                 </div>
                 <div class="logisticsImg">
                     <ul>
-                        <li class="fb-inlineBlock" style="background:url(images/2.png) no-repeat center;background-size:cover"><a href=""></a></li>
-                        <li class="fb-inlineBlock" style="background:url(images/2.png) no-repeat center;background-size:cover"><a href=""></a></li>
-                        <li class="fb-inlineBlock" style="background:url(images/2.png) no-repeat center;background-size:cover"><a href=""></a></li>
+                        <!-- {foreach from=$goods_list item=goods} -->
+                        <li class="fb-inlineBlock" style="background:url({$goods.goods_thumb}) no-repeat center;background-size:cover"><a href=""></a></li>
+                        <!--{/foreach}-->
+
                     </ul>
                 </div>
             </div>
@@ -281,7 +282,7 @@
                   }
               }
             </script>
-            <script>
+            <script language="javascript">
             //上传头像
             // 初始化Web Uploader
             var $list=$("#fileList");

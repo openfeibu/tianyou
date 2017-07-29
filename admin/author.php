@@ -66,7 +66,7 @@ else if($_REQUEST['act'] == 'update')
 
     if ($exc->edit("author_name='$_POST[author_name]', content='$_POST[content]', birthday='$birthday', author_avatar='$_POST[author_avatar]'", $_POST['id']))
     {
-        $link[0]['text'] = $_LANG['back_list'];
+        $link[0]['text'] = '返回作者列表';
         $link[0]['href'] = 'author.php?act=list&' . list_link_postfix();
 
         clear_cache_files();

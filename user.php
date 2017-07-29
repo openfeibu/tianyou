@@ -1103,8 +1103,7 @@ elseif ($action == 'order_list')
     $orders = get_user_orders($user_id, $pager['size'], $pager['start'],$keyword);
     $merge  = get_user_merge($user_id);
 
-    $sql = "SELECT * FROM " .$GLOBALS['ecs']->table('qq'). " ORDER BY id ASC" ;
-    $qq_list = $GLOBALS['db']->getAll($sql);
+    $qq_list = get_qq_list();
     $smarty->assign('qq_list',$qq_list);
 
     $smarty->assign('merge',  $merge);
@@ -1195,6 +1194,9 @@ elseif ($action == 'order_detail')
     $order['order_status'] = $_LANG['os'][$order['order_status']];
     $order['pay_status'] = $_LANG['ps'][$order['pay_status']];
     $order['shipping_status'] = $_LANG['ss'][$order['shipping_status']];
+
+    $shop_setting = get_shop_setting();
+    $smarty->assign('shop_setting',$shop_setting);
 
     $smarty->assign('order',      $order);
     $smarty->assign('goods_list', $goods_list);

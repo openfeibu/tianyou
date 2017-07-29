@@ -601,6 +601,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                     " '$warn_number', '$_POST[integral]', '$give_integral', '$is_best', '$is_new', '$is_hot', 0, '$is_on_sale', '$is_alone_sale', $is_shipping, ".
                     " '$_POST[goods_desc]', '" . gmtime() . "', '". gmtime() ."', '$goods_type', '$code', '$rank_integral','$year','$rent','$deposit','$nature','$author_id')";
         }
+
     }
     else
     {
@@ -621,6 +622,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             @unlink(ROOT_PATH . $row['goods_thumb']);
         }
 */
+
         $sql = "UPDATE " . $ecs->table('goods') . " SET " .
                 "goods_name = '$_POST[goods_name]', " .
                 "goods_name_style = '$goods_name_style', " .
@@ -678,8 +680,14 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 "goods_type = '$goods_type' " .
                 "WHERE goods_id = '$_REQUEST[goods_id]' LIMIT 1";
     }
-    $db->query($sql);
+    if(isset($_REQUEST['goods_id']) && $_REQUEST['goods_id'])
+    {
+        $old_goods_sql = "SELECT author_id FROM " .$ecs->table('goods')." WHERE goods_id = '".$_REQUEST['goods_id']."' ";
+        $old_goods = $db->getRow($old_goods_sql);
+    }
 
+    $db->query($sql);
+    change_author_goods_count($author_id);
     /* 商品编号 */
     $goods_id = $is_insert ? $db->insert_id() : $_REQUEST['goods_id'];
 
@@ -690,6 +698,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
     else
     {
+        change_author_goods_count($old_goods['author_id'],0);
         admin_log($_POST['goods_name'], 'edit', 'goods');
     }
 

@@ -2974,6 +2974,16 @@ function change_author_collected_goods_count($author_id,$add = 1)
     }
     $GLOBALS['db']->query($sql);
 }
+function change_author_goods_count($author_id,$add = 1)
+{
+    if($add == 1)
+    {
+        $sql = "UPDATE ".$GLOBALS['ecs']->table('author')." SET `goods_count` = `goods_count`+1 WHERE author_id = '$author_id'";
+    }else{
+        $sql = "UPDATE ".$GLOBALS['ecs']->table('author')." SET `goods_count` = `goods_count`-1 WHERE author_id = '$author_id'";
+    }
+    $GLOBALS['db']->query($sql);
+}
 function get_history()
 {
     $res = array();
@@ -3173,6 +3183,12 @@ function get_shop_setting()
     $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('shop_setting')." WHERE id = 1";
     $shop_setting = $GLOBALS['db']->getRow($sql);
     return $shop_setting;
+}
+function get_qq_list()
+{
+    $sql = "SELECT * FROM " .$GLOBALS['ecs']->table('qq'). " ORDER BY id ASC" ;
+    $qq_list = $GLOBALS['db']->getAll($sql);
+    return $qq_list;
 }
 /**
  * 随机生成指定长度的数字
