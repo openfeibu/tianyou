@@ -811,6 +811,10 @@ margin-right: 40px;
 	z-index: 999;
 	background: #eeeeee url("../images/icon3.png") no-repeat center;
 }
+
+.perPhoto .uploader-list {
+	height: 100%;
+}
 .perPhoto >div {
 	height: 100%;
 }
