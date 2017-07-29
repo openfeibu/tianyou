@@ -247,7 +247,6 @@ content: ""; display: inline-block;*display:inline;*zoom:1;width: 100%;height:0;
 }
 .win-800 {
 	width: 800px;
-	background: #f9f9f9;
 }
 .hei-170 {
 	height: 170px;
@@ -805,8 +804,8 @@ margin-right: 40px;
 	border-radius: 0;
 }
 .perPhoto {
-	width: 163px;
-	height: 163px;
+	width: 165px;
+	height: 237.6px;
 	top: 20px;
 	right:60px;
 	z-index: 999;
