@@ -338,8 +338,21 @@ uploader.on( 'uploadProgress', function( file, percentage ) {
 
 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
 uploader.on( 'uploadSuccess', function( file , src) {
-    $('.file_url').val(src['url']);
-    $( '#'+file.id ).addClass('upload-state-done');
+    if(src.error == 0)
+    {
+        $('.file_url').val(src['url']);
+        $( '#'+file.id ).addClass('upload-state-done');
+    }else{
+        var $li = $( '#'+file.id ),
+            $error = $li.find('div.error');
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $li );
+        }
+
+        $error.text(src.message);
+    }
+
 });
 
 // 文件上传失败，显示上传出错。

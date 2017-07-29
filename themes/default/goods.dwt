@@ -124,7 +124,7 @@ $(function(){
                     <div class="guessLike-group">
                         <!--{foreach from=$goods_history item=val}-->
                         <div class="guessLike-item fb-inlineBlock fb-transition">
-                            <a href="">
+                            <a href="goods.php?id={$val.goods_id}">
                                 <div class="works-img" style="background:url({$val.goods_thumb}) no-repeat center;background-size:cover">
                                 </div>
                                 <div class="works-con">

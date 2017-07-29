@@ -118,3 +118,39 @@ elseif ($_REQUEST['act'] == 'contact_submit')
     $db->query($sql);
     ajax_show_message('修改成功','success');
 }
+elseif ($_REQUEST['act'] == 'problem')
+{
+    include_once(ROOT_PATH . 'includes/fckeditor/fckeditor.php');
+    $shop_setting = get_shop_setting();
+    /* 创建 html editor */
+    create_html_editor('content', $shop_setting['problem']);
+    $smarty->assign('content',    $shop_setting['problem']);
+    $smarty->assign('shop_setting',$shop_setting);
+    $smarty->display($_CFG['template_name'].'setting_problem.htm');
+}
+elseif ($_REQUEST['act'] == 'problem_submit')
+{
+    $problem = $_POST['problem'];
+    $sql = "UPDATE ".$ecs->table('shop_setting')." SET `problem` = '$problem'";
+    $db->query($sql);
+    ecs_header("Location: setting.php?act=problem\n");
+    exit;
+}
+elseif ($_REQUEST['act'] == 'problem')
+{
+    include_once(ROOT_PATH . 'includes/fckeditor/fckeditor.php');
+    $shop_setting = get_shop_setting();
+    /* 创建 html editor */
+    create_html_editor('content', $shop_setting['problem']);
+    $smarty->assign('content',    $shop_setting['problem']);
+    $smarty->assign('shop_setting',$shop_setting);
+    $smarty->display($_CFG['template_name'].'setting_problem.htm');
+}
+elseif ($_REQUEST['act'] == 'problem_submit')
+{
+    $problem = $_POST['problem'];
+    $sql = "UPDATE ".$ecs->table('shop_setting')." SET `problem` = '$problem'";
+    $db->query($sql);
+    ecs_header("Location: setting.php?act=problem\n");
+    exit;
+}
