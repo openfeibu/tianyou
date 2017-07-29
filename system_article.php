@@ -13,6 +13,8 @@ $shop_setting = get_shop_setting();
 $smarty->assign('shop_setting',$shop_setting);
 $smarty->assign('act',$_REQUEST['act']);
 
+assign_template();
+
 if($_REQUEST['act'] == 'about')
 {
     $title = '关于我们';

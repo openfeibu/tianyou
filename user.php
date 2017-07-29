@@ -3451,7 +3451,7 @@ elseif($action == 'act_upload_img')
         // 会员头像
         if ($_FILES['upload']['error'] == 0)
         {
-            if (!$image->check_img_type($_FILES['avatar']['type']))
+            if (!$image->check_img_type($_FILES['upload']['type']))
             {
                 ajax_show_message("图片格式不正确！");
             }
@@ -3472,7 +3472,7 @@ elseif($action == 'act_upload_img')
         // 会员头像
         if ($_FILES['upload']['tmp_name'] != 'none')
         {
-            if (!$image->check_img_type($_FILES['avatar']['type']))
+            if (!$image->check_img_type($_FILES['upload']['type']))
             {
                 ajax_show_message("图片格式不正确！");
             }
