@@ -93,7 +93,7 @@
                             }
 
                             //标注点数组
-                            var markerArr = [{title:"天佑艺术馆",content:"天佑艺术馆",point:"113.165331|23.040805",isOpen:0,icon:{w:23,h:25,l:46,t:21,x:9,lb:12}}
+                            var markerArr = [{title:"天佑艺术馆",content:"天佑艺术馆，艺术品线上交易平台，致力于打造艺术新生态，让艺术走近大众。便捷、诚信的服务，为您提供愉悦的网上艺术体验!",point:"113.165331|23.040805",isOpen:0,icon:{w:23,h:25,l:46,t:21,x:9,lb:12}}
                                  ];
                             //创建marker
                             function addMarker(){
