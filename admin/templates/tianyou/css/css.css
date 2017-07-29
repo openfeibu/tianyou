@@ -2027,7 +2027,8 @@ vertical-align: top;
 .reg .enter-checked a{color: #fff;}
 
 
-.proDiv-item{max-width: 150px;vertical-align: top;    display: -webkit-box;
+.proDiv-item{max-width: 150px;vertical-align: top;}
+.proDiv-item h2{    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp:1;
     overflow: hidden;}
