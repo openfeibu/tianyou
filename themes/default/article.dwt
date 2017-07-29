@@ -16,7 +16,7 @@
                 <div class="activeDe-header fb-position-relative ">
                     <div class="fb-magnifier fb-position-relative fb-float-left" style="width:900px">
                         <div class='fb-smallImg fb-position-relative' style="width:900px">
-                            <img width="900" height="360" src="images/activeDe.jpg" />
+                            <img width="900px" height="360px" src="{$article.file_url}" />
                         </div>
 
                     </div>
