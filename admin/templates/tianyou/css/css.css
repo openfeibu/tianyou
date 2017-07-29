@@ -594,10 +594,10 @@ line-height: 40px;
 margin-right: 40px;
 }
 .upload {
-	width: 163px;
-	height: 163px;
-	top: 60px;
-	left: 820px;
+	width: 412.5px;
+	height: 165px;
+	top: 20px;
+	right: 20px;
 	z-index: 999;
 	background: #eeeeee url(../images/icon3.png) no-repeat center;
 }
