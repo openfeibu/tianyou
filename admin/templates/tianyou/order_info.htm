@@ -30,7 +30,7 @@
 
                     <div class='proDiv bor-bot fb-clearfix'>
                         {foreach from=$goods_list item=goods}
-                        <div class="fb-inlineBlock mar-10 fb-txtAlign-center">
+                        <div class="fb-inlineBlock mar-10 fb-txtAlign-center proDiv-item" >
                             <img src="/{$goods.goods_thumb}" alt="{$goods.goods_name}" >
                             <h2> {$goods.goods_name}</h2>
                             <h3> 陶瓷</h3>
@@ -66,7 +66,7 @@
 
                         <div class="fb-clearfix" style="margin-bottom:20px">
                             <div class="input_all refund_Detail_click fb-float-right">
-                                <a href="#" class='fb-inlineBlock btn_click btn_warning2 col-white opa-4 '>留言给卖家</a>
+                                <!-- <a href="#" class='fb-inlineBlock btn_click btn_warning2 col-white opa-4 '>留言给卖家</a> -->
                                 <!-- <a href="#" class='fb-inlineBlock btn_click btn_warning  col-white'>已发货，确认处理信息</a> -->
                                 <button class='fb-inlineBlock btn_click btn_warning  col-white'>已发货，确认处理信息</button>
                                 <input type="hidden" name="act" value="delivery_ship">

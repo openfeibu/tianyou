@@ -2025,3 +2025,9 @@ vertical-align: top;
 .reg .enter-checked p a{color: #fff;}
 .reg .enter-checked p a:hover{color: #fff;text-decoration: underline;}
 .reg .enter-checked a{color: #fff;}
+
+
+.proDiv-item{max-width: 150px;vertical-align: top;    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:1;
+    overflow: hidden;}
