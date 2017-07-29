@@ -729,3 +729,7 @@ input:checked{background: #000}
 .rb-fixed .rb-qqlist .rb-qqlist-item:hover{background-color: #c6ae7c }
 .rb-fixed .rb-qqlist .rb-qqlist-item a{display: block;color: #fff;}
 .rb-fixed .rb-qqlist .rb-qqlist-item a:hover{color: #fff !important;}
+
+
+
+.pop .top img{display: none;}
