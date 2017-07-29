@@ -44,7 +44,7 @@
     height:100px;
 }
 .mess-table .goods_thumb {
-    height: 100px;
+    height: 80px;width: 50px
 }
 .mess-table tr .td1 >div img {
     height: 65px;
@@ -52,3 +52,8 @@
     border-radius: 50%;
 }
 .w70{width:70px;height: 70px;}
+
+.author_jj{padding: 5px;display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 3;
+overflow: hidden;}
