@@ -53,7 +53,8 @@
 }
 .w70{width:70px;height: 70px;}
 
-.author_jj{padding: 5px;display: -webkit-box;
+.author_jj{
+	padding: 5px;display: -webkit-box;
 -webkit-box-orient: vertical;
 -webkit-line-clamp: 3;
 overflow: hidden;}
