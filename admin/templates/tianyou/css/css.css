@@ -764,7 +764,7 @@ margin-right: 40px;
 }
 .publishAct_choseEditCon .itemDiv .item_txt {
     height: 100px;
-	padding: 10px;
+	margin: 10px;
 	overflow: hidden;
 }
 .publishAct_choseEditCon .itemDiv .item_txt p {
