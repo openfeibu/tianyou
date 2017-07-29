@@ -151,7 +151,7 @@ content: ""; display: inline-block;*display:inline;*zoom:1;width: 100%;height:0;
 	min-height: 100%;
 }
 .rightDiv>form .input_all {
-	margin-left: 100px;
+	margin-left: 50px;
 	padding: 10px 0;
 }
 .rightDiv>form .input_all label {
@@ -221,6 +221,9 @@ content: ""; display: inline-block;*display:inline;*zoom:1;width: 100%;height:0;
 .hei-400 {
 	height: 400px;
 }
+.hei-600 {
+	height: 600px;
+}
 .hei-200 {
 	height: 200px;
 }
@@ -240,6 +243,10 @@ content: ""; display: inline-block;*display:inline;*zoom:1;width: 100%;height:0;
 }
 .win-510 {
 	width: 510px;
+	background: #f9f9f9;
+}
+.win-800 {
+	width: 800px;
 	background: #f9f9f9;
 }
 .hei-170 {
