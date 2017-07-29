@@ -15,8 +15,8 @@
             <div class="padd30 paddtb60">
                 <div class="activeDe-header fb-position-relative ">
                     <div class="fb-magnifier fb-position-relative fb-float-left" style="width:900px">
-                        <div class='fb-smallImg fb-position-relative' style="width:900px;overflow: hidden;">
-                            <img width="900px" height="360px" src="{$article.file_url}" />
+                        <div class='fb-smallImg fb-position-relative' style="width:900px;background:url({$article.file_url}) no-repeat center;background-size: 900px 360px;">
+                            
                         </div>
 
                     </div>
