@@ -11,7 +11,7 @@
         <div class="fb-banner-fade fb-position-relative min1320" style="height:500px;">
             {foreach from=$banner_list item=banner name=name}
             <div class="fb-banner-fade-item fb-position-absolute">
-                <div class="fb-banner-img"><a href="{$banner.url}"><img class="fb-position-absolute" src="{$banner.file_url}" alt=""></a></div>
+                <div class="fb-banner-img"><a href="{$banner.url}"><img class="fb-position-absolute" src="{$banner.file_url}" alt="天佑艺术馆"></a></div>
             </div>
             {/foreach}
             <div class="fb-banner-spot fb-position-absolute">
@@ -29,7 +29,7 @@
         <div class="entrance fb-position-relative">
             <div class="en01 fb-position-absolute entrance-item">
                 <a href="category.php?id=2">
-                    <img src="{$ec_themes}/images/pic_10.png" alt="">
+                    <img src="{$ec_themes}/images/pic_10.png" alt="陶瓷">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">陶瓷</span>
                     </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="en02 fb-position-absolute entrance-item">
                 <a href="category.php">
-                    <img src="{$ec_themes}/images/icon_06.png" alt="">
+                    <img src="{$ec_themes}/images/icon_06.png" alt="进入艺术馆">
                     <div class="en-box ">
                         <span class="fb-position-absolute fb-font14">进入艺术馆</span>
                     </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="en03 fb-position-absolute entrance-item">
                 <a href="category.php?id=39">
-                    <img src="{$ec_themes}/images/icon_11.png" alt="">
+                    <img src="{$ec_themes}/images/icon_11.png" alt="木品雕刻">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">木品雕刻</span>
                     </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="en04 fb-position-absolute entrance-item">
                 <a href="category.php?id=5">
-                    <img src="{$ec_themes}/images/icon_13.png" alt="">
+                    <img src="{$ec_themes}/images/icon_13.png" alt="奇石玉石">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">奇石玉石</span>
                     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="en05 fb-position-absolute entrance-item">
                 <a href="category.php?id=1">
-                    <img src="{$ec_themes}/images/icon_08.png" alt="">
+                    <img src="{$ec_themes}/images/icon_08.png" alt="中国书画">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">中国书画</span>
                     </div>
@@ -69,7 +69,7 @@
             </div>
             <div class="en06 fb-position-absolute entrance-item">
                 <a href="category.php?id=40">
-                    <img src="{$ec_themes}/images/pic_13.png" alt="">
+                    <img src="{$ec_themes}/images/pic_13.png" alt="文玩古玩">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">文玩古玩</span>
                     </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="en07 fb-position-absolute entrance-item">
                 <a href="category.php?id=4">
-                    <img src="{$ec_themes}/images/pic_15.png" alt="">
+                    <img src="{$ec_themes}/images/pic_15.png" alt="刺绣">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">刺绣</span>
                     </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="en08 fb-position-absolute entrance-item">
                 <a href="category.php?id=3">
-                    <img src="{$ec_themes}/images/icon_22.png" alt="">
+                    <img src="{$ec_themes}/images/icon_22.png" alt="油画">
                     <div class="en-box">
                         <span class="fb-position-absolute fb-font14">油画</span>
                     </div>
