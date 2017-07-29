@@ -3090,7 +3090,7 @@ function get_articles($cat_id, $size = 6 )
 {
     $cat_str = get_article_children($cat_id);
 
-    $sql = 'SELECT article_id, title, author, add_time, file_url, open_type, area_size,activity_type,activity_address,activity_time,description' .
+    $sql = 'SELECT article_id, title, author, add_time, file_url, open_type, area_size,activity_type,activity_address,activity_time,description,content' .
            ' FROM ' .$GLOBALS['ecs']->table('article') .
            ' WHERE is_open = 1 AND ' . $cat_str .
            ' ORDER BY article_type DESC, article_id DESC';
@@ -3117,6 +3117,7 @@ function get_articles($cat_id, $size = 6 )
             $arr[$article_id]['activity_time']    = $row['activity_time'];
             $arr[$article_id]['description']      = $row['description'];
             $arr[$article_id]['file_url']         = trim($row['file_url']);
+            $arr[$article_id]['content']      = $row['content'];
 
         }
     }

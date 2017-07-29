@@ -295,7 +295,7 @@
                 swf: 'js/Uploader.swf',
 
                 // 文件接收服务端。
-                server: 'http://img2.cdn.wzdala.com:8088/upload_json_2016.asp',
+                server: 'user.php?act=act_upload_img',
 
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.

@@ -110,7 +110,7 @@
                             <div class="defa fb-font16">活动时间：{$article.add_time}</div>
 
                             <div class="text fb-font14">
-                                {$article.description}
+                                {$article.content|strip_tags|mb_substr:600}
                             </div>
                             <a href="{$article.url}" class="fb-font14 fb-float-right">详情</a>
                         </div>
@@ -153,7 +153,7 @@
                             <div class="defa fb-font16">活动类型：{$article.activity_type}</div>
                             <div class="defa fb-font16">活动时间：{$article.add_time} </div>
                             <div class="text fb-font14">
-                                {$article.description}
+                                {$article.content|strip_tags|mb_substr:600}
                             </div>
                             <a href="{$article.url}" class="fb-font14 fb-float-right">详情</a>
                         </div>
@@ -195,7 +195,7 @@
                             <div class="defa fb-font16">场地大小：{$article.area_size}m²</div>
                             <div class="defa fb-font16">发布时间：{$article.add_time}</div>
                             <div class="text fb-font14">
-                                {$article.description}
+                                {$article.content|strip_tags|mb_substr:600}
                             </div>
                             <!-- <a href="javascript:;" class="fb-font14 fb-float-right">详情</a> -->
                         </div>
