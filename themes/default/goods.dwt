@@ -10,7 +10,6 @@
 $(function(){
        function showMoney(){
             var index = $('[name="buy_type"]:checked').index('[name="buy_type"]');
-             console.log($(".worksInfo-money").eq(index))
             $(".worksInfo-money").eq(index).fadeIn(100).siblings(".worksInfo-money").hide();
        }
        showMoney();
