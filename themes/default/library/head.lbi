@@ -7,8 +7,8 @@
     <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
     <title>{$page_title}</title>
-    <meta name="Keywords" content="{$keywords}"/>
-    <meta name="Description" content="{$description}"/>
+    <meta name="Keywords" content="{$keywords}中国书画,瓷器,油画,刺绣,奇石玉石,木品雕刻,文玩礼品"/>
+    <meta name="Description" content="{$description}天佑艺术馆，艺术品线上交易平台，致力于打造艺术新生态，让艺术走近大众。便捷、诚信的服务，为您提供愉悦的网上艺术体验!"/>
     <link rel="stylesheet" type="text/css" href="{$ec_themes}/css/fbUi.css">
     <link rel="stylesheet" type="text/css" href="{$ec_themes}/css/css.css">
     <script type="text/javascript" src="{$ec_themes}/js/jquery-1.7.2.min.js"></script>
