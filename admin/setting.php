@@ -123,8 +123,8 @@ elseif ($_REQUEST['act'] == 'problem')
     include_once(ROOT_PATH . 'includes/fckeditor/fckeditor.php');
     $shop_setting = get_shop_setting();
     /* 创建 html editor */
-    create_html_editor('content', $shop_setting['problem']);
-    $smarty->assign('content',    $shop_setting['problem']);
+    create_html_editor('problem', $shop_setting['problem']);
+    $smarty->assign('problem',    $shop_setting['problem']);
     $smarty->assign('shop_setting',$shop_setting);
     $smarty->display($_CFG['template_name'].'setting_problem.htm');
 }
@@ -136,21 +136,21 @@ elseif ($_REQUEST['act'] == 'problem_submit')
     ecs_header("Location: setting.php?act=problem\n");
     exit;
 }
-elseif ($_REQUEST['act'] == 'problem')
+elseif ($_REQUEST['act'] == 'process')
 {
     include_once(ROOT_PATH . 'includes/fckeditor/fckeditor.php');
     $shop_setting = get_shop_setting();
     /* 创建 html editor */
-    create_html_editor('content', $shop_setting['problem']);
-    $smarty->assign('content',    $shop_setting['problem']);
+    create_html_editor('process', $shop_setting['process']);
+    $smarty->assign('process',    $shop_setting['process']);
     $smarty->assign('shop_setting',$shop_setting);
-    $smarty->display($_CFG['template_name'].'setting_problem.htm');
+    $smarty->display($_CFG['template_name'].'setting_process.htm');
 }
-elseif ($_REQUEST['act'] == 'problem_submit')
+elseif ($_REQUEST['act'] == 'process_submit')
 {
-    $problem = $_POST['problem'];
-    $sql = "UPDATE ".$ecs->table('shop_setting')." SET `problem` = '$problem'";
+    $process = $_POST['process'];
+    $sql = "UPDATE ".$ecs->table('shop_setting')." SET `process` = '$process'";
     $db->query($sql);
-    ecs_header("Location: setting.php?act=problem\n");
+    ecs_header("Location: setting.php?act=process\n");
     exit;
 }
