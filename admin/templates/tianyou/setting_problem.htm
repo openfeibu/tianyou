@@ -1,0 +1,40 @@
+{include file="tianyou/head.htm"}
+<script charset="utf-8" src="../includes/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="../includes/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+     var editor;
+        KindEditor.ready(function(K) {
+                editor = K.create('#editor_id');
+        });
+</script>
+    <!--内容-->
+    <div class='outArea addAuthor martop-62'>
+        <div class="inArea">
+            <!--发布艺术品 left-->
+            <div class='fb-float-left leftDiv'>
+                {include file="tianyou/setting_nav.htm"}
+            </div>
+            <!--发布艺术品 left end-->
+            <!--内容 right-->
+            <div class='rightDiv'>
+                <form action="setting.php?act=problem_submit" method="post">
+                    <div class='input_all fb-clearfix'>
+                        <label class='fb-float-left fb-h5 fb-fontWei-bolder' for="">常见问题 </label>
+                        <div class='intro-fra hei-600  fb-float-left scroll' style="width:850px">
+                            <textarea name="problem" id="editor_id"> {$problem}</textarea>
+                        </div>
+                    </div>
+                    <div class="input_all ">
+                        <button type="submit" class='fb-inlineBlock btn_click btn_warning'>保存</button>
+                        <a href="#" class='fb-inlineBlock btn_click btn-common'>重置</a>
+                    </div>
+                </form>
+                <div class="hei-80"></div>
+            </div>
+            <!--内容 right end-->
+        </div>
+    </div>
+    <!--内容 end-->
+</body>
+
+</html>
