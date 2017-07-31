@@ -43,6 +43,7 @@
                                 <td>要求</td>
                                 <!-- <th>退货单号</th> -->
                                 <td>订单编号</td>
+                                <td>订单状态</td>
                                 <td>&nbsp;</td>
                             </tr>
                         </thead>
@@ -52,7 +53,7 @@
                                 <td class="td1">
                                     <div><img src="/{$order.avatar}" alt=""></div>
                                     <p><span class="span_username">{$order.user_name}</span>
-                                        <br /><span class="span_district">地区</span>
+                                        <br /><span class="span_district">{$order.user_region}</span>
                                     </p>
                                 </td>
                                 <td class="td2">
@@ -64,6 +65,7 @@
                                 <td>退款</td>
                                 <!-- <th>{$order.back_sn}</th> -->
                                 <td>{$order.order_sn}</td>
+                                <td>{$lang.order_back_status.$order.status}</td>
                                 <td><a style="color:#007560;" href="order.php?act=back_detail&back_sn={$order.back_sn}">详情</a></td>
                             </tr>
                             <tr></tr>

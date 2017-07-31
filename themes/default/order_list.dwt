@@ -397,43 +397,57 @@
             <!--{if $action eq back_detail} -->
             <div class="refund clearfix ">
                 {include file='library/back_nav.lbi'}
-                <!-- {if $back.status == 1} -->
+                <!-- {if $back.status == 1 || $back.status ==7} -->
                 <div class="refund-content fb-clearfix">
                     <div class="refund-left fb-float-left">
-                        <div class="refund-state fb-font22 fb-color-333 ing" style="display:block">
+                        {if $back.status == 1}
+                        <div class="refund-state fb-font22 fb-color-333 ing" >
                                 <span>请等待商家处理</span>
                                 <span class="countDown" data-start="1493132401" data-end="1493228801" >三个工作日</span>
                                 <p class="fb-font18">你已成功发起退货申请，请耐心等待商家处理</p>
                         </div>
-                        <div class="refund-state fb-font22 fb-color-333 ed" style="display:none">
-                                <span>商家已拒绝你的申请</span>
-                                <p class="fb-font18">拒绝理由：拒绝理由拒绝理由拒绝理由拒绝理由拒绝理由</p>
-                        </div>
+
                         <div class="refund-text fb-font18 fb-color-333">
                             <p>根据你的支付类型，系统将原路返回退款给你 <br />
                             如果商家拒绝，你可以修改退款申请后再次发起申请，如有疑问，可联系客服热线{$shop_setting.tell}</p>
                         </div>
                         <!-- <button class="opa_active" style="margin-top:200px">修改申请</button> -->
                         <button class="opa_active" style="display:block;margin-top:200px" onclick="revokeRues()">撤销申请</button>
+                        {/if}
+                        {if $back.status == 7}
+                        <div class="refund-state fb-font22 fb-color-333 ed" >
+                                <span>商家已拒绝你的申请</span>
+                                <p class="fb-font18">拒绝理由：{$back.receve}</p>
+                        </div>
+                        <div class="refund-text fb-font18 fb-color-333">
+                            <p>根据你的支付类型，系统将原路返回退款给你 <br />
+                            如果商家拒绝，你可以修改退款申请后再次发起申请，如有疑问，可联系客服热线{$shop_setting.tell}</p>
+                        </div>
+                        <!-- <button class="opa_active" style="margin-top:200px">修改申请</button> -->
+                        <button class="opa_active" style="display:block;margin-top:200px" onclick="revokeRues()">重新申请</button>
+                        {/if}
+
                     </div>
                     <div class="refund-right fb-float-left">
                         <div class="refund-product">
-                            <div class="refund-product-title fb-font16 fb-color-333">订单详情</div>
+                            <div class="refund-product-title fb-font16 fb-color-333">退款详情</div>
                             <div class="refund-product-con fb-clearfix">
+                                {foreach from=$back.goods_list item=goods key=ogkey}
                                 <a href="">
-                                    <div class="img fb-position-relative fb-float-left" style="background:url(images/1.png) no-repeat center">
-                                        <span class="fb-position-absolute fb-color-fff fb-center">共01件商品</span>
+                                    <div class="img fb-position-relative fb-float-left" style="background:url({$goods.goods_thumb}) no-repeat center">
+                                        <span class="fb-position-absolute fb-color-fff fb-center">共{$goods.goods_number}件商品</span>
                                     </div>
                                     <div class="test">
-                                        商品名称
+                                        {$goods.goods_name}
                                     </div>
                                 </a>
+                                {/foreach}
                             </div>
                         </div>
                         <div class="refund-order-info fb-font14 fb-color-333">
-                                <p>订单编号：****************</p>
-                                <p>订单时间：2017年00月00日</p>
-                                <p>订单总价：¥10000</p>
+                                <p>订单编号：{$back.order_sn}</p>
+                                <p>申请时间：{$back.add_time}</p>
+                                <p>退款总价：{$back.total}</p>
                         </div>
                     </div>
                 </div>
@@ -488,7 +502,7 @@
                     </div>
                     <div class="refund-right fb-float-left">
                         <div class="refund-product">
-                            <div class="refund-product-title fb-font16 fb-color-333">退货订单详情</div>
+                            <div class="refund-product-title fb-font16 fb-color-333">退款详情</div>
                             <div class="refund-product-con fb-clearfix">
                                 {foreach from=$back.goods_list item=goods key=ogkey}
                                 <a href="">
@@ -503,9 +517,9 @@
                             </div>
                         </div>
                         <div class="refund-order-info fb-font14 fb-color-333">
-                                <p>订单编号：****************</p>
-                                <p>订单时间：2017年00月00日</p>
-                                <p>订单总价：¥10000</p>
+                            <p>订单编号：{$back.order_sn}</p>
+                            <p>申请时间：{$back.add_time}</p>
+                            <p>退款总价：{$back.total}</p>
                         </div>
                     </div>
                 </div>

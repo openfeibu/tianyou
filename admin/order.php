@@ -117,6 +117,9 @@ elseif ($_REQUEST['act'] == 'list_back')
     $smarty->assign('prev_page', $filter['page']-1);
     $smarty->assign('next_page', $filter['page']+1);
     $smarty->assign('add_time', '<img src="images/sort_desc.gif">');
+
+    $smarty->assign('lang',$_LANG);
+
     /* 显示模板 */
     assign_query_info();
     $smarty->display($_CFG['template_name'].'list_back.htm');
@@ -185,7 +188,7 @@ elseif ($_REQUEST['act'] == 'pase_back_submit')
     $receve = $_REQUEST['receve'];
     $sql = "update " .$ecs->table('order_back'). " set status = 2, receve = '$receve' where back_sn='$back_sn'";
     $db->query($sql);
-    ajax_show_message('操作成功','success','order.php?act=list_back');
+    ajax_show_message('操作成功','success','order.php?act=list_back&type=dealing');
     exit;
 }
 /*------------------------------------------------------ */
@@ -210,7 +213,7 @@ elseif ($_REQUEST['act'] == 'shouhuo')
     /* 检查权限 */
     admin_priv('back_view');
     $back_sn = $_REQUEST['back_sn'];
-    $sql = "update " .$ecs->table('order_back'). " set status = 4 where back_sn='$back_sn'";
+    $sql = "update " .$ecs->table('order_back'). " set status = 5 where back_sn='$back_sn'";
     $db->query($sql);
     ecs_header("Location: order.php?act=list_back\n");
     exit;
@@ -471,6 +474,7 @@ elseif ($_REQUEST['act'] == 'info')
         {
             $order['user_name'] = $user['user_name'];
             $order['avatar'] = $user['avatar'];
+            $order['user_region'] = $user['user_region'];
         }
     }
 
@@ -569,7 +573,7 @@ elseif ($_REQUEST['act'] == 'info')
     /* 取得订单商品及货品 */
     $goods_list = array();
     $goods_attr = array();
-    $sql = "SELECT o.*,g.goods_thumb, IF(o.product_id > 0, p.product_number, g.goods_number) AS storage, o.goods_attr, g.suppliers_id, IFNULL(b.brand_name, '') AS brand_name, p.product_sn
+    $sql = "SELECT o.*,c.cat_name,g.goods_thumb, IF(o.product_id > 0, p.product_number, g.goods_number) AS storage, o.goods_attr, g.suppliers_id, IFNULL(b.brand_name, '') AS brand_name, p.product_sn
             FROM " . $ecs->table('order_goods') . " AS o
                 LEFT JOIN " . $ecs->table('products') . " AS p
                     ON p.product_id = o.product_id
@@ -577,6 +581,8 @@ elseif ($_REQUEST['act'] == 'info')
                     ON o.goods_id = g.goods_id
                 LEFT JOIN " . $ecs->table('brand') . " AS b
                     ON g.brand_id = b.brand_id
+                LEFT JOIN " . $ecs->table('category') . " AS c
+                    ON c.cat_id = g.cat_id
             WHERE o.order_id = '$order[order_id]'";
     $res = $db->query($sql);
     while ($row = $db->fetchRow($res))
@@ -5765,7 +5771,7 @@ function order_list()
 
         /* 查询 */
         $sql = "SELECT o.order_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid,o.shipping_name,o.invoice_no," .
-                    "o.pay_status, o.consignee, o.address, o.email, o.tel, o.extension_code, o.extension_id, u.user_name ,u.avatar," .
+                    "o.pay_status, o.consignee, o.address, o.email, o.tel, o.extension_code, o.extension_id, u.user_name ,u.avatar,u.province ,u.city ,u.district," .
                     "(" . order_amount_field('o.') . ") AS total_fee, " .
                     "IFNULL(u.user_name, '" .$GLOBALS['_LANG']['anonymous']. "') AS buyer ".
                 " FROM " . $GLOBALS['ecs']->table('order_info') . " AS o " .
@@ -5805,6 +5811,7 @@ function order_list()
             $row[$key]['can_remove'] = 0;
         }
         $row[$key]['goods_list'] = order_goods($value['order_id']);
+        $row[$key]['user_region'] = get_consignee_region($value,'');
     }
 
     $arr = array('orders' => $row, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
@@ -7123,7 +7130,7 @@ function list_back()
         $filter['page_count'] = $filter['record_count'] > 0 ? ceil($filter['record_count'] / $filter['page_size']) : 1;
         $filter['type'] = empty($_REQUEST['type']) ? 'to_deal' : $_REQUEST['type'];
         /* 查询 */
-        $sql = "SELECT ob.*, u.user_name ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "." $where ORDER BY ob.add_time desc LIMIT " . ($filter['page'] - 1) * $filter['page_size'] . ", " . $filter['page_size'] . " ";
+        $sql = "SELECT ob.*, u.user_name ,u.province ,u.city ,u.district ,u.avatar FROM " . $GLOBALS['ecs']->table("order_back") . " AS ob LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=ob.user_id "." $where ORDER BY ob.add_time desc LIMIT " . ($filter['page'] - 1) * $filter['page_size'] . ", " . $filter['page_size'] . " ";
         set_filter($filter, $sql);
     }
     else
@@ -7144,6 +7151,7 @@ function list_back()
         $row[$key]['user_id'] = $value['user_id'];
         $row[$key]['user_name'] = $value['user_name'];
         $row[$key]['avatar'] = $value['avatar'];
+        $row[$key]['user_region'] = get_consignee_region($value,'');
         $row[$key]['case'] = $value['case'];
         $row[$key]['status'] = $value['status'];
         $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$value['order_back_id']."'";
@@ -7155,7 +7163,7 @@ function list_back()
             $goods = $GLOBALS['db']->getRow($sql);
             $goods['goods_thumb']  = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
             $goods_list[] = $goods;
-            $total += $goods['goods_price'] * $goods['goods_number'];
+            $total += $goods['goods_price'] * $order_back_goods['goods_number'];
         }
         $row[$key]['goods_list'] = $goods_list;
         $row[$key]['total'] = price_format($total) ;

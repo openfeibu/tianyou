@@ -741,4 +741,11 @@ $_LANG['order_back_nav_type']['to_deal'] = '未处理';
 $_LANG['order_back_nav_type']['dealing'] = '未处理';
 $_LANG['order_back_nav_type']['dealed'] = '已处理';
 */
+$_LANG['order_back_status'][1] = '待审核';
+$_LANG['order_back_status'][2] = '待发货';
+$_LANG['order_back_status'][3] = '带收货';
+$_LANG['order_back_status'][4] = '待退款';
+$_LANG['order_back_status'][5] = '已退款';
+$_LANG['order_back_status'][6] = '退款失败';
+$_LANG['order_back_status'][7] = '已拒绝';
 ?>

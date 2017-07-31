@@ -1370,7 +1370,7 @@ function user_info($user_id)
         $user['formated_user_money'] = price_format($user['user_money'], false);
         $user['formated_frozen_money'] = price_format($user['frozen_money'], false);
     }
-
+    $user['user_region'] = get_consignee_region($user,' ');
     return $user;
 }
 
@@ -3056,16 +3056,19 @@ function get_back_info($back_sn)
     $back = $GLOBALS['db']->getRow($sql);
     $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$back['order_back_id']."'";
     $order_back_goods_list = $GLOBALS['db']->getAll($sql);
+    $total = 0;
     foreach($order_back_goods_list as $k => $order_back_goods)
     {
         $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$back['order_id']." ' LIMIT 1";
         $goods = $GLOBALS['db']->getRow($sql);
+        $total += $goods['goods_price'] * $goods['goods_number'];
         $goods['goods_price'] = price_format($goods['goods_price']);
         $goods['goods_thumb'] = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
         $goods['goods_number'] = $order_back_goods['goods_number'];
         $goods_list[] = $goods;
     }
     $back['goods_list'] = $goods_list;
+    $back['total'] = price_format($total) ;
     return $back;
 }
 ?>
