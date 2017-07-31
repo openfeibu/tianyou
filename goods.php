@@ -272,8 +272,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         $goods_history = get_history();
         $smarty->assign('goods_history',$goods_history);
 
-        $shop_setting = get_shop_setting();
-        $smarty->assign('shop_setting',$shop_setting);
+        
 
         assign_dynamic('goods');
         $volume_price_list = get_volume_price_list($goods['goods_id'], '1');

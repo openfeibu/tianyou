@@ -55,13 +55,12 @@
                                         <br /><span class="span_district">地区</span>
                                     </p>
                                 </td>
-
                                 <td class="td2">
                                     {foreach from=$order.goods_list item=goods key=ogkey}
                                     <span><img src="/{$goods.goods_thumb}" alt="{$goods.goods_name}" class="goods_thumb"></span>
                                     {/foreach}
                                 </td>
-                                <td>￥00</td>
+                                <td>{$order.total}</td>
                                 <td>退款</td>
                                 <!-- <th>{$order.back_sn}</th> -->
                                 <td>{$order.order_sn}</td>

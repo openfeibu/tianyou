@@ -3297,6 +3297,7 @@ elseif ($action == 'order_back_request_submit')
     $beizhu = $_REQUEST['beizhu'];
     $goods_info = '';
     $subtotal_price = 0;
+    $file_url = $_REQUEST['file_url'] ? implode(',',$_REQUEST['file_url']) : '';
     for($i=0;$i<count($goods);$i++)
     {
         $goods_info = $goods_info ."-".$goods[$i] ."-". $number[$i] ."件"."<br/>";
@@ -3306,7 +3307,7 @@ elseif ($action == 'order_back_request_submit')
     $back_sn = strtotime(date('Y-m-d H:i:s',time()))+(rand()*100);
     $date = date('Y-m-d H:i:s',time());
     $order_sn = $order_info['order_sn'];
-    $sql = "INSERT INTO " .$ecs->table('order_back'). " (`back_sn`, `invoice_no`, `order_sn`,`order_id`,`user_id`, `case`, `shipping_name`, `goods`, `subtotal`, `liyou`, `beizhu`, `add_time`, `receve`, `status`, `back_pic1`, `back_pic2`, `back_pic3`) VALUES ('$back_sn','','$order_sn','$id','$user_id','$case','','$goods_info','$subtotal_price','$liyou','$beizhu','$date','',1,'$back_pic1','$back_pic2','$back_pic3')";
+    $sql = "INSERT INTO " .$ecs->table('order_back'). " (`back_sn`, `invoice_no`, `order_sn`,`order_id`,`user_id`, `case`, `shipping_name`, `goods`, `subtotal`, `liyou`, `beizhu`, `add_time`, `receve`, `status`,`file_url`) VALUES ('$back_sn','','$order_sn','$id','$user_id','$case','','$goods_info','$subtotal_price','$liyou','$beizhu','$date','',1,'$file_url')";
     if($db->query($sql)){
         $order_back_id = $db->insert_id();
         if($goods_id)

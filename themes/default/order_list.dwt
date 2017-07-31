@@ -218,7 +218,11 @@
               {
                 var liyou = $("#reason").val();
                 var beizhu = $("#explanation").val();
-
+                var numArr = []; // 定义一个空数组
+                var file_url = $("input[name='file_url[]']");
+                for (var i = 0; i < file_url.length; i++) {
+                      numArr.push(file_url.eq(i).val());
+                }
                 if(liyou == "")
                 {
                     $fb.fbNews({"content":"请填写"+txt+"原因","type":"warning"});
@@ -249,7 +253,7 @@
                 $.ajax({
                      type: "POST",
                      url: "user.php?act=order_back_request_submit",
-                     data: {order_id:order_id,goods_id:goods_id, putnum:putnum,liyou:liyou,beizhu:beizhu},
+                     data: {order_id:order_id,goods_id:goods_id, putnum:putnum,liyou:liyou,beizhu:beizhu,file_url:numArr},
                      dataType: "json",
                      success: function(data){
                          if(data.error ==1)
@@ -350,8 +354,24 @@
             });
 
             // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-            uploader.on( 'uploadSuccess', function( file ) {
-                $( '#'+file.id ).addClass('upload-state-done');
+            uploader.on( 'uploadSuccess', function( file ,src) {
+                if(src.error == 0)
+                {
+                    file_url_html = "<input type='hidden' name='file_url[]' value='"+src.url+"'/>";
+                    $list.append(file_url_html);
+                    $( '#'+file.id ).addClass('upload-state-done');
+                }else{
+                    var $li = $( '#'+file.id ),
+                        $error = $li.find('div.error');
+
+                    // 避免重复创建
+                    if ( !$error.length ) {
+                        $error = $('<div class="error"></div>').appendTo( $li );
+                    }
+
+                    $error.text(src.message);
+                }
+
             });
 
             // 文件上传失败，显示上传出错。
@@ -382,7 +402,7 @@
                     <div class="refund-left fb-float-left">
                         <div class="refund-state fb-font22 fb-color-333 ing" style="display:block">
                                 <span>请等待商家处理</span>
-                                <span class="countDown" data-start="1493132401" data-end="1493228801" >xx天xx小时xx分</span>
+                                <span class="countDown" data-start="1493132401" data-end="1493228801" >三个工作日</span>
                                 <p class="fb-font18">你已成功发起退货申请，请耐心等待商家处理</p>
                         </div>
                         <div class="refund-state fb-font22 fb-color-333 ed" style="display:none">
@@ -391,7 +411,7 @@
                         </div>
                         <div class="refund-text fb-font18 fb-color-333">
                             <p>根据你的支付类型，系统将原路返回退款给你 <br />
-                            如果商家拒绝，你可以修改退款申请后再次发起申请，如有疑问，可联系客服热线0757-86081601</p>
+                            如果商家拒绝，你可以修改退款申请后再次发起申请，如有疑问，可联系客服热线{$shop_setting.tell}</p>
                         </div>
                         <!-- <button class="opa_active" style="margin-top:200px">修改申请</button> -->
                         <button class="opa_active" style="display:block;margin-top:200px" onclick="revokeRues()">撤销申请</button>
@@ -431,13 +451,13 @@
                     <div class="refund-left fb-float-left">
                         <div class="refund-state fb-font22 fb-color-333 ing" style="display:block">
                                 <span>商家已同意退款</span>
-                                <p class="fb-font18">请在<span class="countDown" data-start="1493132401" data-end="1493228801" style="margin-right:0">xx天xx小时xx分</span>内按照下列地址退回货物</p>
+                                <p class="fb-font18">请在<span class="countDown" data-start="1493132401" data-end="1493228801" style="margin-right:0">三天</span>内按照下列地址退回货物</p>
                         </div>
                         <div class="refund-text fb-font18 fb-color-333">
                             <p>
-                                退货地址：*************************************** <br/>
-                                收货人：*******<br/>
-                                联系方式：************
+                                退货地址：{$shop_setting.address} <br/>
+                                收货人：天佑艺术馆<br/>
+                                联系方式：{$shop_setting.tell}
                             </p>
                         </div>
                         <div class="refund-logistics">

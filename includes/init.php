@@ -203,6 +203,8 @@ if (!defined('INIT_NO_SMARTY'))
     $smarty->assign('url', 'http://tianyou.gouweiba.com/');
     $qq_list = get_qq_list();
     $smarty->assign('qq_list',$qq_list);
+    $shop_setting = get_shop_setting();
+    $smarty->assign('shop_setting',$shop_setting);
 }
 
 if (!defined('INIT_NO_USERS'))

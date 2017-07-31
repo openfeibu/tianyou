@@ -7135,6 +7135,7 @@ function list_back()
     /* 格式化数据 */
     foreach ($row AS $key => $value)
     {
+        $goods_list = array();
         $row[$key]['back_sn'] = $value['back_sn'];
         $row[$key]['shipping_name'] = $value['shipping_name'];
         $row[$key]['invoice_no'] = $value['invoice_no'];
@@ -7147,15 +7148,17 @@ function list_back()
         $row[$key]['status'] = $value['status'];
         $sql = "SELECT * FROM ".$GLOBALS['ecs']->table('order_back_goods')." WHERE order_back_id = '".$value['order_back_id']."'";
         $order_back_goods_list = $GLOBALS['db']->getAll($sql);
+        $total = 0;
         foreach($order_back_goods_list as $k => $order_back_goods)
         {
             $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$value['order_id']." ' LIMIT 1";
             $goods = $GLOBALS['db']->getRow($sql);
             $goods['goods_thumb']  = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
             $goods_list[] = $goods;
+            $total += $goods['goods_price'] * $goods['goods_number'];
         }
         $row[$key]['goods_list'] = $goods_list;
-
+        $row[$key]['total'] = price_format($total) ;
     }
     $arr = array('back' => $row, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
     return $arr;
