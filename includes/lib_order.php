@@ -3061,11 +3061,14 @@ function get_back_info($back_sn)
     {
         $sql = "SELECT og.*,g.goods_thumb FROM ".$GLOBALS['ecs']->table('order_goods')." AS og LEFT JOIN ".$GLOBALS['ecs']->table('goods')." AS g ON og.goods_id = g.goods_id  WHERE og.goods_id = '".$order_back_goods['goods_id']."' AND og.order_id = '".$back['order_id']." ' LIMIT 1";
         $goods = $GLOBALS['db']->getRow($sql);
-        $total += $goods['goods_price'] * $goods['goods_number'];
+        $total += $goods['goods_price'] * $order_back_goods['goods_number'];
         $goods['goods_price'] = price_format($goods['goods_price']);
         $goods['goods_thumb'] = get_image_path($goods['goods_id'], $goods['goods_thumb'], true);
         $goods['goods_number'] = $order_back_goods['goods_number'];
+        $properties =  get_new_goods_properties($order_back_goods['goods_id']);
+        $goods['properties'] = $properties['pro'];
         $goods_list[] = $goods;
+
     }
     $back['goods_list'] = $goods_list;
     $back['total'] = price_format($total) ;

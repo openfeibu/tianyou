@@ -397,8 +397,9 @@
             <!--{if $action eq back_detail} -->
             <div class="refund clearfix ">
                 {include file='library/back_nav.lbi'}
-                <!-- {if $back.status == 1 || $back.status ==7} -->
+
                 <div class="refund-content fb-clearfix">
+                    <!-- {if $back.status == 1 || $back.status ==7} -->
                     <div class="refund-left fb-float-left">
                         {if $back.status == 1}
                         <div class="refund-state fb-font22 fb-color-333 ing" >
@@ -428,40 +429,8 @@
                         {/if}
 
                     </div>
-                    <div class="refund-right fb-float-left">
-                        <div class="refund-product">
-                            <div class="refund-product-title fb-font16 fb-color-333">退款详情</div>
-                            <div class="refund-product-con fb-clearfix">
-                                {foreach from=$back.goods_list item=goods key=ogkey}
-                                <a href="">
-                                    <div class="img fb-position-relative fb-float-left" style="background:url({$goods.goods_thumb}) no-repeat center">
-                                        <span class="fb-position-absolute fb-color-fff fb-center">共{$goods.goods_number}件商品</span>
-                                    </div>
-                                    <div class="test">
-                                        {$goods.goods_name}
-                                    </div>
-                                </a>
-                                {/foreach}
-                            </div>
-                        </div>
-                        <div class="refund-order-info fb-font14 fb-color-333">
-                                <p>订单编号：{$back.order_sn}</p>
-                                <p>申请时间：{$back.add_time}</p>
-                                <p>退款总价：{$back.total}</p>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                //撤销申请
-                function revokeRues(){
-                    $fb.showModal({title:"提示",content:"是否撤销申请"},function(){
-                        window.location.href='user.php?act=back_del&back_sn={$back.back_sn}';
-                    });
-                }
 
-                </script>
-                <!-- {elseif $back.status == 2} -->
-                <div class="refund-content fb-clearfix">
+                    <!-- {elseif $back.status == 2} -->
                     <div class="refund-left fb-float-left">
                         <div class="refund-state fb-font22 fb-color-333 ing" style="display:block">
                                 <span>商家已同意退款</span>
@@ -500,62 +469,38 @@
                         </div>
 
                     </div>
-                    <div class="refund-right fb-float-left">
-                        <div class="refund-product">
-                            <div class="refund-product-title fb-font16 fb-color-333">退款详情</div>
-                            <div class="refund-product-con fb-clearfix">
-                                {foreach from=$back.goods_list item=goods key=ogkey}
-                                <a href="">
-                                    <div class="img fb-position-relative fb-float-left" style="background:url({$goods.goods_thumb}) no-repeat center">
-                                        <span class="fb-position-absolute fb-color-fff fb-center">共{$goods.goods_number}件商品</span>
-                                    </div>
-                                    <div class="test">
-                                        {$goods.goods_name}
-                                    </div>
-                                </a>
-                                {/foreach}
-                            </div>
-                        </div>
-                        <div class="refund-order-info fb-font14 fb-color-333">
-                            <p>订单编号：{$back.order_sn}</p>
-                            <p>申请时间：{$back.add_time}</p>
-                            <p>退款总价：{$back.total}</p>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                //撤销申请
-                function revokeRues(){
-                    $fb.showModal({title:"提示",content:"是否撤销申请"},function(){
-                        window.location.href='user.php?act=back_del&back_sn={$back.back_sn}';
-                    });
-                }
-                $(".back_submit_btn").click(function(){
-                    var shipping_name = $("select[name='shipping_name']").find("option:selected").val();
-                    var invoice_no = $("input[name='invoice_no']").val();
-                    $.ajax({
-                        cache: true,
-                        type: "POST",
-                        url:'user.php?act=back_submit&back_sn={$back.back_sn}',
-                        data:{'ajax':1,'shipping_name':shipping_name,'invoice_no':invoice_no},// 你的formid
-                        async: false,
-                        error: function(request) {
-                            alert("连接错误");
-                        },
-                        success: function(data) {
-                            var obj = JSON.parse(data);
-                            if(obj.error == 0){
-                                window.location.href=obj.url;
-                            }else{
-                                $fb.fbNews({"content":obj.message,"type":"warning"})
+                    <script>
+                    //撤销申请
+                    function revokeRues(){
+                        $fb.showModal({title:"提示",content:"是否撤销申请"},function(){
+                            window.location.href='user.php?act=back_del&back_sn={$back.back_sn}';
+                        });
+                    }
+                    $(".back_submit_btn").click(function(){
+                        var shipping_name = $("select[name='shipping_name']").find("option:selected").val();
+                        var invoice_no = $("input[name='invoice_no']").val();
+                        $.ajax({
+                            cache: true,
+                            type: "POST",
+                            url:'user.php?act=back_submit&back_sn={$back.back_sn}',
+                            data:{'ajax':1,'shipping_name':shipping_name,'invoice_no':invoice_no},// 你的formid
+                            async: false,
+                            error: function(request) {
+                                alert("连接错误");
+                            },
+                            success: function(data) {
+                                var obj = JSON.parse(data);
+                                if(obj.error == 0){
+                                    window.location.href=obj.url;
+                                }else{
+                                    $fb.fbNews({"content":obj.message,"type":"warning"})
+                                }
                             }
-                        }
+                        });
+                        return false;
                     });
-                    return false;
-                });
-                </script>
-                <!-- {elseif $back.status == 3} -->
-                <div class="refund-content fb-clearfix">
+                    </script>
+                    <!-- {elseif $back.status == 3} -->
                     <div class="refund-left fb-float-left">
                         <div class="refund-state fb-font22 fb-color-333 ing" style="display:block">
                                 <span>等待商家处理</span>
@@ -581,95 +526,50 @@
                         </div>
 
                     </div>
-                    <div class="refund-right fb-float-left">
-                        <div class="refund-product">
-                            <div class="refund-product-title fb-font16 fb-color-333">订单详情</div>
-                            <div class="refund-product-con fb-clearfix">
-                                <a href="">
-                                    <div class="img fb-position-relative fb-float-left" style="background:url(images/1.png) no-repeat center">
-                                        <span class="fb-position-absolute fb-color-fff fb-center">共01件商品</span>
-                                    </div>
-                                    <div class="test">
-                                        商品名称
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="refund-order-info fb-font14 fb-color-333">
-                                <p>订单编号：****************</p>
-                                <p>订单时间：2017年00月00日</p>
-                                <p>订单总价：¥10000</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- {/if} -->
-            </div>
-
-            <!--{/if}-->
-
-            <!--{if $action eq 'back_address_edit'} -->
-            <div class="refund clearfix ">
-                {include file='library/back_nav.lbi '}
-                <div class="refund-content fb-clearfix">
+                    <!-- {elseif $back.status == 5} -->
                     <div class="refund-left fb-float-left">
                         <div class="refund-state fb-font22 fb-color-333 ing" style="display:block">
-                                <span>商家已同意退款</span>
-                                <p class="fb-font18">请在<span class="countDown" data-start="1493132401" data-end="1493228801" style="margin-right:0">xx天xx小时xx分</span>内按照下列地址退回货物</p>
+                                <span>退款成功</span>
+                                <p class="fb-font18">退款金额：{$back.total}</p>
+                                <p class="fb-font18">如果24小时内未到账请联系客服热线</p>
                         </div>
-                        <div class="refund-text fb-font18 fb-color-333">
-                            <p>
-                                退货地址：*************************************** <br/>
-                                收货人：*******<br/>
-                                联系方式：************
-                            </p>
-                        </div>
-                        <div class="refund-logistics">
-                            <div class="refund-logistics-title fb-font16 fb-color-333">填写物流信息</div>
-                            <form action="" id="refund-logistics-form">
-                                <div class="refund-logistics-item">
-                                    <label class="fb-inlineBlock fb-center fb-font16 fb-color-333">物流公司</label>
-                                    <select name="" id=""  class="fb-inlineBlock fb-font16 fb-color-333">
-                                        <option value="" checked="checked">申通快递</option>
-                                        <option value="" checked="checked">申通快递</option>
-                                        <option value="" checked="checked">申通快递</option>
-                                    </select>
-                                </div>
-                                <div class="refund-logistics-item">
-                                    <label class="fb-inlineBlock fb-center fb-font16 fb-color-333">快递单号</label>
-                                    <input type="text"  class="fb-inlineBlock fb-font16 fb-color-333">
-                                </div>
-                                 <button class="opa_active" style="margin-top:20px">提交</button>
-
-                            </form>
-                            <button class="opa_active" style="display:block;margin-top:0" onclick="revokeRues()">撤销申请</button>
-                        </div>
-
                     </div>
+                    <!--{/if}-->
                     <div class="refund-right fb-float-left">
                         <div class="refund-product">
-                            <div class="refund-product-title fb-font16 fb-color-333">订单详情</div>
+                            <div class="refund-product-title fb-font16 fb-color-333">退款详情</div>
                             <div class="refund-product-con fb-clearfix">
+                                {foreach from=$back.goods_list item=goods key=ogkey}
                                 <a href="">
-                                    <div class="img fb-position-relative fb-float-left" style="background:url(images/1.png) no-repeat center">
-                                        <span class="fb-position-absolute fb-color-fff fb-center">共01件商品</span>
+                                    <div class="img fb-position-relative fb-float-left" style="background:url({$goods.goods_thumb}) no-repeat center">
+                                        <span class="fb-position-absolute fb-color-fff fb-center">共{$goods.goods_number}件商品</span>
                                     </div>
                                     <div class="test">
-                                        商品名称
+                                        {$goods.goods_name}
                                     </div>
                                 </a>
+                                {/foreach}
                             </div>
                         </div>
                         <div class="refund-order-info fb-font14 fb-color-333">
-                                <p>订单编号：****************</p>
-                                <p>订单时间：2017年00月00日</p>
-                                <p>订单总价：¥10000</p>
+                                <p>订单编号：{$back.order_sn}</p>
+                                <p>申请时间：{$back.add_time}</p>
+                                <p>退款总价：{$back.total}</p>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <script>
+            //撤销申请
+            function revokeRues(){
+                $fb.showModal({title:"提示",content:"是否撤销申请"},function(){
+                    window.location.href='user.php?act=back_del&back_sn={$back.back_sn}';
+                });
+            }
+            </script>
             <!--{/if}-->
+
+
 
 
         </div>

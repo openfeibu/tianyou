@@ -53,10 +53,16 @@ $(function(){
                         <div class="worksInfo">
                             <div class="worksInfo-name fb-font16">{$goods.goods_name|escape:html}</div>
                             <div class="worksInfo-news fb-font14">
-                                <p>陶瓷<span>丨</span>瓷瓶</p>
-                                <p>长 50cm<span>x</span> 高 82cm</p>
+                                <!-- <p>{$goods.cat_name}</p> -->
+                                <!-- <p>长 50cm<span>x</span> 高 82cm</p> -->
                                 <p>{$goods.nature_desc}</p>
+                                 <!-- {foreach from=$properties item=property_group key=key} -->
+                                 <!-- {foreach from=$property_group item=property} -->
+                                <p>{$property.value}</p>
+                                 <!-- {/foreach}-->
+                                 <!-- {/foreach}-->
                             </div>
+
                             {if $goods.nature == 1}
                             <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
                             <div class="worksInfo-money fb-font20">{$goods.rent_formated}<span>(押金：{$goods.deposit_formated})</span> </div>

@@ -3336,4 +3336,74 @@ function send_mobile_code($mobile_phone,$type = VT_MOBILE_REGISTER)
         return array('error' => 1,'message' => "短信验证码发送失败");
 	}
 }
+function get_new_goods_properties($goods_id)
+{
+    /* 对属性进行重新排序和分组 */
+    $sql = "SELECT attr_group ".
+            "FROM " . $GLOBALS['ecs']->table('goods_type') . " AS gt, " . $GLOBALS['ecs']->table('goods') . " AS g ".
+            "WHERE g.goods_id='$goods_id' AND gt.cat_id=g.goods_type";
+    $grp = $GLOBALS['db']->getOne($sql);
+
+    if (!empty($grp))
+    {
+        $groups = explode("\n", strtr($grp, "\r", ''));
+    }
+
+    /* 获得商品的规格 */
+    $sql = "SELECT a.attr_id, a.attr_name, a.attr_group, a.is_linked, a.attr_type, a.special,".
+                "g.goods_attr_id, g.attr_value, g.attr_price " .
+            'FROM ' . $GLOBALS['ecs']->table('goods_attr') . ' AS g ' .
+            'LEFT JOIN ' . $GLOBALS['ecs']->table('attribute') . ' AS a ON a.attr_id = g.attr_id ' .
+            "WHERE g.goods_id = '$goods_id' " .
+            'ORDER BY a.sort_order, g.attr_price, g.goods_attr_id';
+    $res = $GLOBALS['db']->getAll($sql);
+
+    $arr['pro'] = array();     // 属性
+    $arr['spe'] = array();     // 规格
+    $arr['lnk'] = array();     // 关联的属性
+    $special_number = 0;
+    foreach ($res AS $row)
+    {
+        if($row['special'] == 1){
+            if($special_number){
+                $arr['pro'][$group][$attr_id]['value'] .= '×'.$row['attr_value'].'cm';
+            }
+            else{
+                $arr['pro'][$group][$row['attr_id']]['value'] = $row['attr_value'];
+                $arr['pro'][$group][$row['attr_id']]['name']     = ’尺寸;
+                $attr_id = $row['attr_id'];
+            }
+            $special_number++;
+        }else{
+            $row['attr_value'] = str_replace("\n", '<br />', $row['attr_value']);
+
+            if ($row['attr_type'] == 0)
+            {
+                $group = (isset($groups[$row['attr_group']])) ? $groups[$row['attr_group']] : $GLOBALS['_LANG']['goods_attr'];
+
+                $arr['pro'][$group][$row['attr_id']]['name']  = $row['attr_name'];
+                $arr['pro'][$group][$row['attr_id']]['value'] = $row['attr_value'];
+            }
+            else
+            {
+                $arr['spe'][$row['attr_id']]['attr_type'] = $row['attr_type'];
+                $arr['spe'][$row['attr_id']]['name']     = $row['attr_name'];
+                $arr['spe'][$row['attr_id']]['values'][] = array(
+                                                            'label'        => $row['attr_value'],
+                                                            'price'        => $row['attr_price'],
+                                                            'format_price' => price_format(abs($row['attr_price']), false),
+                                                            'id'           => $row['goods_attr_id']);
+            }
+
+            if ($row['is_linked'] == 1)
+            {
+                /* 如果该属性需要关联，先保存下来 */
+                $arr['lnk'][$row['attr_id']]['name']  = $row['attr_name'];
+                $arr['lnk'][$row['attr_id']]['value'] = $row['attr_value'];
+            }
+        }
+    }
+
+    return $arr;
+}
 ?>

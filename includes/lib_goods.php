@@ -699,6 +699,8 @@ function get_goods_properties($goods_id)
     return $arr;
 }
 
+
+
 /**
  * 获得属性相同的商品
  *

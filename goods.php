@@ -170,8 +170,6 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
     /* 获得商品的信息 */
     $goods = get_goods_info($goods_id);
 
-
-
     if ($goods === false)
     {
         /* 如果没有找到任何记录则跳回到首页 */
@@ -245,7 +243,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         $smarty->assign('page_title',          $position['title']);                    // 页面标题
         $smarty->assign('ur_here',             $position['ur_here']);                  // 当前位置
 
-        $properties = get_goods_properties($goods_id);  // 获得商品的规格和属性
+        $properties = get_new_goods_properties($goods_id);  // 获得商品的规格和属性
 
         $smarty->assign('properties',          $properties['pro']);                              // 商品属性
         $smarty->assign('specification',       $properties['spe']);                              // 商品规格
@@ -272,7 +270,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         $goods_history = get_history();
         $smarty->assign('goods_history',$goods_history);
 
-        
+
 
         assign_dynamic('goods');
         $volume_price_list = get_volume_price_list($goods['goods_id'], '1');

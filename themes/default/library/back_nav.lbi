@@ -2,5 +2,5 @@
     <div class="refund-item fb-inlineBlock {if $action eq 'order_back_request'}active{/if} " >买家申请退款</div>
     <div class="refund-item fb-inlineBlock {if $action eq 'back_detail' &&  isset($back) &&  ($back.status == 1 || $back.status == 7)}active{/if}">等待商家处理退款申请</div>
     <div class="refund-item fb-inlineBlock {if $action eq 'back_detail' &&  isset($back) &&  $back.status == 2}active{/if}" >买家退货给商家</div>
-    <div class="refund-item fb-inlineBlock">商家确认收货，退款成功</div>
+    <div class="refund-item fb-inlineBlock {if $action eq 'back_detail' &&  isset($back) &&  $back.status == 5}active{/if}" >商家确认收货，退款成功</div>
 </div>
