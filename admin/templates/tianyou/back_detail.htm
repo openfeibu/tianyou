@@ -38,18 +38,20 @@
                                 <br>
                             </div>
                             <div class='fb-inlineBlock fb-float-right'>
-                                <p class='fb-inlineBlock' style="margin:10px 20px;">奇石玉石</p>
-                                <br>
-                                <p class='fb-inlineBlock' style="margin:10px 20px;">砗磲</p>
-                                <br>
-                                <p class='fb-inlineBlock' style="margin:10px 20px;">105×54 cm</p>
+                                {foreach from=$goods.properties item=property_group key=key}
+
+                                {foreach from=$property_group item=property}
+                               <p>{$property.value}</p>
+                                {/foreach}
+                                {/foreach}
+
                             </div>
                         </div>
                         {/foreach}
                     </div>
                     <div class="proDiv pro_detail bor-bot">
                         <p class='pro_detail_p1'> <span>退款编号：</span>{$back.back_sn}</p>
-                        <p class='pro_detail_p2'> <span>退款金额：</span>¥5299</p>
+                        <p class='pro_detail_p2'> <span>退款金额：</span>{$back.total}</p>
                         <p class='pro_detail_p4'> <span>原因：</span>{$back.liyou}</p>
                         <p class='pro_detail_p5'> <span>说明：</span>{$back.beizhu}</p>
                     </div>
@@ -145,11 +147,32 @@
                     {insert_scripts files="../plugins/kdniao/jquery.min.js"}
                     {insert_scripts files="../plugins/kdniao/kdniao.js"}
                     <script type="text/javascript">
-                        {if $order.order_status=5}
                         kdniao.query('{$back.invoice_no}','{$back.shipping_name}');
-                        {/if}
                     </script>
 
+                    <!--{elseif $back.status == 5}-->
+                    <div class="proDiv pro_detail bor-bot">
+                        <p class='pro_detail_p1'> 物流信息</p>
+                        <p class='pro_detail_p2'>物流公司：{$back.shipping_name}</p>
+                        <p class='pro_detail_p3'> 物流单号：{$back.invoice_no}</p>
+                    </div>
+                    <!--物流流程信息-->
+                    <div id="queryContext">
+
+                    </div>
+                    <div class="proDiv pro_detail icon_whit icon10 padd-top-10">
+                        已收到货物，已完成退款！
+                    </div>
+                    <!--物流流程信息 end-->
+                    {insert_scripts files="../plugins/kdniao/jquery.min.js"}
+                    {insert_scripts files="../plugins/kdniao/kdniao.js"}
+                    <script type="text/javascript">
+                        kdniao.query('{$back.invoice_no}','{$back.shipping_name}');
+                    </script>
+                    <!--{elseif $back.status == 7}-->
+                    <div class="proDiv pro_detail icon_whit icon_del padd-top-10">
+                        拒绝理由：{$back.receve}
+                    </div>
                     <!--{/if}-->
                 </div>
                 <div class="hei-80"></div>
