@@ -733,3 +733,7 @@ input:checked{background: #000}
 
 
 .pop .top img{display: none;}
+
+
+/*支付方式*/
+.info-pay label{width: 150px;display: block;border: 1px solid #dedede;height: 38px;}
