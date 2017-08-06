@@ -406,11 +406,11 @@
                                 <textarea name="postscript" ></textarea>
                             </div>
                         </div>
-                        <div class="info-remarks">
+                        <div class="info-remarks" style="margin-top: 20px">
                             <div class="info-remarks-left fb-inlineBlock fb-font14 fb-color-333">
                                 支付方式:
                             </div>
-                            <div class="info-remarks-right  fb-inlineBlock info-pay" style="margin-top: 20px">
+                            <div class="info-remarks-right  fb-inlineBlock info-pay" >
                                 <input id='zfb' type="radio" value="0" checked="checked" name="pay">
                                 <label for="zfb" class="fb-inlineBlock zfb-icon active" ></label>
                                 <input id='wx' type="radio" value="1" name="pay">
