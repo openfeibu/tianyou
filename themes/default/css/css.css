@@ -737,7 +737,7 @@ input:checked{background: #000}
 
 /*支付方式*/
 .info-pay{margin-left: 20px;}
-.info-pay label{width: 150px;border: 2px solid #dedede;height: 42px;cursor: pointer;}
+.info-pay label{width: 150px;border: 2px solid #dedede;height: 42px;cursor: pointer;margin-right: 10px;}
 .info-pay .zfb-icon{background: url("../images/zfb.png") no-repeat center;background-size: auto 30px;}
 .info-pay .wx-icon{background: url("../images/wx.png") no-repeat center;background-size: auto 30px;}
 .info-pay .yl-icon{background: url("../images/yl.png") no-repeat center;background-size: auto 30px;}
