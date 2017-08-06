@@ -478,7 +478,7 @@
 </body>
 <script>
 $(".info-pay label").on("click",function(){
-    $(this).addClass("active").siblings("lable").removeClass("active");
+    $(this).addClass("active").siblings("label").removeClass("active");
 })
 
 </script>
