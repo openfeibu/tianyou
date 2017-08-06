@@ -412,11 +412,11 @@
                             </div>
                             <div class="info-remarks-right  fb-inlineBlock info-pay">
                                 <input id='zfb' type="radio" value="0" name="pay">
-                                <label for="zfb" class="fb-inlineBlock" class="zfb-icon"></label>
+                                <label for="zfb" class="fb-inlineBlock zfb-icon" ></label>
                                 <input id='wx' type="radio" value="1" name="pay">
-                                <label for="wx" class="fb-inlineBlock" class="wx-icon"></label>
+                                <label for="wx" class="fb-inlineBlock wx-icon" ></label>
                                 <input id='yl' type="radio" value="2" name="pay">
-                                <label for="yl" class="fb-inlineBlock" class="yl-icon"></label>
+                                <label for="yl" class="fb-inlineBlock yl-icon" ></label>
                             </div>
                         </div>
                     </div>
