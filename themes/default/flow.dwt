@@ -412,11 +412,11 @@
                             </div>
                             <div class="info-remarks-right  fb-inlineBlock info-pay">
                                 <input id='zfb' type="radio" value="0" name="pay">
-                                <label for="zfb" class="fb-inlineBlock">支付宝</label>
+                                <label for="zfb" class="fb-inlineBlock" class="zfb-icon">支付宝</label>
                                 <input id='wx' type="radio" value="1" name="pay">
-                                <label for="wx" class="fb-inlineBlock">微信</label>
+                                <label for="wx" class="fb-inlineBlock" class="wx-icon">微信</label>
                                 <input id='yl' type="radio" value="2" name="pay">
-                                <label for="yl" class="fb-inlineBlock">银联</label>
+                                <label for="yl" class="fb-inlineBlock" class="yl-icon">银联</label>
                             </div>
                         </div>
                     </div>
