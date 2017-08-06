@@ -406,6 +406,20 @@
                                 <textarea name="postscript" ></textarea>
                             </div>
                         </div>
+                        <div class="info-remarks">
+                            <div class="info-remarks-left fb-inlineBlock fb-font14 fb-color-333">
+                                支付方式:
+                            </div>
+                            <div class="info-remarks-right  fb-inlineBlock">
+                                <input id='zfb' type="radio" value="0">
+                                <label for="zfb">支付宝</label>
+                                <input id='wx' type="radio" value="0">
+                                <label for="wx">微信</label>
+                                <input id='yl' type="radio" value="0">
+                                <label for="yl">银联</label>
+
+                            </div>
+                        </div>
                     </div>
                     <div class="cart">
                         <div class="cart-title fb-font14 fb-color-333">
