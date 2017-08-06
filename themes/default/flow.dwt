@@ -412,7 +412,7 @@
                             </div>
                             <div class="info-remarks-right  fb-inlineBlock info-pay">
                                 <input id='zfb' type="radio" value="0" name="pay">
-                                <label for="zfb" class="fb-inlineBlock zfb-icon" ></label>
+                                <label for="zfb" class="fb-inlineBlock zfb-icon active" ></label>
                                 <input id='wx' type="radio" value="1" name="pay">
                                 <label for="wx" class="fb-inlineBlock wx-icon" ></label>
                                 <input id='yl' type="radio" value="2" name="pay">
@@ -477,7 +477,9 @@
 
 </body>
 <script>
-
+$(".info-pay label").on("click",function(){
+    $(this).addClass("active").siblings("lable").removeClass("active");
+})
 
 </script>
 </html>
