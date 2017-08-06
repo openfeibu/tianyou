@@ -736,4 +736,4 @@ input:checked{background: #000}
 
 
 /*支付方式*/
-.info-pay label{width: 150px;display: block;border: 1px solid #dedede;height: 38px;}
+.info-pay label{width: 150px;border: 1px solid #dedede;height: 38px;}
