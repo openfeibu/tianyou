@@ -270,8 +270,8 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         $goods_history = get_history();
         $smarty->assign('goods_history',$goods_history);
 
-
-
+        $cats_name = get_cats_name($goods['cat_id']);
+        $smarty->assign('cats_name_desc',implode(' | ' ,$cats_name));
         assign_dynamic('goods');
         $volume_price_list = get_volume_price_list($goods['goods_id'], '1');
         $smarty->assign('volume_price_list',$volume_price_list);    // 商品优惠价格区间

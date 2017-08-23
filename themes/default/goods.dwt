@@ -53,6 +53,7 @@ $(function(){
                         <div class="worksInfo">
                             <div class="worksInfo-name fb-font16">{$goods.goods_name|escape:html}</div>
                             <div class="worksInfo-news fb-font14">
+                                <p>{$cats_name_desc}</p>
                                 <!-- <p>{$goods.cat_name}</p> -->
                                 <!-- <p>长 50cm<span>x</span> 高 82cm</p> -->
                                 <p>{$goods.nature_desc}</p>

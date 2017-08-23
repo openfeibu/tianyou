@@ -69,7 +69,7 @@
                             <!--{elseif $item.back_status gt 5}-->
                             <div class="logistics fb-inlineBlock fb-font14 opa_active"><a href="user.php?act=back_detail&back_sn={$item.back_sn}" title="查看拒绝详情">拒绝售后</a></div>
                             <!--{else}-->
-                                <!-- {if $item.pay_status == 0 && ($item.order_status == 0 || $item.order_status == 1)}--><div class="logistics fb-inlineBlock fb-font14 opa_active"><a href="{$item.pay_online}" class="fb-color-fff">支付</a></div><!--{/if}-->
+                                <!-- {if $item.pay_status == 0 && ($item.order_status == 0 || $item.order_status == 1)}--><div class="logistics fb-inlineBlock fb-font14 opa_active"><a href="user.php?act=pay&order_id={$item.order_id}" class="fb-color-fff">支付</a></div><!--{/if}-->
                             	<div class="logistics fb-inlineBlock fb-font14 opa_active">{$item.handler}</div>
                                 <!-- {if $item.shipping_status == 1 || $item.shipping_status == 2}-->
                                 <div class="logistics fb-inlineBlock fb-font14 opa_active"><a href="user.php?act=order_detail&order_id={$item.order_id}" class="fb-color-fff">查看物流</a></div>
@@ -145,6 +145,22 @@
 
             <!-- {if $action eq 'order_back'} -->
 
+            <!-- {/if} -->
+            <!-- {if $action eq "pay"}  -->
+            <div class="padd120">
+                <div class="fb-center wxPay">
+                    <div class="fb-inlineBlock wxPay-code">
+                        <p>微信扫码支付<span>{$order.order_amount}</span>元</p>
+                        <div class="code">
+                            {$pay_online}
+                        </div>
+                        <div class="successPay opa_active"><button>我已完成支付</button></div>
+                    </div>
+                    <div class="fb-inlineBlock wxPay-icon">
+
+                    </div>
+                </div>
+            </div>
             <!-- {/if} -->
             <!-- {if $action eq 'order_back_request'} -->
             <div class="refund clearfix ">

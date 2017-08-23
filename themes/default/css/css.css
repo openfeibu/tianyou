@@ -742,3 +742,13 @@ input:checked{background: #000}
 .info-pay .wx-icon{background: url("../images/wx.png") no-repeat center;background-size: auto 30px;}
 .info-pay .yl-icon{background: url("../images/yl.png") no-repeat center;background-size: auto 30px;}
 .info-pay .active{border:2px solid #f1c362;}
+
+.wxPay{padding:100px 0}
+.wxPay-icon{background: url("../images/wxicon.jpg") no-repeat center;width: 329px;height: 421px;}
+.wxPay-code{margin-right: 150px}
+.wxPay-code p{font-size: 20px;color:#f1c362;padding: 20px 0}
+.wxPay-code p span{color:#fa5050;font-size: 24px; }
+.wxPay-code .code{width: 250px;height: 250px;}
+.wxPay-code .code img{width: 100%;height: 100%;}
+.successPay{margin:20px 0;}
+.successPay button{font-size: 14px;background: #f1c362 !important;border:1px solid #f1c362 !important;color: #fff;width: 140px;line-height: 40px;height: 40px;}

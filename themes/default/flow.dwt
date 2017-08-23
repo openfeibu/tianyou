@@ -411,11 +411,11 @@
                                 支付方式:
                             </div>
                             <div class="info-remarks-right  fb-inlineBlock info-pay" >
-                                <input id='zfb' type="radio" value="0" checked="checked" name="pay">
+                                <input id='zfb' type="radio" value="1" checked="checked" name="payment">
                                 <label for="zfb" class="fb-inlineBlock zfb-icon active" ></label>
-                                <input id='wx' type="radio" value="1" name="pay">
+                                <input id='wx' type="radio" value="2" name="payment">
                                 <label for="wx" class="fb-inlineBlock wx-icon" ></label>
-                                <input id='yl' type="radio" value="2" name="pay">
+                                <input id='yl' type="radio" value="3" name="payment">
                                 <label for="yl" class="fb-inlineBlock yl-icon" ></label>
                             </div>
                         </div>
@@ -466,7 +466,20 @@
 
             <!-- {/if} -->
             <!-- {if $step eq "done"}  -->
+            <div class="padd120">
+                <div class="fb-center wxPay">
+                    <div class="fb-inlineBlock wxPay-code">
+                        <p>微信扫码支付<span>{$total.amount_formated}</span></p>
+                        <div class="code">
+                            {$pay_online}
+                        </div>
+                        <div class="successPay opa_active"><button>我已完成支付</button></div>
+                    </div>
+                    <div class="fb-inlineBlock wxPay-icon">
 
+                    </div>
+                </div>
+            </div>
             <!-- {/if} -->
         </div>
     </div>

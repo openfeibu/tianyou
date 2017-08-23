@@ -1851,6 +1851,7 @@ elseif ($_REQUEST['step'] == 'done')
 
         $smarty->assign('pay_online', $pay_online);
     }
+
     if(!empty($order['shipping_name']))
     {
         $order['shipping_name']=trim(stripcslashes($order['shipping_name']));
@@ -1867,7 +1868,19 @@ elseif ($_REQUEST['step'] == 'done')
     unset($_SESSION['flow_order']);
     unset($_SESSION['direct_shopping']);
 
-    header("Location: ".$pay_online);
+    if($order['pay_id'] == 1)
+    {
+        header("Location: ".$pay_online);
+    }else if($order['pay_id'] == 2)
+    {
+        $smarty->assign('action',      'pay');
+        $smarty->display('order_list.dwt');
+    }
+    else if($order['pay_id'] == 3)
+    {
+        $smarty->display('pay_redirect.dwt');
+
+    }
     exit;
 }
 

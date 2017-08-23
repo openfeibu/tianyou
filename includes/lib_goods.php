@@ -1536,4 +1536,20 @@ function get_cum_sales($goods_id)
     $cum_sales += $GLOBALS['db']->getOne($sql_goods);
     return $cum_sales;
 }
+
+/*获取分类*/
+function get_cats_name($cat_id,$cats_name = array())
+{
+    $sql = 'SELECT cat_id,cat_name ,parent_id,is_show ' .
+            'FROM ' . $GLOBALS['ecs']->table('category') .
+            "WHERE cat_id = '$cat_id' AND is_show = 1";
+    $data = $GLOBALS['db']->getRow($sql);
+
+    if($data)
+    {
+        $cats_name[$cat_id] = $data['cat_name'];
+        return get_cats_name($data['parent_id'],$cats_name);
+    }
+    return array_reverse($cats_name);
+}
 ?>

@@ -1,7 +1,8 @@
 <?php
 // database host
-$db_host   = "120.77.213.239:3306";
+$db_host   = "39.108.144.9";
 
+$db_port   = '3306';
 // database name
 $db_name   = "tianyou";
 
@@ -9,7 +10,7 @@ $db_name   = "tianyou";
 $db_user   = "feibukeji";
 
 // database password
-$db_pass   = 'bgyrtksithv,1*&($AC';
+$db_pass   = 'ladfjeuwf71741s';
 
 // table prefix
 $prefix    = "ty_";

@@ -38,7 +38,7 @@ array('login','act_login','ajax_act_login','register','act_register','act_edit_p
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login','password', 'profile', 'order_list','order_search', 'back_address_edit', 'sub_back', 'back_detail', 'back_submit', 'huanhuo', 'order_back', 'order_back_search', 'back_del', 'order_back_request', 'order_back_request_submit', 'back_message',  'order_detail', 'address_list', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','password');
+'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer','password','pay');
 
 include_once(ROOT_PATH . 'includes/lib_transaction.php');
 if($user_id)
@@ -1111,7 +1111,38 @@ elseif ($action == 'order_list')
     $smarty->assign('orders', $orders);
     $smarty->display('order_list.dwt');
 }
+else if($action == 'pay')
+{
+    include_once(ROOT_PATH . 'includes/lib_transaction.php');
+    include_once(ROOT_PATH . 'includes/lib_payment.php');
+    include_once(ROOT_PATH . 'includes/lib_order.php');
+    include_once(ROOT_PATH . 'includes/lib_clips.php');
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
+    /* 订单详情 */
+    $order = get_order_detail($order_id, $user_id);
+    $smarty->assign('pay_online',$order['pay_online']);
+    $smarty->assign('order',$order);
+    if ($order['pay_status'] == PS_UNPAYED &&
+        ($order['order_status'] == OS_UNCONFIRMED ||
+        $order['order_status'] == OS_CONFIRMED))
+    {
+
+        if($order['pay_id'] == 1)
+        {
+            header("Location: ".$order['pay_online']);
+            exit;
+        }else if($order['pay_id'] == 3)
+        {
+            $smarty->display('pay_redirect.dwt');
+            exit;
+        }
+
+        $smarty->display('order_list.dwt');
+    }else{
+        show_message('该订单状态不支持支付，操作失败');
+    }
+}
 /* 查看订单详情 */
 elseif ($action == 'order_detail')
 {

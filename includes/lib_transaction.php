@@ -373,45 +373,7 @@ function get_user_orders($user_id, $num = 10, $start = 0,$keyword)
                 $goods_list[$key]['handler'] = '<div class="oneRefund fb-position-absolute opa_active"><a href="user.php?act=order_back_request&order_id='.$row['order_id'].'&goods_id='.$value['goods_id'].'" class="fb-color-fff">退款</a></div>';
             }
         }
-        /* 如果是未付款状态，生成支付按钮 */
-        if ($row['pay_status'] == PS_UNPAYED &&
-            ($row['order_status'] == OS_UNCONFIRMED ||
-            $row['order_status'] == OS_CONFIRMED))
-        {
-            /*
-             * 在线支付按钮
-             */
-            //支付方式信息
-            $payment_info = array();
-            $payment_info = payment_info($row['pay_id']);
 
-            //无效支付方式
-            if ($payment_info === false)
-            {
-                $row['pay_online'] = '';
-            }
-            else
-            {
-                //取得支付信息，生成支付代码
-                $payment = unserialize_config($payment_info['pay_config']);
-
-                //获取需要支付的log_id
-                $row['log_id']    = get_paylog_id($row['order_id'], $pay_type = PAY_ORDER);
-                $row['user_name'] = $_SESSION['user_name'];
-                $row['pay_desc']  = $payment_info['pay_desc'];
-
-                /* 调用相应的支付方式文件 */
-                include_once(ROOT_PATH . 'includes/modules/payment/' . $payment_info['pay_code'] . '.php');
-
-                /* 取得在线支付方式的支付按钮 */
-                $pay_obj    = new $payment_info['pay_code'];
-                $row['pay_online'] = $pay_obj->get_code($row, $payment);
-            }
-        }
-        else
-        {
-            $row['pay_online'] = '';
-        }
 
         $arr[] = array('order_id'       => $row['order_id'],
                        'order_sn'       => $row['order_sn'],
@@ -426,7 +388,6 @@ function get_user_orders($user_id, $num = 10, $start = 0,$keyword)
                        'back_case'      => $GLOBALS['db']->getOne("SELECT `case` FROM " . $GLOBALS['ecs']->table('order_back') . " WHERE order_sn = '" . $row['order_sn'] . "'"), /* 退换货插件 加强版 */
                        'back_sn'        => $GLOBALS['db']->getOne("SELECT back_sn FROM " . $GLOBALS['ecs']->table('order_back') . " WHERE order_sn = '" . $row['order_sn'] . "'"), /* 退换货插件 加强版 */
                        'diff_time'      => time()-8*3600 - $row['add_time'], /* 退换货插件 加强版 */
-                       'pay_online'     => $row['pay_online'],
                        'goods_list'     => $goods_list);
     }
 
