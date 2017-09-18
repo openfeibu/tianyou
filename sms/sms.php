@@ -1,11 +1,22 @@
 <?php
 
-error_reporting(0); // 代码增加 By bbs.hongyuvip.com
-
+//error_reporting(0); // 代码增加 By bbs.hongyuvip.com
+ini_set("display_errors", "on");
 //session_start();
 
 
 header("Content-type:text/html; charset=UTF-8");
+
+require_once dirname(__DIR__) . '/sms/Aliyun/api_sdk/vendor/autoload.php';
+
+use Aliyun\Core\Config;
+use Aliyun\Core\Profile\DefaultProfile;
+use Aliyun\Core\DefaultAcsClient;
+use Aliyun\Api\Sms\Request\V20170525\SendSmsRequest;
+use Aliyun\Api\Sms\Request\V20170525\QuerySendDetailsRequest;
+
+// 加载区域结点配置
+Config::load();
 
 
 function random($length = 6, $numeric = 0)
@@ -204,7 +215,7 @@ if ($_GET['act'] == 'send') {
 }
 
 /* 鸿宇独家修复 hongyuvip.com QQ交流群:90664526 by:Shadow & 鸿宇 start */
-
+/*
 function sendSMS($mobile_phone, $content)
 {
    include "hy_config.php";
@@ -239,7 +250,65 @@ function sendSMS($mobile_phone, $content)
    }
 }
 
+*/
 
+function sendSMS($mobile_phone, $content)
+{
+    // 短信API产品名
+    $product = "Dysmsapi";
+
+    // 短信API产品域名
+    $domain = "dysmsapi.aliyuncs.com";
+
+    // 暂时不支持多Region
+    $region = "cn-hangzhou";
+
+    // 服务结点
+    $endPointName = "cn-hangzhou";
+
+    // 初始化用户Profile实例
+    $profile = DefaultProfile::getProfile($region, 'LTAIKtKv7L5Ubleo', 'za2QhR6lkxYn1yLOV1ouYPyYvbTk7y');
+
+    // 增加服务结点
+    DefaultProfile::addEndpoint($endPointName, $region, $product, $domain);
+
+    // 初始化AcsClient用于发起请求
+    $acsClient = new DefaultAcsClient($profile);
+
+    // 初始化SendSmsRequest实例用于设置发送短信的参数
+    $request = new SendSmsRequest();
+
+    // 必填，设置雉短信接收号码
+    $request->setPhoneNumbers($mobile_phone);
+
+    // 必填，设置签名名称
+    $request->setSignName($content[2]);
+
+    // 必填，设置模板CODE
+    $request->setTemplateCode($content[0]);
+
+    // 可选，设置模板参数
+    if($content[1]) {
+        $request->setTemplateParam($content[1]);
+    }
+
+    // 可选，设置流水号
+    if($outId) {
+        $request->setOutId($outId);
+    }
+
+    // 发起访问请求
+    $acsResponse = $acsClient->getAcsResponse($request);
+
+    // 打印请求结果
+    if (isset($acsResponse->Code) && $acsResponse->Code == 'OK') {
+        return true;
+    } else {
+        return false;
+    }
+
+    return $acsResponse;
+}
 function checkSMS($mobile, $mobile_code)
 {
     $arr = array(
