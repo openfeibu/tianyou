@@ -833,6 +833,8 @@ elseif ($action == 'get_password')
 elseif ($action == 'act_new_password')
 {
     include_once(ROOT_PATH . 'includes/lib_passport.php');
+    include_once (ROOT_PATH . 'includes/lib_validate_record.php');
+
     $password = isset($_POST['password']) ? trim($_POST['password']) : '';
     $mobile_phone = isset($_POST['mobile']) ? trim($_POST['mobile']) : '';
     $mobile_code = ! empty($_POST['mobile_code']) ? trim($_POST['mobile_code']) : '';
@@ -840,27 +842,26 @@ elseif ($action == 'act_new_password')
     {
         ajax_show_message($_LANG['passport_js']['password_shorter']);
     }
-	$result = validate_mobile_code($mobile_phone, $mobile_code);
-    if($result == 1)
-	{
-        ajax_show_message($_LANG['msg_mobile_phone_blank']);
-	}
-	else if($result == 2)
-	{
-        ajax_show_message($_LANG['msg_mobile_phone_format']);
-	}
-	else if($result == 3)
-	{
-        ajax_show_message($_LANG['msg_mobile_phone_code_blank']);
-	}
-	else if($result == 4)
-	{
+
+    if(empty($mobile_code))
+    {
+        ajax_show_message("手机验证码不能为空");
+    }
+    $record = get_validate_record($mobile_phone,VT_MOBILE_FIND_PWD);
+    if(!$record)
+    {
         ajax_show_message($_LANG['invalid_mobile_phone_code']);
-	}
-	else if($result == 5)
-	{
+    }
+    // 检查验证码是否正确
+    else if($record['record_code'] != $mobile_code)
+    {
         ajax_show_message($_LANG['invalid_mobile_phone_code']);
-	}
+    }
+    // 检查过期时间
+    else if($record['expired_time'] < time())
+    {
+        ajax_show_message($_LANG['invalid_mobile_phone_code']);
+    }
 
     $sql = "select user_id,user_name from " . $ecs->table('users') . " where mobile ='" . $mobile_phone . "'";
     $user_info = $db->getRow($sql);
