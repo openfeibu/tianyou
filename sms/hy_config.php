@@ -1,9 +1,9 @@
 <?php
 
-$hy_appkey = "23391567";
+$hy_appkey = "LTAIKtKv7L5Ubleo";
 
-$hy_secretkey = "7972d2dc53b68b63c346df0de5df0b31";
+$hy_secretkey = "za2QhR6lkxYn1yLOV1ouYPyYvbTk7y";
 
-$hy_sign = "校汇";
+$hy_sign = "天佑艺术馆";
 
 ?>
