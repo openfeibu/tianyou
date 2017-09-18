@@ -3294,15 +3294,19 @@ function send_mobile_code($mobile_phone,$type = VT_MOBILE_REGISTER)
    $_SESSION[$type] = array();
     // 生成6位短信验证码
     $mobile_code = rand_number(6);
+
     switch ($type) {
         case VT_MOBILE_FIND_PWD:
 
-            $content = array($GLOBALS['_CFG']['sms_register_tpl'], "{\"code\":\"$mobile_code\",\"product\":\"天佑商城\"}",$GLOBALS['_CFG']['sms_sign']);
+            $content = array($GLOBALS['_CFG']['sms_findpwd_tpl'], "{\"code\":\"$mobile_code\"}",$GLOBALS['_CFG']['sms_sign']);
             break;
+        case VT_MOBILE_EDIT_PWD:
 
+            $content = array($GLOBALS['_CFG']['sms_findpwd_tpl'], "{\"code\":\"$mobile_code\"}",$GLOBALS['_CFG']['sms_sign']);
+            break;
         default:
 
-            $content = array($GLOBALS['_CFG']['sms_register_tpl'], "{\"code\":\"$mobile_code\",\"product\":\"天佑商城\"}",$GLOBALS['_CFG']['sms_sign']);
+            $content = array($GLOBALS['_CFG']['sms_register_tpl'], "{\"code\":\"$mobile_code\"}",$GLOBALS['_CFG']['sms_sign']);
             break;
     }
 
