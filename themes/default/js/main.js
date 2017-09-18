@@ -146,7 +146,7 @@ $(function(){
 		}
 	});
 	//注册获取验证码
-	$(".reg .getCode").on("click",function(){
+	$("#reg .getCode").on("click",function(){
 		var tell = $("[name='mobile']").val();
 		if(!$fb.expPhone(tell)){
 			$fb.fbNews({"type":"danger","content":"手机号码格式错误"});
@@ -179,7 +179,8 @@ $(function(){
 		}
 		$(this).addClass("active");
 		var t = 60;
-		fbUi.getCode("user.php?act=send_mobile_code&mobile="+tell,function(){$(".getCode").html("60秒后可重新获取");});
+
+		fbUi.getCode("user.php?act=send_mobile_findpwd_code&mobile="+tell,function(){$(".getCode").html("60秒后可重新获取");});
 		var time = setInterval(function(){
 			--t;
 			$(".getCode").html(t+"秒后可重新获取");

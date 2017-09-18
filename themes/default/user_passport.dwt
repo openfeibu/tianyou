@@ -38,7 +38,7 @@
     <div class="enter-home fb-float-left fb-font18"><a href="index.php">首页</a></div>
 
     <div class="w1320 enter">
-        <div class="reg">
+        <div class="reg" >
             <div class="enter-logo"></div>
             <form id="reg">
                 <div class="enter-input">
