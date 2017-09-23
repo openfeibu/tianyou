@@ -107,7 +107,7 @@
                         <div class="con">
                             <div class="name fb-font18">{$article.title|escape:html}</div>
                             <div class="defa fb-font16">活动类型：{$article.activity_type}</div>
-                            <div class="defa fb-font16">活动时间：{$article.add_time}</div>
+                            <div class="defa fb-font16">活动时间：{$article.activity_time}</div>
 
                             <div class="text fb-font14">
                                 {$article.content|strip_tags|mb_substr:600}
@@ -151,7 +151,7 @@
                         <div class="con">
                             <div class="name fb-font18">{$article.title|escape:html}</div>
                             <div class="defa fb-font16">活动类型：{$article.activity_type}</div>
-                            <div class="defa fb-font16">活动时间：{$article.add_time} </div>
+                            <div class="defa fb-font16">活动时间：{$article.activity_time} </div>
                             <div class="text fb-font14">
                                 {$article.content|strip_tags|mb_substr:600}
                             </div>
