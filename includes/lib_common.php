@@ -636,7 +636,7 @@ function load_config()
         $arr['invoice_type']         = empty($arr['invoice_type']) ? array('type' => array(), 'rate' => array()) : unserialize($arr['invoice_type']);
         $arr['show_order_type']      = isset($arr['show_order_type']) ? $arr['show_order_type'] : 0;    // 显示方式默认为列表方式
         $arr['help_open']            = isset($arr['help_open']) ? $arr['help_open'] : 1;    // 显示方式默认为列表方式
-        $arr['template_name']        = '';
+        $arr['template_name']        = 'tianyou/';
 
         if (!isset($GLOBALS['_CFG']['ecs_version']))
         {
@@ -3147,7 +3147,7 @@ function get_article_info($article_id)
     {
         $row['comment_rank'] = ceil($row['comment_rank']);                              // 用户评论级别取整
         $row['add_time']     = local_date($GLOBALS['_CFG']['date_format'], $row['add_time']); // 修正添加时间显示
-        $row['activity_time'] = local_date( 'Y年m月d日 H时i分',$row['activity_time']); // 修正添加时间显示
+    //    $row['activity_time'] = local_date( 'Y年m月d日 H时i分',$row['activity_time']); // 修正添加时间显示
         /* 作者信息如果为空，则用网站名称替换 */
         if (empty($row['author']) || $row['author'] == '_SHOPHELP')
         {
