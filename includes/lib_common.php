@@ -2258,8 +2258,9 @@ function exception_handler($errno, $errstr, $errfile, $errline)
  */
 function get_image_path($goods_id, $image='', $thumb=false, $call='goods', $del=false)
 {
+     ini_set("display_errors", 0);
     $url = empty($image) ? $GLOBALS['_CFG']['no_picture'] : $image;
-    list($width, $height, $type, $attr) = getimagesize($url);
+    list($width, $height, $type, $attr) = getimagesize(ROOT_PATH.$url);
     if(!$width){
         $url = $GLOBALS['_CFG']['no_picture'];
     }
