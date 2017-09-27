@@ -161,6 +161,7 @@ overflow: hidden; }
 .author .author-title{width: 100%;height: 80px;background: url("../images/title04.png") no-repeat center;}
 .author .big-author{background: #fff;}
 .author .big-author .big-author-item{width:250px;height: 360px;overflow: hidden; }
+.author .big-author .big-author-item img{width:100%;height:100%;}
 .author .big-author .big-author-item .No01{width: 36px;height: 36px;background: url("../images/icon_56.png") no-repeat center;top:160px;left:0;z-index: 999;}
 .author .big-author .big-author-item .No02{width: 36px;height: 36px;background: url("../images/icon_58.png") no-repeat center;top:160px;left:0;z-index: 999;}
 .author .big-author .big-author-item .No03{width: 36px;height: 36px;background: url("../images/icon_60.png") no-repeat center;top:160px;left:0;z-index: 999;}
