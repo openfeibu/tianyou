@@ -871,6 +871,12 @@ function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $
         $arr[$row['goods_id']]['goods_img']        = get_image_path($row['goods_id'], $row['goods_img']);
         $arr[$row['goods_id']]['url']              = build_uri('goods', array('gid'=>$row['goods_id']), $row['goods_name']);
         list($width, $height, $type, $attr) = getimagesize($arr[$row['goods_id']]['goods_thumb'] );
+        if($width <= 285)
+        {
+            $ratio = 285 / $width;
+            $width = 285;
+            $height = $height * $ratio;
+        }
         $arr[$row['goods_id']]['width'] = $width;
         $arr[$row['goods_id']]['height'] = $height;
         $arr[$row['goods_id']]['popularity'] = $row['click_count'].'人气';
