@@ -24,7 +24,7 @@
                         <div class="worksInfo">
                             <div class="worksInfo-name fb-font16">{$article.title|escape:html}</div>
                             <div class="worksInfo-news fb-font14">
-                                <p>活动类型：{$article.activity_type|escape:html}</p>
+                                <!-- <p>活动类型：{$article.activity_type|escape:html}</p> -->
                                 <p>活动地址：{$article.activity_address|escape:html}</p>
                                 <p>活动时间：{$article.activity_time}</p>
                             </div>

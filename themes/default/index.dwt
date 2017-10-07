@@ -106,7 +106,7 @@
                     <div class="test fb-float-right">
                         <div class="con">
                             <div class="name fb-font18">{$article.title|escape:html}</div>
-                            <div class="defa fb-font16">活动类型：{$article.activity_type}</div>
+                            <!-- <div class="defa fb-font16">活动类型：{$article.activity_type}</div> -->
                             <div class="defa fb-font16">活动时间：{$article.activity_time}</div>
 
                             <div class="text fb-font14">
