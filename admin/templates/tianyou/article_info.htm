@@ -28,12 +28,12 @@ region.isAdmin=true;
             <label for="">资讯名称</label>
             <input type="text" placeholder='' name="title" value="{$article.title}">
           </div>
-          <div class='input_all'>
+          <!-- <div class='input_all'>
             <label for="">资讯类型</label>
             <select name="activity_type" id="" style="background:url('{$admin_themess}/{$admin_themes}/images/icon2.png') no-repeat 280px center">
               <option value="资讯类型1">展览</option>
             </select>
-          </div>
+          </div> -->
           <div class='input_all date'>
             <label for="">活动时间</label>
             {html_select_date field_order="YMD" prefix="birthday" time=$article.activity_time start_year="-60" end_year="+1" display_days=true month_format="%m"}
