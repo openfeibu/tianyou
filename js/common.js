@@ -17,14 +17,14 @@ function addToCart(goodsId,one_step_buy, parentId)
   {
     spec_arr = getSelectedAttributes(formBuy);
 
-    if (formBuy.elements['number'])
+    if ($("[name='number']"))
     {
-      number = formBuy.elements['number'].value;
+      number = $("[name='number']").val();
     }
 
 	quick = 1;
   }
-  goods.buy_type = formBuy.elements['buy_type'].value;
+  goods.buy_type = $("[name='buy_type']").val();//formBuy.elements['buy_type'].value;
   goods.quick    = quick;
   goods.spec     = spec_arr;
   goods.goods_id = goodsId;
