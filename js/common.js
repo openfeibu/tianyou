@@ -3,7 +3,7 @@
 /* *
  * 添加商品到购物车
  */
-function addToCart(goodsId,one_step_buy = 0, parentId)
+function addToCart(goodsId,one_step_buy, parentId)
 {
   var goods        = new Object();
   var spec_arr     = new Array();
@@ -11,7 +11,7 @@ function addToCart(goodsId,one_step_buy = 0, parentId)
   var number       = 1;
   var formBuy      = document.forms['ECS_FORMBUY'];
   var quick		   = 0;
-
+  var one_step_buy = one_step_buy ? one_step_buy : 0;
   // 检查是否有商品规格
   if (formBuy)
   {
