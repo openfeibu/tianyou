@@ -184,7 +184,7 @@ $_LANG['invalid_number'] = '对不起，您输入了一个非法的商品数量�
 $_LANG['not_on_sale'] = '对不起，该商品已经下架。';
 $_LANG['no_basic_goods'] = '对不起，您希望将该商品做为配件购买，可是购物车中还没有该商品的基本件。';
 $_LANG['cannt_alone_sale'] = '对不起，该商品不能单独销售。';
-$_LANG['shortage'] = "对不起，该商品已经库存不足暂停销售。\n你现在要进行缺货登记来预订该商品吗？";
+$_LANG['shortage'] = "对不起，该商品已经库存不足暂停销售。";
 $_LANG['shortage_little'] = "该商品已经库存不足。已将您的购货数量修改为 %d。\n您现在要去购物车吗？";
 $_LANG['oos_tips'] = '该商品已经库存不足。您现在要进行缺货登记吗？';
 
@@ -729,7 +729,7 @@ $_LANG['article_list'] = '文章列表';
 $_LANG['preferences_price'] = '优惠价格';
 $_LANG['divided_into'] = '分成规则';
 
-$_LANG['nature'][1] = '可租可用';
+$_LANG['nature'][1] = '可租可买';
 $_LANG['nature'][2] = '只租';
 $_LANG['nature'][3] = '只买';
 
