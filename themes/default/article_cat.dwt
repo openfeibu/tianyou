@@ -37,7 +37,7 @@
                 <div class="con-list-group">
                     <!-- {foreach from=$artciles_list item=article} -->
                     <!--{if $cat_id == 15}-->
-                    <div class="list-item-first">
+                    <div class="list-item-first" >
                             <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
 
                             </div>
@@ -51,7 +51,7 @@
                             </div>
                     </div>
                     <!--{else}-->
-                    <div class="list-item-second">
+                    <div class="list-item-second" onclick="javascript:window.location.href='{$article.url}'">
                         <div class="img fb-float-left" style="background: url({$article.file_url}) no-repeat center;background-size: cover">
 
                         </div>
