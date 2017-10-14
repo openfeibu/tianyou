@@ -623,7 +623,7 @@ function get_goods_info($goods_id)
         /* 获取商品销量 */
         $row['cum_sales']   = get_cum_sales($row['goods_id']);
         list($width, $height, $type, $attr) = getimagesize($row['original_img']);
-        $row['height'] = ceil(600*$height/ $width);
+        $row['height'] = ceil(660*$height/ $width);
         $row['nature_desc'] = $GLOBALS['_LANG']['nature'][$row['nature']];
         return $row;
     }
