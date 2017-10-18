@@ -50,7 +50,7 @@
                                     <div class="test-bottom fb-position-absolute">
                                         <div class="proMoney fb-color-666 fb-font14 fb-inlineBlock"> {if $goods.buy_type ==2}({$goods.goods_price} + {$goods.formated_deposit} ){else}{$goods.goods_price}{/if} × {$goods.goods_number}</div>
                                         <div class="dMoney fb-color-666 fb-font14 fb-inlineBlock"></div>
-                                        <div class="buyType fb-color-666 fb-font14 fb-inlineBlock">{if $goods.buy_type == 1}购买{else}租赁{/if}</div>
+                                        <div class="buyType fb-color-666 fb-font14 fb-inlineBlock">{if $goods.buy_type == 1}购买{else}共享{/if}</div>
                                     </div>
 
                                     {$goods.handler}

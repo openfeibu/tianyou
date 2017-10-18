@@ -56,7 +56,7 @@ $(function(){
                                 <p>{$cats_name_desc}</p>
                                 <!-- <p>{$goods.cat_name}</p> -->
                                 <!-- <p>长 50cm<span>x</span> 高 82cm</p> -->
-                                <p>{$goods.nature_desc}</p>
+                                <!-- <p>{$goods.nature_desc}</p> -->
                                  <!-- {foreach from=$properties item=property_group key=key} -->
                                  <!-- {foreach from=$property_group item=property} -->
                                 <p>{$property.value}</p>
@@ -83,7 +83,7 @@ $(function(){
                                 </div>
                                 <div class="input-b fb-float-left fb-font14">
                                   <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="rent" value="2" >
-                                  <label class="fb-inlineBlock fb-transition {if $goods.nature != 1}active{/if}" for="rent">租赁</label>
+                                  <label class="fb-inlineBlock fb-transition {if $goods.nature != 1}active{/if}" for="rent">共享</label>
                                 </div>
                                 {elseif $goods.nature == 3}
                                 <div class="input-b fb-float-left fb-font14">
@@ -93,7 +93,7 @@ $(function(){
                                 {else}
                                 <div class="input-b fb-float-left fb-font14">
                                   <input class="radio fb-inlineBlock inputType" type="radio" name="buy_type" id="rent" value="2" checked>
-                                  <label class="fb-inlineBlock fb-transition active" for="rent">租赁</label>
+                                  <label class="fb-inlineBlock fb-transition active" for="rent">共享</label>
                                 </div>
                                 {/if}
 
@@ -104,7 +104,7 @@ $(function(){
                             <div class="worksQues">
                                 <a onclick="showQ()">常见问题</a>
                                 <span>|</span>
-                                <a onclick="showZ()">租赁流程</a>
+                                <a onclick="showZ()">共享流程</a>
                             </div>
                             <div class="worksButton">
                                 <div class="fb-float-left fb-font14 addCart fb-transition"><a href="javascript:addToCart({$goods.goods_id})">加入购物车</a></div>
@@ -161,12 +161,12 @@ $(function(){
             </div>
         </div>
     </div>
-    <!-- 租赁流程 -->
+    <!-- 共享流程 -->
     <div class="showZ commonProblem fb-position-fixed">
         <div class="commonProblem-box fb-position-relative">
            <div class="commonProblem-close fb-position-absolute fb-transition"></div>
             <div class="commonProblem-title fb-font18 fb-color-333">
-                租赁流程
+                共享流程
             </div>
             <div class="commonProblem-con fb-font14 fb-color-333">
                 {$shop_setting.process}

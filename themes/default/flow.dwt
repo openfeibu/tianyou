@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="cart-cell fb-inlineBlock cart-cell03  fb-font16 fb-color-666">
-                            {if $goods.buy_type == 1}购买{else}租赁{/if}
+                            {if $goods.buy_type == 1}购买{else}共享{/if}
                         </div>
                         <div class="cart-cell fb-inlineBlock cart-cell04 fb-font16 fb-color-666">{$goods.goods_price}</div>
                         <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">{$goods.deposit}</div>
@@ -438,7 +438,7 @@
                                 </div>
                             </div>
                             <div class="cart-cell fb-inlineBlock cart-cell03  fb-font16 fb-color-666">
-                                {if $goods.buy_type == 1}购买{else}租赁{/if}
+                                {if $goods.buy_type == 1}购买{else}共享{/if}
                             </div>
                             <div class="cart-cell fb-inlineBlock cart-cell04 fb-font16 fb-color-666">{$goods.formated_goods_price}</div>
                             <div class="cart-cell fb-inlineBlock cart-cell05 fb-font16 fb-color-666">{$goods.formated_deposit}</div>
