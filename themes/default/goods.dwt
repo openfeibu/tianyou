@@ -66,11 +66,11 @@ $(function(){
 
                             {if $goods.nature == 1}
                             <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
-                            <div class="worksInfo-money fb-font20">{$goods.rent_formated}<span>(押金：{$goods.deposit_formated})</span> </div>
+                            <div class="worksInfo-money fb-font20">{$goods.rent_formated}/年<span>(押金：{$goods.deposit_formated})</span> </div>
                             {elseif $goods.nature == 3}
                             <div class="worksInfo-money fb-font20">{$goods.shop_price_formated}</div>
                             {else}
-                            <div class="worksInfo-money fb-font20">{$goods.rent_formated}<span>(押金：{$goods.deposit_formated})</span> </div>
+                            <div class="worksInfo-money fb-font20">{$goods.rent_formated}/年<span>(押金：{$goods.deposit_formated})</span> </div>
                             {/if}
                         </div>
                         <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
