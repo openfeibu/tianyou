@@ -51,7 +51,7 @@ header{height: 500px;width: 100%;background:#eee;position: relative;}
 .footer .footer-text{margin-left: 120px;}
 .footer .footer-mine{line-height: 30px;margin-top: 30px;}
 .footer .footer-mine a{color: #ededed;margin-right: 100px;}
-.footer .footer-address{color: #ededed;line-height: 40px;}
+.footer .footer-address{color: #ededed;line-height: 26px;}
 .footer .footer-address p{margin:10px 0}
 .footer .footer-logo{width: 60px;height: 60px;background: url("../images/footer-logo.png") no-repeat center;background-size:auto 100%;margin:80px 150px 0 0; }
 /*关于我们*/
