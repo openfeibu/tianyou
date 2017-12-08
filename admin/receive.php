@@ -17,7 +17,7 @@ $key="65ZS4C5WYKKLLGJN";
 
 //接口版本，不可空
 //固定值：150120
-$version=$_GET['version'];
+$version=htmlspecialchars($_GET['version']);
 
 //签名类型，不可空
 //固定值：1，1代表MD5加密
@@ -123,7 +123,7 @@ if($mysignMsg==$signMsg){
 
     $signMsg=strtoupper(md5($signMsgVal));
     $reParam .="&signMsg=".$signMsg;
-    echo $reParam; 
+    echo $reParam;
 }else{
     echo "验证错误";
 }
