@@ -340,6 +340,7 @@ uploader.on( 'uploadProgress', function( file, percentage ) {
 uploader.on( 'uploadSuccess', function( file , src) {
     if(src.error == 0)
     {
+	console.log(src['url']);
         $('.file_url').val(src['url']);
         $( '#'+file.id ).addClass('upload-state-done');
     }else{

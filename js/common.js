@@ -17,7 +17,7 @@ function addToCart(goodsId,one_step_buy, parentId)
   {
     spec_arr = getSelectedAttributes(formBuy);
 
-    if ($("[name='number']"))
+    if ($("[name='number']").length != 0)
     {
       number = $("[name='number']").val();
     }

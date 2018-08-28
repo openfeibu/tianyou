@@ -200,7 +200,7 @@ if (!defined('INIT_NO_SMARTY'))
     $foot_info = get_article_info(51);
     $smarty->assign('foot_info', $foot_info);
     $smarty->assign('ec_themes', 'themes/' . $_CFG['template'] );
-    $smarty->assign('url', 'http://tianyou.gouweiba.com/');
+    $smarty->assign('url', 'http://www.tianyouart.com/');
     $qq_list = get_qq_list();
     $smarty->assign('qq_list',$qq_list);
     $shop_setting = get_shop_setting();

@@ -261,6 +261,7 @@ if($_REQUEST['act'] == 'upload_goods_img')
 if($_REQUEST['act'] == 'upload_article_file')
 {
     $file_url = '';
+	$data['error'] = 0;
     if (empty($_FILES['file']['error']) || (!isset($_FILES['file']['error']) && isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] != 'none'))
     {
         // 检查文件格式
@@ -276,9 +277,8 @@ if($_REQUEST['act'] == 'upload_article_file')
             $file_url = $res;
         }
     }
-    $data = [
-        'url' => $file_url
-    ];
+	$data['url'] = $file_url;
+   
     echo json_encode($data);
 }
 if($_REQUEST['act'] == 'upload_author_avatar')

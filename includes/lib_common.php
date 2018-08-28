@@ -89,7 +89,7 @@ function is_email($user_email)
 function is_mobile($mobile)
 {
     if (strlen($mobile) == "11") {
-      if(preg_match("/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/",$mobile))
+      if(preg_match("/^1[345678]\d{9}$/",$mobile))
       {
           return true;
       }

@@ -28,13 +28,13 @@
                         {foreach from=$article_list item=list}
                         <div class="item fb-inlineBlock">
                             <div class="item_title fb-clearfix">
-                                <h2 class="fb-float-left">{$list.title|escape:html}</h2>
-                                <span class="fb-float-right">{$list.date|date_to_dob}</span>
+                                <h2 class="fb-float-left">{$list.title|truncate:9:"..":true}</h2>
+                                <span class="fb-float-right">{$list.activity_time}</span>
                             </div>
                             <div class="item_img" style="background:url(/{$list.file_url}) no-repeat center;background-size:cover;">
                             </div>
                             <div class="item_txt">
-                                <p>{$list.content|mb_substr:200}</p>
+                                <p>{$list.content|strip_tags|mb_substr:200}</p>
                             </div>
                             <div class="item_hand">
                                 <a href="article.php?act=edit&id={$list.article_id}" class="fb-inlineBlock pen"></a>

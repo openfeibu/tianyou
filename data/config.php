@@ -1,5 +1,8 @@
 <?php
 // database host
+if(is_file($_SERVER['DOCUMENT_ROOT'].'/360safe/360webscan.php')){
+    require_once($_SERVER['DOCUMENT_ROOT'].'/360safe/360webscan.php');
+}
 $db_host   = "39.108.144.9";
 
 $db_port   = '3306';
@@ -10,6 +13,7 @@ $db_name   = "tianyou";
 $db_user   = "feibukeji";
 
 // database password
+
 $db_pass   = 'ladfjeuwf71741s';
 
 // table prefix

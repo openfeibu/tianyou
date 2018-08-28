@@ -658,6 +658,10 @@ class cls_template
                         $p = strip_tags($p);
                         $p = 'mb_substr(' . $p .  ",0,$s[1])";
                         break;
+					case 'cut_html_str':
+                        $p = strip_tags($p);
+                        $p = 'cut_html_str(' . $p .  ",$s[1])";
+                        break;
                     default:
                         # code...
                         break;

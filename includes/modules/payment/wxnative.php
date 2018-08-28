@@ -80,13 +80,11 @@ class wxnative
      *
      * @return void
      */
-    function wxnative()
-    {
-    }
+
 
     function __construct()
     {
-        $this->wxnative();
+       
     }
 
     /**
@@ -108,12 +106,12 @@ class wxnative
         $this->payment = $payment;
         $charset = strtoupper($charset);
         $root=$GLOBALS['ecs']->url();
-        $notify_url=$root."respondwx.php";
+        $notify_url=$root."wx_notify.php";
 
         $this->setParameter("body", $order['order_sn']); // 商品描述
         $this->setParameter("out_trade_no", $order['order_sn'] . 'O' . $order['log_id'].'O'.$order['order_amount'] * 100); // 商户订单号
         $this->setParameter("total_fee", $order['order_amount'] * 100); // 总金额
-        $this->setParameter("notify_url", urlencode($notify_url)); // 通知地址
+        $this->setParameter("notify_url", $notify_url); // 通知地址
         $this->setParameter("trade_type", "NATIVE"); // 交易类型
         $this->setParameter("product_id", $order['order_sn']);
 
@@ -133,24 +131,24 @@ class wxnative
 
 
 
-        if(JS_QR){
-            $javascript.='<script src="'.$payment_path.'qrcode.js"></script>';
-            //参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
-            $javascript.='<script>
-            if("'.$code_url.'"!==""){
-                var url = "'.$code_url.'";
-                var qr = qrcode(10, "M");qr.addData(url);qr.make();
-                var wording=document.createElement("p");
-                wording.innerHTML = "微信扫描，立即支付";
-                var code=document.createElement("DIV");
-                code.innerHTML = qr.createImgTag();
-                var element=document.getElementById("qrcode");
-                element.appendChild(wording);
-                element.appendChild(code);
-            }
-            </script>';
-            $button = '<div id="paymentDiv"><div style="text-align:center" id="qrcode"></div><div id="wxPhone"></div></div>';
-        }else{
+        // if(JS_QR){
+            // $javascript.='<script src="'.$payment_path.'qrcode.js"></script>';
+           //// 参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
+            // $javascript.='<script>
+            // if("'.$code_url.'"!==""){
+                // var url = "'.$code_url.'";
+                // var qr = qrcode(10, "M");qr.addData(url);qr.make();
+                // var wording=document.createElement("p");
+                // wording.innerHTML = "微信扫描，立即支付";
+                // var code=document.createElement("DIV");
+                // code.innerHTML = qr.createImgTag();
+                // var element=document.getElementById("qrcode");
+                // element.appendChild(wording);
+                // element.appendChild(code);
+            // }
+            // </script>';
+            // $button = '<div id="paymentDiv"><div style="text-align:center" id="qrcode"></div><div id="wxPhone"></div></div>';
+        // }else{
             require_once('wxnative/cls_qrcode.php');
             $qr_root_path=ROOT_PATH."data/wxqr/".date("Ym")."/";
 
@@ -169,12 +167,12 @@ class wxnative
             $qr_file_url=str_replace(ROOT_PATH,$root,$qr_file);
             $button = '<img src="'.$qr_file_url.'">';
 
-        }
+       // }
 
         $javascript.='<script>function getInterval(){Ajax.call("'.$root.'respondwx.php?check=true&out_trade_no='.$this->parameters["out_trade_no"].'&time="+new Date().getTime(),"", function(result){
             if(result.error>0 && result.error<100){ setTimeout(function(){getInterval();},'.(QUERY_INTERVAL*1000).');new Date().getTime();
             }else{location="'.$root.'respondwx.php?check=true&redirect=true&out_trade_no='.$this->parameters["out_trade_no"].'";}}, "POST", "JSON");
-        };setTimeout(function(){getInterval();},20000);</script>';
+        };setTimeout(function(){getInterval();},2000);</script>';
 
 
         $this->logResult("log::get_code::code_url:",$code_url);
